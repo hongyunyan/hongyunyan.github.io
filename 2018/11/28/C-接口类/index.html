@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数 继承接口和实现，允许Override，虚函数 继承接口和实现，不允许Override，非虚函数   纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函数的个性化">
+<meta name="description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数  继承接口和实现，允许Override，虚函数  继承接口和实现，不允许Override，非虚函数 ​    纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ 接口类">
 <meta property="og:url" content="http://yoursite.com/2018/11/28/C-接口类/index.html">
 <meta property="og:site_name" content="Yunyan Hong">
-<meta property="og:description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数 继承接口和实现，允许Override，虚函数 继承接口和实现，不允许Override，非虚函数   纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函数的个性化">
+<meta property="og:description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数  继承接口和实现，允许Override，虚函数  继承接口和实现，不允许Override，非虚函数 ​    纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-28T05:44:40.103Z">
+<meta property="og:updated_time" content="2018-11-28T05:49:26.663Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++ 接口类">
-<meta name="twitter:description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数 继承接口和实现，允许Override，虚函数 继承接口和实现，不允许Override，非虚函数   纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函数的个性化">
+<meta name="twitter:description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数  继承接口和实现，允许Override，虚函数  继承接口和实现，不允许Override，非虚函数 ​    纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函">
 
 
 
@@ -337,9 +337,13 @@
 <ul>
 <li><p>继承接口和实现主要包括三种方式：</p>
 <ul>
-<li>只继承接口，纯虚函数</li>
-<li>继承接口和实现，允许Override，虚函数</li>
-<li>继承接口和实现，不允许Override，非虚函数</li>
+<li><p>只继承接口，纯虚函数</p>
+</li>
+<li><p>继承接口和实现，允许Override，虚函数</p>
+</li>
+<li><p>继承接口和实现，不允许Override，非虚函数</p>
+<p>​</p>
+</li>
 </ul>
 </li>
 <li><p>纯虚函数</p>
@@ -355,19 +359,29 @@
 </li>
 <li><p>虚函数</p>
 <ul>
-<li>在类成员方法的声明（不是定义）语句前加”virtual”, 如 virtual void fun();</li>
-<li>继承接口和实现, 派生类可以<strong>Override</strong>实现方式, 也可以使用即基类实现版本</li>
-<li>构造函数不能是虚函数</li>
-<li>析构函数推荐设置为虚函数</li>
+<li><p>在类成员方法的声明（不是定义）语句前加”virtual”, 如 virtual void fun();</p>
+</li>
+<li><p>继承接口和实现, 派生类可以<strong>Override</strong>实现方式, 也可以使用即基类实现版本</p>
+</li>
+<li><p>构造函数不能是虚函数</p>
+</li>
+<li><p>析构函数推荐设置为虚函数</p>
+<p>​</p>
+</li>
 </ul>
 </li>
 <li><p>非虚函数</p>
 <ul>
 <li>继承接口和实现, 强制的提供派生类的实现, <strong>不可以Override</strong>;</li>
-<li>但是可以<strong>重定义</strong>啊！！<ul>
-<li>重定义和重写Override的区别：<ul>
-<li>重定义：也叫做隐藏，子类<strong>重新定义</strong>父类中有<strong>相同名称的非虚函数</strong> ( 参数列表可以不同 ) ，指派生类的函数屏蔽了与其同名的基类函数。发生在继承中。</li>
-<li>重写(Override)：也叫做覆盖，一般发生在子类和父类继承关系之间。子类重新定义父类中<strong>有相同名称和参数的虚函数</strong>。</li>
+<li><p>但是可以<strong>重定义</strong>啊！！</p>
+<ul>
+<li><p>重定义和重写Override的区别：</p>
+<ul>
+<li><p>重定义：也叫做隐藏，子类<strong>重新定义</strong>父类中有<strong>相同名称的非虚函数</strong> ( 参数列表可以不同 ) ，指派生类的函数屏蔽了与其同名的基类函数。发生在继承中。</p>
+</li>
+<li><p>重写(Override)：也叫做覆盖，一般发生在子类和父类继承关系之间。子类重新定义父类中<strong>有相同名称和参数的虚函数</strong>。</p>
+<p>​</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -376,8 +390,11 @@
 </li>
 <li><p>虚函数和纯虚函数的选择</p>
 <ul>
-<li>当基类中的某个成员方法，在大多数情形下都应该由子类提供个性化实现，但基类也可以提供缺省备选方案的时候，该方法应该设计为虚函数。</li>
-<li>当基类中的某个成员方法，必须由子类提供个性化实现的时候，应该设计为纯虚函数。</li>
+<li><p>当基类中的某个成员方法，在大多数情形下都应该由子类提供个性化实现，但基类也可以提供缺省备选方案的时候，该方法应该设计为虚函数。</p>
+</li>
+<li><p>当基类中的某个成员方法，必须由子类提供个性化实现的时候，应该设计为纯虚函数。</p>
+<p>​</p>
+</li>
 </ul>
 </li>
 <li><p>Sample Code For 接口类和继承类</p>
@@ -385,8 +402,11 @@
 </li>
 <li><p>常规类设计方式</p>
 <ul>
-<li>首先有一个接口类，取名为xxxx_Interface.h, 根据类功能需求选择虚函数或纯虚函数，一般接口类不会写非虚函数</li>
-<li>然后有n种不同的实现方式的类去继承接口类，取名为xxx_method1.h, xxx_method2.h,其中函数可以为虚函数或者非虚函数</li>
+<li><p>首先有一个接口类，取名为xxxx_Interface.h, 根据类功能需求选择虚函数或纯虚函数，一般接口类不会写非虚函数</p>
+</li>
+<li><p>然后有n种不同的实现方式的类去继承接口类，取名为xxx_method1.h, xxx_method2.h,其中函数可以为虚函数或者非虚函数</p>
+<p>​</p>
+</li>
 </ul>
 </li>
 <li><p>那虚函数和非虚函数和纯虚函数到底是来干什么的？</p>
@@ -402,6 +422,7 @@
 <p>即一个类函数的调用并不是<strong>在编译时刻被确定的，而是在运行时刻被确定的</strong>。由于编写代码的时候并不能确定被调用的是基类的函数还是哪个派生类的函数，所以被成为“虚”函数。</p>
 </li>
 <li><p><strong>基类本身生成对象是不合情理的，因此引入了纯虚函数的概念，将函数定义为纯虚函数，则编译器要求在派生类中必须予以重写以实现多态性。同时含有纯虚拟函数的类称为抽象类，它不能生成对象。</strong></p>
+<p>​</p>
 </li>
 </ul>
 </li>
