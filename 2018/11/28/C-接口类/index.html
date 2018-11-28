@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数  继承接口和实现，允许Override，虚函数  继承接口和实现，不允许Override，非虚函数 ​    纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函">
+<meta name="description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。  继承接口和实现主要包括三种方式： 只继承接口，纯虚函数 继承接口和实现，允许Override，虚函数 继承接口和实现，不允许Override，非虚函数  纯虚函数 在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函数的个性化实现">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ 接口类">
 <meta property="og:url" content="http://yoursite.com/2018/11/28/C-接口类/index.html">
 <meta property="og:site_name" content="Yunyan Hong">
-<meta property="og:description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数  继承接口和实现，允许Override，虚函数  继承接口和实现，不允许Override，非虚函数 ​    纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函">
+<meta property="og:description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。  继承接口和实现主要包括三种方式： 只继承接口，纯虚函数 继承接口和实现，允许Override，虚函数 继承接口和实现，不允许Override，非虚函数  纯虚函数 在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函数的个性化实现">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-28T05:49:26.663Z">
+<meta property="og:updated_time" content="2018-11-28T05:56:40.661Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++ 接口类">
-<meta name="twitter:description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。   继承接口和实现主要包括三种方式：  只继承接口，纯虚函数  继承接口和实现，允许Override，虚函数  继承接口和实现，不允许Override，非虚函数 ​    纯虚函数  在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函">
+<meta name="twitter:description" content="本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。  继承接口和实现主要包括三种方式： 只继承接口，纯虚函数 继承接口和实现，允许Override，虚函数 继承接口和实现，不允许Override，非虚函数  纯虚函数 在虚函数后加 “=0”, 如 “virtual void fun() = 0”  只继承接口，派生类必须实现其接口, 即提供纯虚函数的个性化实现">
 
 
 
@@ -334,20 +334,12 @@
         <blockquote>
 <p>本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。</p>
 </blockquote>
-<ul>
-<li><p>继承接口和实现主要包括三种方式：</p>
-<ul>
-<li><p>只继承接口，纯虚函数</p>
-</li>
-<li><p>继承接口和实现，允许Override，虚函数</p>
-</li>
-<li><p>继承接口和实现，不允许Override，非虚函数</p>
-<p>​</p>
-</li>
+<h4 id="继承接口和实现主要包括三种方式："><a href="#继承接口和实现主要包括三种方式：" class="headerlink" title="继承接口和实现主要包括三种方式："></a><strong>继承接口和实现主要包括三种方式：</strong></h4><ul>
+<li>只继承接口，纯虚函数</li>
+<li>继承接口和实现，允许Override，虚函数</li>
+<li>继承接口和实现，不允许Override，非虚函数</li>
 </ul>
-</li>
-<li><p>纯虚函数</p>
-<ul>
+<h4 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a><strong>纯虚函数</strong></h4><ul>
 <li><p>在虚函数后加 “=0”, 如 “virtual void fun() = 0”</p>
 </li>
 <li><p>只继承接口，派生类<strong>必须</strong>实现其接口, 即提供纯虚函数的个性化实现</p>
@@ -356,83 +348,54 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> Base::fun()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"hello world!"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span>:</span> <span class="keyword">public</span> Base</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Base::fun();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Derived derived;</span><br><span class="line">    derived.fun();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</li>
-<li><p>虚函数</p>
-<ul>
-<li><p>在类成员方法的声明（不是定义）语句前加”virtual”, 如 virtual void fun();</p>
-</li>
-<li><p>继承接口和实现, 派生类可以<strong>Override</strong>实现方式, 也可以使用即基类实现版本</p>
-</li>
-<li><p>构造函数不能是虚函数</p>
-</li>
-<li><p>析构函数推荐设置为虚函数</p>
-<p>​</p>
-</li>
+<h4 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a><strong>虚函数</strong></h4><ul>
+<li>在类成员方法的声明（不是定义）语句前加”virtual”, 如 virtual void fun();</li>
+<li>继承接口和实现, 派生类可以<strong>Override</strong>实现方式, 也可以使用即基类实现版本</li>
+<li>构造函数不能是虚函数</li>
+<li>析构函数推荐设置为虚函数</li>
 </ul>
-</li>
+<ul>
 <li><p>非虚函数</p>
 <ul>
 <li>继承接口和实现, 强制的提供派生类的实现, <strong>不可以Override</strong>;</li>
-<li><p>但是可以<strong>重定义</strong>啊！！</p>
-<ul>
-<li><p>重定义和重写Override的区别：</p>
-<ul>
-<li><p>重定义：也叫做隐藏，子类<strong>重新定义</strong>父类中有<strong>相同名称的非虚函数</strong> ( 参数列表可以不同 ) ，指派生类的函数屏蔽了与其同名的基类函数。发生在继承中。</p>
-</li>
-<li><p>重写(Override)：也叫做覆盖，一般发生在子类和父类继承关系之间。子类重新定义父类中<strong>有相同名称和参数的虚函数</strong>。</p>
-<p>​</p>
-</li>
+<li>但是可以<strong>重定义</strong>啊！！<ul>
+<li>重定义和重写Override的区别：<ul>
+<li>重定义：也叫做隐藏，子类<strong>重新定义</strong>父类中有<strong>相同名称的非虚函数</strong> ( 参数列表可以不同 ) ，指派生类的函数屏蔽了与其同名的基类函数。发生在继承中。</li>
+<li>重写(Override)：也叫做覆盖，一般发生在子类和父类继承关系之间。子类重新定义父类中<strong>有相同名称和参数的虚函数</strong>。</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>虚函数和纯虚函数的选择</p>
-<ul>
-<li><p>当基类中的某个成员方法，在大多数情形下都应该由子类提供个性化实现，但基类也可以提供缺省备选方案的时候，该方法应该设计为虚函数。</p>
-</li>
-<li><p>当基类中的某个成员方法，必须由子类提供个性化实现的时候，应该设计为纯虚函数。</p>
-<p>​</p>
-</li>
 </ul>
-</li>
-<li><p>Sample Code For 接口类和继承类</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>= <span class="number">0</span> ;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">outputColor</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"My color is BLACK;"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span>:</span> <span class="keyword">public</span> Shape</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"My name is Rectangle;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputColor</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span>&lt;&lt; <span class="string">"My color is Red;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span>:</span> <span class="keyword">public</span> Shape</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"My name is Circle;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Circle circleTest;</span><br><span class="line">    Rectangle rectangleTest;</span><br><span class="line">    rectangleTest.outputName();</span><br><span class="line">    rectangleTest.outputColor();</span><br><span class="line">    circleTest.outputColor();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>常规类设计方式</p>
-<ul>
-<li><p>首先有一个接口类，取名为xxxx_Interface.h, 根据类功能需求选择虚函数或纯虚函数，一般接口类不会写非虚函数</p>
-</li>
-<li><p>然后有n种不同的实现方式的类去继承接口类，取名为xxx_method1.h, xxx_method2.h,其中函数可以为虚函数或者非虚函数</p>
-<p>​</p>
-</li>
+<h4 id="虚函数和纯虚函数的选择"><a href="#虚函数和纯虚函数的选择" class="headerlink" title="虚函数和纯虚函数的选择"></a><strong>虚函数和纯虚函数的选择</strong></h4><ul>
+<li>当基类中的某个成员方法，在大多数情形下都应该由子类提供个性化实现，但基类也可以提供缺省备选方案的时候，该方法应该设计为虚函数。</li>
+<li>当基类中的某个成员方法，必须由子类提供个性化实现的时候，应该设计为纯虚函数。</li>
 </ul>
+<h4 id="Sample-Code-For-接口类和继承类"><a href="#Sample-Code-For-接口类和继承类" class="headerlink" title="Sample Code For 接口类和继承类"></a><strong>Sample Code For 接口类和继承类</strong></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>= <span class="number">0</span> ;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">outputColor</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"My color is BLACK;"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span>:</span> <span class="keyword">public</span> Shape</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"My name is Rectangle;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputColor</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span>&lt;&lt; <span class="string">"My color is Red;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span>:</span> <span class="keyword">public</span> Shape</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"My name is Circle;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Circle circleTest;</span><br><span class="line">    Rectangle rectangleTest;</span><br><span class="line">    rectangleTest.outputName();</span><br><span class="line">    rectangleTest.outputColor();</span><br><span class="line">    circleTest.outputColor();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="常规类设计方式"><a href="#常规类设计方式" class="headerlink" title="常规类设计方式"></a><strong>常规类设计方式</strong></h4><ul>
+<li>首先有一个接口类，取名为xxxx_Interface.h, 根据类功能需求选择虚函数或纯虚函数，一般接口类不会写非虚函数</li>
+<li>然后有n种不同的实现方式的类去继承接口类，取名为xxx_method1.h, xxx_method2.h,其中函数可以为虚函数或者非虚函数</li>
+</ul>
+<h4 id="那虚函数和非虚函数和纯虚函数到底是来干什么的？"><a href="#那虚函数和非虚函数和纯虚函数到底是来干什么的？" class="headerlink" title="那虚函数和非虚函数和纯虚函数到底是来干什么的？"></a><strong>那虚函数和非虚函数和纯虚函数到底是来干什么的？</strong></h4><ul>
+<li><p>定义一个函数为虚函数，不代表函数为不被实现的函数。</p>
 </li>
-<li><p>那虚函数和非虚函数和纯虚函数到底是来干什么的？</p>
-<ul>
-<li><p><strong>定义一个函数为虚函数，不代表函数为不被实现的函数。</strong></p>
+<li><p>定义一个函数为纯虚函数，才代表函数没有被实现。</p>
 </li>
-<li><p><strong>定义一个函数为纯虚函数，才代表函数没有被实现。</strong></p>
+<li><p>定义纯虚函数是为了实现一个接口，起到一个规范的作用，规范继承这个类的程序员必须实现这个函数。</p>
 </li>
-<li><p><strong>定义纯虚函数是为了实现一个接口，起到一个规范的作用，规范继承这个类的程序员必须实现这个函数。</strong></p>
-</li>
-<li><p><strong>虚函数是C++中用于实现多态(polymorphism)的机制。核心理念就是通过基类访问派生类定义的函数。即定义他为虚函数是为了允许用基类的指针来调用子类的这个函数。</strong>【看示例】</p>
+<li><p>虚函数是C++中用于实现多态(polymorphism)的机制。核心理念就是<strong>通过基类访问派生类定义的函数</strong>。即定义他为虚函数是为了允许用基类的指针来调用子类的这个函数。[看示例]</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>  </span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"A::foo() is called"</span>&lt;&lt;<span class="built_in">endl</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>:</span><span class="keyword">public</span> A  </span><br><span class="line">&#123;  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"B::foo() is called"</span>&lt;&lt;<span class="built_in">endl</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    A *a = <span class="keyword">new</span> B();  </span><br><span class="line">    a-&gt;foo();   <span class="comment">// 在这里，a虽然是指向A的指针，但是被调用的函数(foo)却是B的!  </span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>即一个类函数的调用并不是<strong>在编译时刻被确定的，而是在运行时刻被确定的</strong>。由于编写代码的时候并不能确定被调用的是基类的函数还是哪个派生类的函数，所以被成为“虚”函数。</p>
 </li>
-<li><p><strong>基类本身生成对象是不合情理的，因此引入了纯虚函数的概念，将函数定义为纯虚函数，则编译器要求在派生类中必须予以重写以实现多态性。同时含有纯虚拟函数的类称为抽象类，它不能生成对象。</strong></p>
-<p>​</p>
+<li><p>基类本身生成对象是不合情理的，因此引入了纯虚函数的概念，将函数定义为纯虚函数，则编译器要求在派生类中<strong>必须予以重写以实现多态性</strong>。同时含有纯虚拟函数的类称为抽象类，它不能生成对象。</p>
 </li>
 </ul>
-</li>
-<li><p>Sample Code for 多态</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span><span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Parent class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span>:</span> <span class="keyword">public</span> Shape&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123; </span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Rectangle class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> (width * height); </span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Triangle</span>:</span> <span class="keyword">public</span> Shape&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123; </span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Triangle class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> (width * height / <span class="number">2</span>); </span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">( )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   Shape *shape;</span><br><span class="line">   Rectangle rec;</span><br><span class="line">   Triangle  tri;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">// 存储矩形的地址</span></span><br><span class="line">   shape = &amp;rec;</span><br><span class="line">   shape-&gt;area(); <span class="comment">//Parent class area</span></span><br><span class="line"> </span><br><span class="line">   shape = &amp;tri;</span><br><span class="line">   shape-&gt;area();<span class="comment">//Parent class area</span></span><br><span class="line">   </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Sample-Code-for-多态"><a href="#Sample-Code-for-多态" class="headerlink" title="Sample Code for 多态"></a><strong>Sample Code for 多态</strong></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span><span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Parent class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span>:</span> <span class="keyword">public</span> Shape&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123; </span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Rectangle class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> (width * height); </span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Triangle</span>:</span> <span class="keyword">public</span> Shape&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123; </span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Triangle class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> (width * height / <span class="number">2</span>); </span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">( )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   Shape *shape;</span><br><span class="line">   Rectangle rec;</span><br><span class="line">   Triangle  tri;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">// 存储矩形的地址</span></span><br><span class="line">   shape = &amp;rec;</span><br><span class="line">   shape-&gt;area(); <span class="comment">//Parent class area</span></span><br><span class="line"> </span><br><span class="line">   shape = &amp;tri;</span><br><span class="line">   shape-&gt;area();<span class="comment">//Parent class area</span></span><br><span class="line">   </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>显然上述code没有达到多态的设计想法，改为如下</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">area</span><span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Parent class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>这时候，上述的输出就分别为Rectangle class area 和 Triangle class area。</p>
-</li>
-</ul>
 
       
     </div>
@@ -501,8 +464,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -553,6 +525,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#继承接口和实现主要包括三种方式："><span class="nav-number">1.</span> <span class="nav-text">继承接口和实现主要包括三种方式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#纯虚函数"><span class="nav-number">2.</span> <span class="nav-text">纯虚函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚函数"><span class="nav-number">3.</span> <span class="nav-text">虚函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚函数和纯虚函数的选择"><span class="nav-number">4.</span> <span class="nav-text">虚函数和纯虚函数的选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sample-Code-For-接口类和继承类"><span class="nav-number">5.</span> <span class="nav-text">Sample Code For 接口类和继承类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常规类设计方式"><span class="nav-number">6.</span> <span class="nav-text">常规类设计方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#那虚函数和非虚函数和纯虚函数到底是来干什么的？"><span class="nav-number">7.</span> <span class="nav-text">那虚函数和非虚函数和纯虚函数到底是来干什么的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sample-Code-for-多态"><span class="nav-number">8.</span> <span class="nav-text">Sample Code for 多态</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
