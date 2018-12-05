@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/4.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/5.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
-<meta property="og:updated_time" content="2018-12-05T06:33:28.773Z">
+<meta property="og:updated_time" content="2018-12-05T07:10:42.259Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -353,8 +353,19 @@
 <p><img src="/2018/12/05/扫文笔记2/5.png" width="50%" height="50%"></p>
 </li>
 </ol>
-<p>在寻找比较合适的summary结果中，文章采用Beam Search的方法</p>
+<p>对于Generation部分，文章采用Beam Search的方法。即给定一个beam size K，在生成每一个summary word时，都保留概率最大的K个词。直到生成的词是EOS或者达到最大句子长度限制。最后得到的结果是K个最好的sentence summary。</p>
 <p><img src="/2018/12/05/扫文笔记2/6.png" width="50%" height="50%"></p>
+<h4 id="Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><a href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks" class="headerlink" title="Abstractive Sentence Summarization with Attentive Recurrent Neural Networks"></a>Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</h4><ul>
+<li>文章地址：<a href="http://www.aclweb.org/anthology/N16-1012" target="_blank" rel="noopener">http://www.aclweb.org/anthology/N16-1012</a></li>
+</ul>
+<ul>
+<li>Sumit Chopra et al., Facebook AI Research【和上一篇是姊妹篇】</li>
+<li>NAACL2016</li>
+</ul>
+<p>文章模型的感觉是利用一个attentive的encoder进行encoder，然后正常的rnn进行decoder。用现在的attention model模型来看的意思，这边的k!=v。即创造attention vector的input部分并不是encoder中真正的encoder（就是不是纯的每个位置的word embedding vector），而是</p>
+<ol>
+<li>先将</li>
+</ol>
 
       
     </div>
@@ -510,7 +521,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li></ol></div>
             
 
           </div>

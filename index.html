@@ -322,35 +322,15 @@
       
         
           
-            <h4 id="A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><a href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion" class="headerlink" title="A Neural Attention Model for Abstractive Sentence Summariztion"></a>A Neural Attention Model for Abstractive Sentence Summariztion</h4><ul>
-<li>文章地址：<a href="https://www.aclweb.org/anthology/D/D15/D15-1044.pdf" target="_blank" rel="noopener">https://www.aclweb.org/anthology/D/D15/D15-1044.pdf</a></li>
-</ul>
-<ul>
-<li>Alexander M. Rush et al., Facebook AI Research/Harvard</li>
-<li>EMNLP2015</li>
-</ul>
-<p>文章利用Seq2Seq模型来做abstractive summarization。提出三种encoder模式和decoder模式。文章整个模型框架以及主体公式如下图</p>
-<p><img src="/2018/12/05/扫文笔记2/1.png" width="50%" height="50%"></p>
-<p><img src="/2018/12/05/扫文笔记2/2.png" width="50%" height="50%"></p>
-<p>对于左图的encoder部分，作者提出了三种encoder的方法，分别为</p>
-<ol>
-<li><p>Bag-of-Words Encoder</p>
-<p>这个encoder赋予每个词相同的权重，忽略了词序问题。整个encoder中只有F (word Emedding Matrix) 是parameter</p>
-<p><img src="/2018/12/05/扫文笔记2/3.png" width="50%" height="50%"></p>
-</li>
-<li><p>Convolutional Encoder</p>
-<p>F是Word Embedding Matrix，Q是卷积核，可以理解为卷积模型。整体考虑的是邻近单词的互动</p>
-<p><img src="/2018/12/05/扫文笔记2/4.png" width="50%" height="50%"></p>
-</li>
-<li><p>Attention-Based Encoder</p>
-<p>整体和BoW类似，只是把Uniform分布的部分换成了input和summary之间的soft alignment值，即上下文能对齐的part提供比较高的权重（来自机器翻译的思想）</p>
-<p><img src="/2018/12/05/扫文笔记2/5.png" width="50%" height="50%"></p>
-</li>
-</ol>
-<p>在寻找比较合适的summary结果中，文章采用Beam Search的方法</p>
-<p><img src="/2018/12/05/扫文笔记2/6.png" width="50%" height="50%"></p>
-
-          
+          A Neural Attention M
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/05/扫文笔记2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -490,41 +470,16 @@
       
         
           
-            <blockquote>
-<p>被产品大大教学jq高端用法的我，默默来学习一波jq and其他bash的奇技淫巧</p>
-</blockquote>
-<h4 id="jq工具"><a href="#jq工具" class="headerlink" title="jq工具"></a>jq工具</h4><blockquote>
-<p>命令后工具，专门用于处理json文件</p>
-</blockquote>
-<p>示例json文件命名问test.json：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"jobs"</span>:</span><br><span class="line">   [</span><br><span class="line">     &#123;</span><br><span class="line">       <span class="attr">"name"</span>:<span class="string">"job1"</span>,</span><br><span class="line">       <span class="attr">"age"</span>:<span class="number">12</span></span><br><span class="line">     &#125;,</span><br><span class="line">     &#123;</span><br><span class="line">       <span class="attr">"name"</span>:<span class="string">"job2"</span>,</span><br><span class="line">       <span class="attr">"age"</span>:<span class="number">19</span></span><br><span class="line">     &#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>最基础的则为用<code>.</code>来过滤获取，接受输入，并且输出等于输入</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | jq .</span><br></pre></td></tr></table></figure>
-<p>用jq来获取部分信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | jq .jobs</span><br></pre></td></tr></table></figure>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"job1"</span>,</span><br><span class="line">    <span class="attr">"age"</span>: <span class="number">12</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"job2"</span>,</span><br><span class="line">    <span class="attr">"age"</span>: <span class="number">19</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>获取数组</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | jq .jobs[]</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;job1&quot;,</span><br><span class="line">  &quot;age&quot;: 12</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;job2&quot;,</span><br><span class="line">  &quot;age&quot;: 19</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | jq .jobs[].name</span><br></pre></td></tr></table></figure>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"job1"</span></span><br><span class="line"><span class="string">"job2"</span></span><br></pre></td></tr></table></figure>
-<p>截取部分信息并更名</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | jq &#123;names: .jobs[].name&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"job1"</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"job2"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过jq选择内容[先通过jq进到该目录下，然后选择内容，目录决定了你返回的内容有哪些层]</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | jq .jobs[] | select(.age == 12)</span><br></pre></td></tr></table></figure>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"job1"</span>,</span><br><span class="line">  <span class="attr">"age"</span>: <span class="number">12</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | select(.jobs[].age == 12)</span><br></pre></td></tr></table></figure>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"jobs"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"job1"</span>,</span><br><span class="line">      <span class="attr">"age"</span>: <span class="number">12</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"job2"</span>,</span><br><span class="line">      <span class="attr">"age"</span>: <span class="number">19</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以取出数组的一部分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | jq .jobs[1]</span><br></pre></td></tr></table></figure>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"job2"</span>,</span><br><span class="line">  <span class="attr">"age"</span>: <span class="number">19</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以用逗号分隔多个过滤器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.json | jq .jobs[] | .name,.age</span><br></pre></td></tr></table></figure>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"job1"</span></span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="string">"job2"</span></span><br><span class="line"><span class="number">19</span></span><br></pre></td></tr></table></figure>
-<p>jq还可以用于各类运算，映射等</p>
-
           
+被产品大大教学jq高端用法的我，默默来
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/03/bash杂货铺/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -664,220 +619,16 @@
       
         
           
-            <blockquote>
-<p>记录一下一起觅食过的上海餐馆们嘻嘻～Very personal</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>餐厅名称</th>
-<th>人均</th>
-<th>评价</th>
-<th>地点</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>万禾都市农场餐厅</td>
-<td>150</td>
-<td>emmm不太行，烤鸡名不副实，酸奶也很一般，面也不好吃，就蔬菜很新鲜？but有一只羊驼and小动物在外面</td>
-<td>长宁来福士</td>
-</tr>
-<tr>
-<td>乐忻皇朝</td>
-<td>100</td>
-<td>还不错！蟹粉汤包不错，瑶柱赛螃蟹好评！连续吃过两次的店啦～</td>
-<td>长宁来福士</td>
-</tr>
-<tr>
-<td>Magnet磁石</td>
-<td>120吧</td>
-<td>印象中还不错的店（主要时隔太久忘了），环境也很棒</td>
-<td>长宁来福士</td>
-</tr>
-<tr>
-<td>泰妃殿</td>
-<td>100-</td>
-<td>不错，就是冬阴汤太酸了哭哭，其他都很好吃的</td>
-<td>中山公园龙之梦</td>
-</tr>
-<tr>
-<td>南京大牌档</td>
-<td>50+</td>
-<td>好评，便宜好吃上菜快</td>
-<td>人广</td>
-</tr>
-<tr>
-<td>西贝筱面村</td>
-<td>90</td>
-<td>好吃的凉皮们</td>
-<td>虹桥百盛</td>
-</tr>
-<tr>
-<td>太二</td>
-<td>80</td>
-<td>好评店，鱼片很不错嘻嘻，次数*2了，and正式第一家店</td>
-<td>美罗城</td>
-</tr>
-<tr>
-<td>就是泰</td>
-<td>100</td>
-<td>超好吃好不好！汤底超好喝！喜欢鱼籽福袋！ 次数*2</td>
-<td>日月光+南丰城</td>
-</tr>
-<tr>
-<td>云海肴</td>
-<td>90</td>
-<td>喜欢鸡丝凉米线嘻嘻</td>
-<td>虹桥百盛</td>
-</tr>
-<tr>
-<td>井格</td>
-<td>120</td>
-<td>还行的火锅，尤记得吃不完的鹅肠鸭肠</td>
-<td>虹桥百盛</td>
-</tr>
-<tr>
-<td>外婆家</td>
-<td>70</td>
-<td>能吃上70人均的我们也是人才了</td>
-<td>诸多</td>
-</tr>
-<tr>
-<td>融合马来西亚菜</td>
-<td>90</td>
-<td>可能钟爱东南亚味，觉得还是很不错的，除了飞饼</td>
-<td>南丰城</td>
-</tr>
-<tr>
-<td>JOLIE House有一个锅</td>
-<td>50-70</td>
-<td>很好吃的拉面和韩料锅哎</td>
-<td>南丰城</td>
-</tr>
-<tr>
-<td>苏浙小品</td>
-<td>100</td>
-<td>有点点不出菜哭</td>
-<td>南丰城</td>
-</tr>
-<tr>
-<td>百合居</td>
-<td>100</td>
-<td>奶冻好评</td>
-<td>南丰城</td>
-</tr>
-<tr>
-<td>熬八年</td>
-<td>120</td>
-<td>还可以的，不算突出，日常喜欢新鲜豆苗</td>
-<td>南丰城</td>
-</tr>
-<tr>
-<td>家府潮汕菜</td>
-<td>100</td>
-<td>感觉不太行</td>
-<td>南丰城</td>
-</tr>
-<tr>
-<td>My poulty 法香鸡铺</td>
-<td>80</td>
-<td>性价比低，味道还行</td>
-<td>南丰城</td>
-</tr>
-<tr>
-<td>乐昌牛奶公司</td>
-<td>100</td>
-<td>比较普通，奶冻还行</td>
-<td>尚嘉中心</td>
-</tr>
-<tr>
-<td>多伦多海鲜自助</td>
-<td>120</td>
-<td>个人觉得不新鲜2333</td>
-<td>汇金中心</td>
-</tr>
-<tr>
-<td>笼牙笼牙新加坡餐厅</td>
-<td>100</td>
-<td>还可以，喜欢那个海鲜汤</td>
-<td>巴黎春天</td>
-</tr>
-<tr>
-<td>阿里巴巴烤串</td>
-<td>70</td>
-<td>没吃晚饭后的选择</td>
-<td>巴黎春天</td>
-</tr>
-<tr>
-<td>大肆撸串</td>
-<td>70</td>
-<td>还不错</td>
-<td>日月光</td>
-</tr>
-<tr>
-<td>星洲小馆</td>
-<td>70</td>
-<td>喜欢那个忘了叫啥的饼！超好吃</td>
-<td>古北路</td>
-</tr>
-<tr>
-<td>Currify</td>
-<td>80</td>
-<td>好评，咖喱and 奶油饼超好吃的！</td>
-<td>静安寺旁边的路</td>
-</tr>
-<tr>
-<td>巷弄里的那家川菜</td>
-<td>100</td>
-<td>奶冻超好评，各种都挺好吃～</td>
-<td>浦东嘉里</td>
-</tr>
-<tr>
-<td>食索</td>
-<td>150</td>
-<td>好吃！超好吃的烤鸡！鱼！甜品拼盘倒是一般</td>
-<td>金虹桥</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
           
+记录一下一起觅食过的上海餐馆们嘻嘻～V
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/01/觅食榜/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1017,73 +768,16 @@
       
         
           
-            <blockquote>
-<p>本篇主要简述了在类继承的过程中，非虚函数，虚函数以及纯虚函数之间的一些思想和关系。</p>
-</blockquote>
-<h4 id="继承接口和实现主要包括三种方式："><a href="#继承接口和实现主要包括三种方式：" class="headerlink" title="继承接口和实现主要包括三种方式："></a><strong>继承接口和实现主要包括三种方式：</strong></h4><ul>
-<li>只继承接口，纯虚函数</li>
-<li>继承接口和实现，允许Override，虚函数</li>
-<li>继承接口和实现，不允许Override，非虚函数</li>
-</ul>
-<h4 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a><strong>纯虚函数</strong></h4><ul>
-<li><p>在虚函数后加 “=0”, 如 “virtual void fun() = 0”</p>
-</li>
-<li><p>只继承接口，派生类<strong>必须</strong>实现其接口, 即提供纯虚函数的个性化实现</p>
-</li>
-<li><p>纯虚函数也是可以又实现的，实现方法如以下实例【但很少用到的】</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> Base::fun()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"hello world!"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span>:</span> <span class="keyword">public</span> Base</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Base::fun();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Derived derived;</span><br><span class="line">    derived.fun();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a><strong>虚函数</strong></h4><ul>
-<li>在类成员方法的声明（不是定义）语句前加”virtual”, 如 virtual void fun();</li>
-<li>继承接口和实现, 派生类可以<strong>Override</strong>实现方式, 也可以使用即基类实现版本</li>
-<li>构造函数不能是虚函数</li>
-<li>析构函数推荐设置为虚函数</li>
-</ul>
-<ul>
-<li><p>非虚函数</p>
-<ul>
-<li>继承接口和实现, 强制的提供派生类的实现, <strong>不可以Override</strong>;</li>
-<li>但是可以<strong>重定义</strong>啊！！<ul>
-<li>重定义和重写Override的区别：<ul>
-<li>重定义：也叫做隐藏，子类<strong>重新定义</strong>父类中有<strong>相同名称的非虚函数</strong> ( 参数列表可以不同 ) ，指派生类的函数屏蔽了与其同名的基类函数。发生在继承中。</li>
-<li>重写(Override)：也叫做覆盖，一般发生在子类和父类继承关系之间。子类重新定义父类中<strong>有相同名称和参数的虚函数</strong>。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="虚函数和纯虚函数的选择"><a href="#虚函数和纯虚函数的选择" class="headerlink" title="虚函数和纯虚函数的选择"></a><strong>虚函数和纯虚函数的选择</strong></h4><ul>
-<li>当基类中的某个成员方法，在大多数情形下都应该由子类提供个性化实现，但基类也可以提供缺省备选方案的时候，该方法应该设计为虚函数。</li>
-<li>当基类中的某个成员方法，必须由子类提供个性化实现的时候，应该设计为纯虚函数。</li>
-</ul>
-<h4 id="Sample-Code-For-接口类和继承类"><a href="#Sample-Code-For-接口类和继承类" class="headerlink" title="Sample Code For 接口类和继承类"></a><strong>Sample Code For 接口类和继承类</strong></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>= <span class="number">0</span> ;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">outputColor</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"My color is BLACK;"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span>:</span> <span class="keyword">public</span> Shape</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"My name is Rectangle;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputColor</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span>&lt;&lt; <span class="string">"My color is Red;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span>:</span> <span class="keyword">public</span> Shape</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outputName</span><span class="params">()</span> </span>&#123; <span class="built_in">cout</span> &lt;&lt; <span class="string">"My name is Circle;"</span> &lt;&lt; <span class="built_in">endl</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Circle circleTest;</span><br><span class="line">    Rectangle rectangleTest;</span><br><span class="line">    rectangleTest.outputName();</span><br><span class="line">    rectangleTest.outputColor();</span><br><span class="line">    circleTest.outputColor();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="常规类设计方式"><a href="#常规类设计方式" class="headerlink" title="常规类设计方式"></a><strong>常规类设计方式</strong></h4><ul>
-<li>首先有一个接口类，取名为xxxx_Interface.h, 根据类功能需求选择虚函数或纯虚函数，一般接口类不会写非虚函数</li>
-<li>然后有n种不同的实现方式的类去继承接口类，取名为xxx_method1.h, xxx_method2.h,其中函数可以为虚函数或者非虚函数</li>
-</ul>
-<h4 id="那虚函数和非虚函数和纯虚函数到底是来干什么的？"><a href="#那虚函数和非虚函数和纯虚函数到底是来干什么的？" class="headerlink" title="那虚函数和非虚函数和纯虚函数到底是来干什么的？"></a><strong>那虚函数和非虚函数和纯虚函数到底是来干什么的？</strong></h4><ul>
-<li><p>定义一个函数为虚函数，不代表函数为不被实现的函数。</p>
-</li>
-<li><p>定义一个函数为纯虚函数，才代表函数没有被实现。</p>
-</li>
-<li><p>定义纯虚函数是为了实现一个接口，起到一个规范的作用，规范继承这个类的程序员必须实现这个函数。</p>
-</li>
-<li><p>虚函数是C++中用于实现多态(polymorphism)的机制。核心理念就是<strong>通过基类访问派生类定义的函数</strong>。即定义他为虚函数是为了允许用基类的指针来调用子类的这个函数。[看示例]</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>  </span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"A::foo() is called"</span>&lt;&lt;<span class="built_in">endl</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>:</span><span class="keyword">public</span> A  </span><br><span class="line">&#123;  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"B::foo() is called"</span>&lt;&lt;<span class="built_in">endl</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    A *a = <span class="keyword">new</span> B();  </span><br><span class="line">    a-&gt;foo();   <span class="comment">// 在这里，a虽然是指向A的指针，但是被调用的函数(foo)却是B的!  </span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>即一个类函数的调用并不是<strong>在编译时刻被确定的，而是在运行时刻被确定的</strong>。由于编写代码的时候并不能确定被调用的是基类的函数还是哪个派生类的函数，所以被成为“虚”函数。</p>
-</li>
-<li><p>基类本身生成对象是不合情理的，因此引入了纯虚函数的概念，将函数定义为纯虚函数，则编译器要求在派生类中<strong>必须予以重写以实现多态性</strong>。同时含有纯虚拟函数的类称为抽象类，它不能生成对象。</p>
-</li>
-</ul>
-<h4 id="Sample-Code-for-多态"><a href="#Sample-Code-for-多态" class="headerlink" title="Sample Code for 多态"></a><strong>Sample Code for 多态</strong></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span><span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Parent class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span>:</span> <span class="keyword">public</span> Shape&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123; </span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Rectangle class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> (width * height); </span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Triangle</span>:</span> <span class="keyword">public</span> Shape&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">area</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123; </span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Triangle class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> (width * height / <span class="number">2</span>); </span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">( )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   Shape *shape;</span><br><span class="line">   Rectangle rec;</span><br><span class="line">   Triangle  tri;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">// 存储矩形的地址</span></span><br><span class="line">   shape = &amp;rec;</span><br><span class="line">   shape-&gt;area(); <span class="comment">//Parent class area</span></span><br><span class="line"> </span><br><span class="line">   shape = &amp;tri;</span><br><span class="line">   shape-&gt;area();<span class="comment">//Parent class area</span></span><br><span class="line">   </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>显然上述code没有达到多态的设计想法，改为如下</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shape</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">area</span><span class="params">()</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">         <span class="built_in">cout</span> &lt;&lt; <span class="string">"Parent class area :"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这时候，上述的输出就分别为Rectangle class area 和 Triangle class area。</p>
-
           
+本篇主要简述了在类继承的过程中，非虚函
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/28/C-接口类/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
