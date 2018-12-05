@@ -229,6 +229,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/05/扫文笔记2/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yunyan.hong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yunyan Hong">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/05/扫文笔记2/" itemprop="url">Abstractive Summarization 扫文笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T13:53:26+08:00">
+                2018-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><a href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion" class="headerlink" title="A Neural Attention Model for Abstractive Sentence Summariztion"></a>A Neural Attention Model for Abstractive Sentence Summariztion</h4><ul>
+<li>文章地址：<a href="https://www.aclweb.org/anthology/D/D15/D15-1044.pdf" target="_blank" rel="noopener">https://www.aclweb.org/anthology/D/D15/D15-1044.pdf</a></li>
+</ul>
+<ul>
+<li>Alexander M. Rush et al., Facebook AI Research/Harvard</li>
+<li>EMNLP2015</li>
+</ul>
+<p>文章利用Seq2Seq模型来做abstractive summarization。提出三种encoder模式和decoder模式。文章整个模型框架以及主体公式如下图</p>
+<p><img src="扫文笔记2/1.png" alt=""></p>
+<p><img src="扫文笔记2/2.png" alt=""></p>
+<p>对于左图的encoder部分，作者提出了三种encoder的方法，分别为</p>
+<ol>
+<li><p>Bag-of-Words Encoder</p>
+<p>这个encoder赋予每个词相同的权重，忽略了词序问题。整个encoder中只有F (word Emedding Matrix) 是parameter</p>
+<p><img src="扫文笔记2/3.png" alt=""></p>
+</li>
+<li><p>Convolutional Encoder</p>
+<p>F是Word Embedding Matrix，Q是卷积核，可以理解为卷积模型。整体考虑的是邻近单词的互动</p>
+<p><img src="扫文笔记2/4.png" alt=""></p>
+</li>
+<li><p>Attention-Based Encoder</p>
+<p>整体和BoW类似，只是把Uniform分布的部分换成了input和summary之间的soft alignment值，即上下文能对齐的part提供比较高的权重（来自机器翻译的思想）</p>
+<p><img src="扫文笔记2/5.png" alt=""></p>
+</li>
+</ol>
+<p>在寻找比较合适的summary结果中，文章采用Beam Search的方法</p>
+<p><img src="扫文笔记2/6.png" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/05/扫文笔记/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1141,7 +1287,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
