@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/4.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/5.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
-<meta property="og:updated_time" content="2018-12-05T07:26:44.547Z">
+<meta property="og:updated_time" content="2018-12-05T08:37:00.490Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -355,6 +355,11 @@
 </ol>
 <p>对于Generation部分，文章采用Beam Search的方法。即给定一个beam size K，在生成每一个summary word时，都保留概率最大的K个词。直到生成的词是EOS或者达到最大句子长度限制。最后得到的结果是K个最好的sentence summary。</p>
 <p><img src="/2018/12/05/扫文笔记2/6.png" width="50%" height="50%"></p>
+<p>性能结果（整个架构模型不加上trick部分）</p>
+<ul>
+<li>DUC-2004: Rouge-1:26.55/Rouge-2:7.06/Rouge-L:22.05</li>
+<li>Gigaword: Rouge-1:30.88/Rouge-2:12.65/Rouge-L:28.34</li>
+</ul>
 <h4 id="Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><a href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks" class="headerlink" title="Abstractive Sentence Summarization with Attentive Recurrent Neural Networks"></a>Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</h4><ul>
 <li>文章地址：<a href="http://www.aclweb.org/anthology/N16-1012" target="_blank" rel="noopener">http://www.aclweb.org/anthology/N16-1012</a></li>
 </ul>
@@ -362,11 +367,26 @@
 <li>Sumit Chopra et al., Facebook AI Research【和上一篇是姊妹篇】</li>
 <li>NAACL2016</li>
 </ul>
-<p>文章模型的感觉是利用一个attentive的encoder进行encoder，然后正常的rnn进行decoder。用现在的attention model模型来看的意思，这边的k!=v。即创造attention vector的input部分并不是encoder中真正的encoder（就是不是纯的每个位置的word embedding vector），而是</p>
+<p>文章模型的感觉是利用一个attentive的encoder进行encoder，然后正常的rnn进行decoder。用现在的attention model模型来看的意思，这边的$k!=v$。即创造attention vector的input部分并不是encoder中真正的encoder（就是不是纯的每个位置的word embedding vector），而是</p>
 <ol>
-<li>先将每个位置xi的word embedding vector和表示位置信息的vector进行相加，作为每个位置词对应的vector，记为$$a_i$$</li>
-<li>然后利用一个一维卷积核做一个卷积操作，就k个B矩阵</li>
+<li><p>先将每个位置xi的word embedding vector和表示位置信息的vector进行相加，作为每个位置词对应的vector，记为$a_i ( 1\times d) $</p>
+</li>
+<li><p>然后利用一个一维卷积核做一个卷积操作，就k个$ B_{d \times q} $矩阵, $z_{ik} = \sum a_i \cdot B^k$, $z_i = [z_1,z_2,…,z_k]$, $z_i$作为这个位置的生成vector。</p>
+</li>
+<li><p>然后利用$z_i$和$h_i$ (decoder部分的hidden state) 计算 attention weight值$\alpha_{j,t-1}$</p>
+</li>
+<li><p>根据attention weight值，计算encoder的t时刻的output vector $c_t = \sum_{M}^{j=1} \alpha_{j,t-1} x_j$</p>
+<p>$$\alpha_{j,t-1} = \frac{exp(z_j \cdot h_{t-1})}{\sum_{M}^{i=1} exp(z_i \cdot h_{t-1})}$$</p>
+</li>
 </ol>
+<p>decoder部分采用了RNN和LSTM模型，output的计算方式为</p>
+<p>$$h_t = g_{\Theta <em>1}(y</em>{t-1},h_{t-1},c_t)$$</p>
+<p>这篇是比较接近目前最标准的seq2seq+attention的标准模型架构的。</p>
+<p>性能结果（取k=10时的最好结果，即attention weight计算时选用k=10的卷积抽取方法，并且decoder为RNN）</p>
+<ul>
+<li>DUC-2004: Rouge-1:28.97/Rouge-2:8.26/Rouge-L:24.06</li>
+<li>Gigaword: Rouge-1:33.78/Rouge-2:15.97/Rouge-L:31.15</li>
+</ul>
 
       
     </div>
