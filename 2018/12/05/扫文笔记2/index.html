@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/4.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/5.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
-<meta property="og:updated_time" content="2018-12-05T08:37:00.490Z">
+<meta property="og:updated_time" content="2018-12-05T08:42:50.356Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -357,9 +357,10 @@
 <p><img src="/2018/12/05/扫文笔记2/6.png" width="50%" height="50%"></p>
 <p>性能结果（整个架构模型不加上trick部分）</p>
 <ul>
-<li>DUC-2004: Rouge-1:26.55/Rouge-2:7.06/Rouge-L:22.05</li>
-<li>Gigaword: Rouge-1:30.88/Rouge-2:12.65/Rouge-L:28.34</li>
+<li>DUC-2004: <strong>Rouge-1</strong> 26.55  <strong>Rouge-2</strong> 7.06  <strong>Rouge-L</strong> 22.05</li>
+<li>Gigaword:  <strong>Rouge-1</strong> 30.88 <strong>Rouge-2</strong> 12.65 <strong>Rouge-L</strong> 28.34</li>
 </ul>
+<p><br></p>
 <h4 id="Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><a href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks" class="headerlink" title="Abstractive Sentence Summarization with Attentive Recurrent Neural Networks"></a>Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</h4><ul>
 <li>文章地址：<a href="http://www.aclweb.org/anthology/N16-1012" target="_blank" rel="noopener">http://www.aclweb.org/anthology/N16-1012</a></li>
 </ul>
@@ -380,12 +381,12 @@
 </li>
 </ol>
 <p>decoder部分采用了RNN和LSTM模型，output的计算方式为</p>
-<p>$$h_t = g_{\Theta <em>1}(y</em>{t-1},h_{t-1},c_t)$$</p>
+<p>​    $$h_t = g_{\Theta <em>1}(y</em>{t-1},h_{t-1},c_t)$$</p>
 <p>这篇是比较接近目前最标准的seq2seq+attention的标准模型架构的。</p>
 <p>性能结果（取k=10时的最好结果，即attention weight计算时选用k=10的卷积抽取方法，并且decoder为RNN）</p>
 <ul>
-<li>DUC-2004: Rouge-1:28.97/Rouge-2:8.26/Rouge-L:24.06</li>
-<li>Gigaword: Rouge-1:33.78/Rouge-2:15.97/Rouge-L:31.15</li>
+<li>DUC-2004: <strong>Rouge-1</strong> 28.97  <strong>Rouge-2</strong> 8.26   <strong>Rouge-L</strong> 24.06</li>
+<li>Gigaword:  <strong>Rouge-1</strong> 33.78  <strong>Rouge-2</strong> 15.97  <strong>Rouge-L</strong> 31.15</li>
 </ul>
 
       
