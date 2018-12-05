@@ -308,25 +308,25 @@
 <li>EMNLP2015</li>
 </ul>
 <p>文章利用Seq2Seq模型来做abstractive summarization。提出三种encoder模式和decoder模式。文章整个模型框架以及主体公式如下图</p>
-<p><img src="/Users/hyy/Desktop/屏幕快照 2018-12-05 上午10.43.15.png" alt="屏幕快照 2018-12-05 上午10.43.15"></p>
-<p><img src="/Users/hyy/Desktop/屏幕快照 2018-12-05 上午10.44.07.png" alt="屏幕快照 2018-12-05 上午10.44.07"></p>
+<p><img src="/Users/hyy/Desktop/blog/source/images/abstractive_summarization/1.png" alt=""></p>
+<p><img src="/Users/hyy/Desktop/blog/source/images/abstractive_summarization/2.png" alt=""></p>
 <p>对于左图的encoder部分，作者提出了三种encoder的方法，分别为</p>
 <ol>
 <li><p>Bag-of-Words Encoder</p>
 <p>这个encoder赋予每个词相同的权重，忽略了词序问题。整个encoder中只有F (word Emedding Matrix) 是parameter</p>
-<p><img src="/Users/hyy/Desktop/屏幕快照 2018-12-05 上午10.48.22.png" alt="屏幕快照 2018-12-05 上午10.48.22"></p>
+<p><img src="/Users/hyy/Desktop/blog/source/images/abstractive_summarization/3.png" alt=""></p>
 </li>
 <li><p>Convolutional Encoder</p>
 <p>F是Word Embedding Matrix，Q是卷积核，可以理解为卷积模型。整体考虑的是邻近单词的互动</p>
-<p><img src="/Users/hyy/Desktop/屏幕快照 2018-12-05 上午10.55.00.png" alt="屏幕快照 2018-12-05 上午10.55.00"></p>
+<p><img src="/Users/hyy/Desktop/blog/source/images/abstractive_summarization/4.png" alt=""></p>
 </li>
 <li><p>Attention-Based Encoder</p>
 <p>整体和BoW类似，只是把Uniform分布的部分换成了input和summary之间的soft alignment值，即上下文能对齐的part提供比较高的权重（来自机器翻译的思想）</p>
-<p><img src="/Users/hyy/Desktop/屏幕快照 2018-12-05 下午1.24.36.png" alt="屏幕快照 2018-12-05 下午1.24.36"></p>
+<p><img src="/Users/hyy/Desktop/blog/source/images/abstractive_summarization/5.png" alt=""></p>
 </li>
 </ol>
 <p>在寻找比较合适的summary结果中，文章采用Beam Search的方法</p>
-<p><img src="/Users/hyy/Desktop/屏幕快照 2018-12-05 下午1.27.27.png" alt="屏幕快照 2018-12-05 下午1.27.27"></p>
+<p><img src="/Users/hyy/Desktop/blog/source/images/abstractive_summarization/6.png" alt=""></p>
 
           
         
