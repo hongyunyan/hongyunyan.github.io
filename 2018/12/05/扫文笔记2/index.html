@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/4.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/5.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
-<meta property="og:updated_time" content="2018-12-05T07:10:42.259Z">
+<meta property="og:updated_time" content="2018-12-05T07:20:58.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -364,7 +364,8 @@
 </ul>
 <p>文章模型的感觉是利用一个attentive的encoder进行encoder，然后正常的rnn进行decoder。用现在的attention model模型来看的意思，这边的k!=v。即创造attention vector的input部分并不是encoder中真正的encoder（就是不是纯的每个位置的word embedding vector），而是</p>
 <ol>
-<li>先将</li>
+<li>先将每个位置xi的word embedding vector和表示位置信息的vector进行相加，作为每个位置词对应的vector，记为$$a_i$$</li>
+<li>然后利用一个一维卷积核做一个卷积操作，就k个B矩阵</li>
 </ol>
 
       
