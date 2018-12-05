@@ -336,19 +336,19 @@
 <ol>
 <li><p>Bag-of-Words Encoder</p>
 <p>这个encoder赋予每个词相同的权重，忽略了词序问题。整个encoder中只有F (word Emedding Matrix) 是parameter</p>
-<p><img src="/2018/12/05/扫文笔记2/3.png" alt=""></p>
+<p><img src="/2018/12/05/扫文笔记2/3.png" width="50%" height="50%"></p>
 </li>
 <li><p>Convolutional Encoder</p>
 <p>F是Word Embedding Matrix，Q是卷积核，可以理解为卷积模型。整体考虑的是邻近单词的互动</p>
-<p><img src="/2018/12/05/扫文笔记2/4.png" alt=""></p>
+<p><img src="/2018/12/05/扫文笔记2/4.png" width="50%" height="50%"></p>
 </li>
 <li><p>Attention-Based Encoder</p>
 <p>整体和BoW类似，只是把Uniform分布的部分换成了input和summary之间的soft alignment值，即上下文能对齐的part提供比较高的权重（来自机器翻译的思想）</p>
-<p><img src="/2018/12/05/扫文笔记2/5.png" alt=""></p>
+<p><img src="/2018/12/05/扫文笔记2/5.png" width="50%" height="50%"></p>
 </li>
 </ol>
 <p>在寻找比较合适的summary结果中，文章采用Beam Search的方法</p>
-<p><img src="/2018/12/05/扫文笔记2/6.png" alt=""></p>
+<p><img src="/2018/12/05/扫文笔记2/6.png" width="50%" height="50%"></p>
 
           
         
