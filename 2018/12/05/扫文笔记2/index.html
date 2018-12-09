@@ -92,7 +92,8 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/4.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/5.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
-<meta property="og:updated_time" content="2018-12-05T08:42:50.356Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/7.png">
+<meta property="og:updated_time" content="2018-12-09T10:05:59.787Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -380,13 +381,53 @@
 <p>$$\alpha_{j,t-1} = \frac{exp(z_j \cdot h_{t-1})}{\sum_{M}^{i=1} exp(z_i \cdot h_{t-1})}$$</p>
 </li>
 </ol>
-<p>decoder部分采用了RNN和LSTM模型，output的计算方式为</p>
-<p>​    $$h_t = g_{\Theta <em>1}(y</em>{t-1},h_{t-1},c_t)$$</p>
+<p>decoder部分采用了RNN和LSTM模型，output的计算方式为  $$h_t = g_{\Theta_1}(y_{t-1},h_{t-1},c_t)$$</p>
 <p>这篇是比较接近目前最标准的seq2seq+attention的标准模型架构的。</p>
 <p>性能结果（取k=10时的最好结果，即attention weight计算时选用k=10的卷积抽取方法，并且decoder为RNN）</p>
 <ul>
 <li>DUC-2004: <strong>Rouge-1</strong> 28.97  <strong>Rouge-2</strong> 8.26   <strong>Rouge-L</strong> 24.06</li>
 <li>Gigaword:  <strong>Rouge-1</strong> 33.78  <strong>Rouge-2</strong> 15.97  <strong>Rouge-L</strong> 31.15</li>
+</ul>
+<p><br></p>
+<h4 id="Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><a href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond" class="headerlink" title="Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond"></a>Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</h4><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1602.06023.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1602.06023.pdf</a></li>
+<li>Ramesh Nallapati, Bowen Zhou, Cicero dos Santos; IBM</li>
+<li>CoNLL2016</li>
+</ul>
+<p>文章在seq2seq+attention的基础上提出了很多trick。</p>
+<ul>
+<li>large vocabulary trick(LVT)，提出在每个mini batch中decoder的词汇表受到encoder词汇表的限制，即decoder中的词汇表是由该batch中encoder词汇表中的高频词汇组成的，这样就减缓了docoder后的softmax层受到词汇表过大导致的计算瓶颈。</li>
+<li>Feature Rich Encoder，本文提出增加一些额外的features，比如tags，TF，IDF，来融合到word embedding的matrix中。对于这些额外feature中的连续值，，转化分到各个类别块中，然后再用one-hot来表示。</li>
+<li>Switching Generator-Pointer。考虑到很多中心词出现的次数很少或者不出现，而word embedding 对低频词很不友好，会出现unk来代表未出现或低频词的情况，但这会导致语意不通。所以本文提出了一种decoder/pointer机制来解决这个问题。模型中decoder带有一个开关，如果开关状态是打开generator，则生成一个单词；如果是关闭，decoder则生成一个原文单词位置的指针，然后拷贝到摘要中。pointer机制在解决低频词时鲁棒性比较强，因为使用了encoder中低频词的隐藏层表示作为输入，是一个上下文相关的表示，而不仅仅是一个词向量。</li>
+<li>Hierarchical Attention。用sentence level和word level两层的attention来计算每个位置的attention。也就是说一个词的attention值既考虑sentence的位置也考虑word本身的位置</li>
+</ul>
+<p>性能结果</p>
+<ul>
+<li>Gigaword: <strong>Rouge-1</strong> 35.30 <strong>Rouge-2</strong> 16.64 <strong>Rouge-L</strong> 32.6</li>
+</ul>
+<ul>
+<li>CNN/Daily Mail Corpus  <strong>Rouge-1</strong> 35.46 <strong>Rouge-2</strong> 13.30 <strong>Rouge-L</strong> 32.65</li>
+</ul>
+<p><br></p>
+<h4 id="Selective-Encoding-for-Abstractive-Sentence-Summarization"><a href="#Selective-Encoding-for-Abstractive-Sentence-Summarization" class="headerlink" title="Selective Encoding for Abstractive Sentence Summarization"></a>Selective Encoding for Abstractive Sentence Summarization</h4><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1704.07073.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1704.07073.pdf</a></li>
+<li>Qingyu Zhou, Nan Yang, Furu Wei, Ming Zhou; MSRA&amp;HIT</li>
+<li>ACL2017</li>
+</ul>
+<p><img src="/2018/12/05/扫文笔记2/7.png" width="50%" height="50%"></p>
+<p>文章主要解决的是对一个句子的提取摘要，不是对整个文章，可以理解为将句子缩句。提出的模型主要分为三步进行处理。</p>
+<ul>
+<li>encoder部分通过双向RNN来构建对句子的representation</li>
+<li>然后利用selective gate network根据第一步的结果构建第二级的representation</li>
+<li>利用attention-equipped的decoder根据第二级的representation生成summary</li>
+</ul>
+<p>具体来说，先通过第一步，根据$x_i$得到一个二维的$h_i$（来自双向RNN），将$h_i$和用于表示句子的$s$ 一同输入selective fate来生成第二级的representation $h_i’$.其中$s$ 是将$h \leftarrow 1$和 $h \rightarrow n$ concat起来，表示句子的含义。</p>
+<p>根据attention model的思想，从$h’$获取$c_t$。然后利用$c_{t-1}$,word embedding的$w_{t-1}$,$s_{t-1}$生成$s_t$,$s_0$是通过encode的hidden state初始化的。其中$s_t$和$h_t’$用于计算前面提到的attention weight。</p>
+<p>然后再利用$w_{t-1}$,$c_t$,$s_t$来生成$r_t$,$r_t$用于softmax函数来生成最后的word。$r_t$是个两维的数，在用于softmax时，选用的是他其中比较大的值。</p>
+<p>性能结果</p>
+<ul>
+<li>Gigaword: <strong>Rouge-1</strong> 46.86 <strong>Rouge-2</strong> 24.58 <strong>Rouge-L</strong> 43.53</li>
+<li>DUC2004: <strong>Rouge-1</strong> 29.21 <strong>Rouge-2</strong> 9.56 <strong>Rouge-L</strong> 25.51</li>
 </ul>
 
       
@@ -543,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li></ol></div>
             
 
           </div>
