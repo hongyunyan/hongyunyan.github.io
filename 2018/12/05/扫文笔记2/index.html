@@ -93,7 +93,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/5.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/7.png">
-<meta property="og:updated_time" content="2018-12-09T10:05:59.787Z">
+<meta property="og:updated_time" content="2018-12-22T14:48:38.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -414,7 +414,7 @@
 <li>Qingyu Zhou, Nan Yang, Furu Wei, Ming Zhou; MSRA&amp;HIT</li>
 <li>ACL2017</li>
 </ul>
-<p><img src="/2018/12/05/扫文笔记2/7.png" width="50%" height="50%"></p>
+<p><img src="/2018/12/05/扫文笔记2/7.png" width="80%" height="80%"></p>
 <p>文章主要解决的是对一个句子的提取摘要，不是对整个文章，可以理解为将句子缩句。提出的模型主要分为三步进行处理。</p>
 <ul>
 <li>encoder部分通过双向RNN来构建对句子的representation</li>
@@ -422,8 +422,8 @@
 <li>利用attention-equipped的decoder根据第二级的representation生成summary</li>
 </ul>
 <p>具体来说，先通过第一步，根据$x_i$得到一个二维的$h_i$（来自双向RNN），将$h_i$和用于表示句子的$s$ 一同输入selective fate来生成第二级的representation $h_i’$.其中$s$ 是将$h \leftarrow 1$和 $h \rightarrow n$ concat起来，表示句子的含义。</p>
-<p>根据attention model的思想，从$h’$获取$c_t$。然后利用$c_{t-1}$,word embedding的$w_{t-1}$,$s_{t-1}$生成$s_t$,$s_0$是通过encode的hidden state初始化的。其中$s_t$和$h_t’$用于计算前面提到的attention weight。</p>
-<p>然后再利用$w_{t-1}$,$c_t$,$s_t$来生成$r_t$,$r_t$用于softmax函数来生成最后的word。$r_t$是个两维的数，在用于softmax时，选用的是他其中比较大的值。</p>
+<p>根据attention model的思想，从$h’$获取$c_t$。然后利用$c_{t-1}$,word embedding的$w_{t-1}$,$s_{t-1}$生成$s_t$, $s_0$是通过encode的hidden state初始化的。其中$s_t$和$h_t’$用于计算前面提到的attention weight。</p>
+<p>然后再利用$w_{t-1}$,$c_t$,$s_t$来生成$r_t$, $r_t$用于softmax函数来生成最后的word。$r_t$是个两维的数，在用于softmax时，选用的是他其中比较大的值。</p>
 <p>性能结果</p>
 <ul>
 <li>Gigaword: <strong>Rouge-1</strong> 46.86 <strong>Rouge-2</strong> 24.58 <strong>Rouge-L</strong> 43.53</li>
@@ -462,6 +462,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/22/日本旅游/" rel="prev" title="日本旅游攻略">
+                日本旅游攻略 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -538,7 +542,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
