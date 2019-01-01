@@ -93,7 +93,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/5.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/7.png">
-<meta property="og:updated_time" content="2018-12-22T14:48:38.332Z">
+<meta property="og:updated_time" content="2019-01-01T04:17:12.777Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -429,6 +429,14 @@
 <li>Gigaword: <strong>Rouge-1</strong> 46.86 <strong>Rouge-2</strong> 24.58 <strong>Rouge-L</strong> 43.53</li>
 <li>DUC2004: <strong>Rouge-1</strong> 29.21 <strong>Rouge-2</strong> 9.56 <strong>Rouge-L</strong> 25.51</li>
 </ul>
+<p><br></p>
+<h4 id="Global-Encoding-for-Abstractive-Summarization"><a href="#Global-Encoding-for-Abstractive-Summarization" class="headerlink" title="Global Encoding for Abstractive Summarization"></a>Global Encoding for Abstractive Summarization</h4><ul>
+<li>文章地址 <a href="http://aclweb.org/anthology/P18-2027" target="_blank" rel="noopener">http://aclweb.org/anthology/P18-2027</a></li>
+<li>Junyang Lin, Xu Sun, Shuming Ma, Qi Su; PKU</li>
+<li><p>ACL 2018</p>
+<p>文章主要解决ABS结果中的repeat问题。他认为ABS不同于机器翻译，不能直接单独套用attention，因为对齐上有问题。所以他提出的想法是在整个attention模型内增加卷积gate来获取全局信息，他通过不同核的CNN来获取不同n-gram的信息。另外还辅助以self-attention来获取整个全局信息。最后用一个sigmod函数来调节n-gram信息和全局信息的权重，整合所有的信息，弄出新的representation。【文章测试对比的是F score】</p>
+</li>
+</ul>
 
       
     </div>
@@ -591,7 +599,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li></ol></div>
             
 
           </div>
@@ -611,7 +619,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
