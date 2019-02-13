@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/7.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/8.png">
-<meta property="og:updated_time" content="2019-02-13T06:19:37.487Z">
+<meta property="og:updated_time" content="2019-02-13T06:26:02.672Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -461,7 +461,7 @@
 <p>这个attention则是先计算不同timestamp中decorder的隐层状态和hidden_input_state,并归一化，求得$e’_{ti}$,再对不同位置的encoder的hidden_input_state做归一化，然后计算得到上下文向量。</p>
 <p>$$e_{ti} =f(h^d_t,h^e_i)$$</p>
 <p>$$f(h^d_t,h^e_i)=(h^d_t)^TW^e_{attn}h^e_i$$</p>
-<p>$$e’<em>{ti} = \begin{cases}<br>exp(e</em>{ti}) &amp; \text{ if } t=1 \<br>\frac{exp(e_{ti})}{\sum_{j=1}^{t-1}exp(e_{ji})} &amp; \text{otherwise}<br>\end{cases}$$</p>
+<p>$$e’<em>{ti} = \begin{cases} exp(e</em>{ti}) &amp; \text{ if } t=1 \ \frac{exp(e{ti})}{\sum{j=1}^{t-1}exp(e_{ji})} &amp; \text{otherwise}  \end{cases}$$</p>
 <p>$$\alpha^e_{ti} = \frac{e’<em>{ti}}{\sum</em>{j=1}^{n}e’_{tj}}$$</p>
 <p>$$c^e_t=\sum_{i=1}^{n} \alpha^e_{ti}h^e_i$$</p>
 </li>
