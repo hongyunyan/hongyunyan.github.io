@@ -94,7 +94,11 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/6.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/7.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/8.png">
-<meta property="og:updated_time" content="2019-02-13T06:52:43.290Z">
+<meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/12.png">
+<meta property="og:updated_time" content="2019-02-13T08:00:29.149Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -458,7 +462,7 @@
 <ul>
 <li><p>Intra-Temporal Attention — 主要针对encoder部分</p>
 <p>普通的Attention都是依次计算当前decoder的状态$s_t$与每个encoder的隐层状态$h_i$的得分$e_i$，然后归一化得到权重$α_i$，再加权求和得到上下文向量$c_t$。</p>
-<p>这个attention则是先计算不同timestamp中decorder的隐层状态和hidden_input_state,并归一化，求得$e’_{ti}$,再对不同位置的encoder的hidden_input_state做归一化，然后计算得到上下文向量。</p>
+<p>这个attention则是先计算不同timestamp中decorder的隐层状态和hidden_input_state,并归一化，求得$e’_{ti}$,再对不同位置的encoder的hidden_input_state做归一化，然后计算得到上下文向量。【也就是上图第一个c】</p>
 <p>$$e_{ti} =f(h^d_t,h^e_i)$$</p>
 <p>$$f(h^d_t,h^e_i)=(h^d_t)^TW^e_{attn}h^e_i$$</p>
 <p>$$e’_{ti} = \begin{cases} exp(e_{ti}) &amp; \text{ if } t=1 \\ \frac{exp(e_{ti})}{\sum_{j=1}^{t-1}exp(e_{ji})} &amp; \text{otherwise}  \end{cases}$$</p>
@@ -466,11 +470,41 @@
 <p>$$c^e_t=\sum_{i=1}^{n} \alpha^e_{ti}h^e_i$$</p>
 </li>
 <li><p>Intra-Decoder Attention — 主要针对decoder部分</p>
+<p>这部分的attention是建立在decoder当前隐层状态和历史隐层状态的机制。根据当前timestamp的decoder隐层状态和前面所有timestamp的decoder隐层状态，归一化得到权重，再计算出decoder的上下文输出向量。【上图第二个c】</p>
+<p><img src="/2019/02/13/扫文笔记2/9.png" width="90%" height="90%"></p>
 </li>
 <li><p>Generation/Pointer — 针对生成当前输出的部分</p>
-<p>​<br>​<br>​</p>
+<p>对于生成输出结果，这边选择用要么softmax生成，或者用point machine 拷贝罕见词。文章用概率来决定是用生成还是pointer。定义$u_t$为0/1，0表示生成，1表示pointer。</p>
+<p>$$p(y_t|u_t = 0) = softmax(W_{out}[h^d_t || c^e_t || c^d_t ] + b_{out})$$</p>
+<p>$$p(y_t=x_i|u_t=1)=\alpha^e_{ti}$$</p>
+<p>$$p(u_t=1) = \sigma (W_u[h^d_t || c^e_t || c^d_t] + b_u)$$</p>
+<p>$$p(y_t) = p(u_t = 1)p(y_t|u_t = 1) + p(u_t = 0)p(y_t|u_t = 0)$$</p>
+<p>根据这个概率来算最后选哪种方法，然后training的时候，如果groud truth这里的输出是out of vocabulary的或者是pre-defined name entity,就让$u_t=1$</p>
 </li>
 </ul>
+<ul>
+<li>在beam search的时候，对于已经出现过的trigram，直接将概率设为0避免重复。</li>
+</ul>
+<p>在以前的训练模型中，我们常用Teacher Forcing算法。通常的目标函数都是负对数似然函数(NLL)，然而即便达到最优，在使用离散评价方式（ROUGE, CIDEr, BLEU）进行评价的时候，往往得不到最好的效果，主要原因有俩：1. 训练的时候使用正确的单词作为下一时间片的输入，每一步的错误不会累积，但是测试的时候每一步的错误会累积到下一时间片。2. 输出文本的词序是灵活的，离散的评价方式也考虑到了这种灵活性，但是NLL没有.</p>
+<p>文章提供的训练方法是强化训练。直接去优化特定的离散矩阵。作者提出，每一步生成摘要词时，输出两个序列选择，一个是选择概率最大的词\widehat{y_t}，作为baseline，同时sample 得到词$y^s$，然后分别拿这两个与ground truth 的y 计算ROUGE指标评测值作为reward，然后再根据这个reward对模型进行奖励和惩罚，更新参数。</p>
+<p><img src="/2019/02/13/扫文笔记2/10.png" width="60%" height="60%"></p>
+<p>但是上述的目标函数不能保证生成的质量和可读性，所以最后作者选用将上述L_{rl}和maximum-likelihood training objective加权作为learning object function。</p>
+<p><img src="/2019/02/13/扫文笔记2/11.png" width="40%" height="60%"></p>
+<p><img src="/2019/02/13/扫文笔记2/12.png" width="40%" height="60%"></p>
+<p>性能结果</p>
+<ul>
+<li>CNN/Daily Mail(only ML): <strong>Rouge-1</strong> 38.30 <strong>Rouge-2</strong> 14.81 <strong>Rouge-L</strong> 35.49</li>
+<li>CNN/Daily Mail(only RL): <strong>Rouge-1</strong> 41.16 <strong>Rouge-2</strong> 15.75 <strong>Rouge-L</strong> <strong>39.08</strong></li>
+<li>CNN/Daily Mail(ML+RL): <strong>Rouge-1</strong> 39.87 <strong>Rouge-2</strong> 15.82 <strong>Rouge-L</strong> 36.90        </li>
+</ul>
+<h5 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h5><ul>
+<li>这个直接beam search时跳过trigram合理么，bigram的话合理么。</li>
+<li>强化学习看懂后再回来看这个地方的training。</li>
+<li>还要看一下这个的代码，再理解一下他的intra-attention。</li>
+<li>对于training时候提出的问题值得思考。</li>
+<li>copy or generate的方法很多文章都选用了，可以深入推敲一下。</li>
+</ul>
+<p>​    </p>
 
       
     </div>
@@ -629,7 +663,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#感想"><span class="nav-number">7.1.</span> <span class="nav-text">感想</span></a></li></ol></li></ol></div>
             
 
           </div>
