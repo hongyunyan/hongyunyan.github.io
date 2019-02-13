@@ -93,7 +93,8 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/5.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/6.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/7.png">
-<meta property="og:updated_time" content="2019-02-11T03:18:06.747Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/05/扫文笔记2/8.png">
+<meta property="og:updated_time" content="2019-02-13T06:01:16.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -445,7 +446,26 @@
 </ul>
 <p>文章主要解决的是个性化的文本摘要生成，比如支持不同长度的偏好，关键词的偏好，行文风格的偏好。文章的模型是基于Fackbook提出的Convolutional Sequence-to-Sequence。然后还加入了intra-attention的思想。主要的改动在于增加了input。以不同长度为例，在training时，先将长度分为几个size，然后每个范围的length长度都对应用一个special word来表示。在training时，生成对应长度的summary的input中就加上这个对应的special word来进行训练，最后test的时候，想要多长的，就加个这个length范围的special word组成最终的input。[但是具体这个word怎么加到input里面，文章中说的是直接加在input的最前面，emmm不是很理解为什么可以生效？]</p>
 <p>因为是个性化文本生成摘要，所以rouge等数值其实没有很大的比对意义，但文中给出的结果还是state-of-the-art的。</p>
-<p>​    </p>
+<p><br></p>
+<h4 id="A-Deep-Reinforced-Model-For-Abstractive-Summarization"><a href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization" class="headerlink" title="A Deep Reinforced Model For Abstractive Summarization"></a>A Deep Reinforced Model For Abstractive Summarization</h4><ul>
+<li>文章地址 <a href="https://pdfs.semanticscholar.org/14a2/5c6008e1681715cc930f673f687418124d31.pdf" target="_blank" rel="noopener">https://pdfs.semanticscholar.org/14a2/5c6008e1681715cc930f673f687418124d31.pdf</a></li>
+<li>Romain Paulus, Caiming Xiong∗&amp; Richard Socher,  Salesforce</li>
+<li>ICLR 2018</li>
+</ul>
+<p>文章主要解决的是ABS中在长文本 生成中容易产生的repeat问题。同时，作者考虑到，在训练中，我们是拿每次前一步的正确输出结果来作为下一步的输入的，而在test中，我们只能直接拿上一步的正确结果来作为input，两者之间，后者会有个错误叠加的问题，而前者则在训练中，并没有考虑这一步，而导致的结果准确性问题。</p>
+<p>文章运用了不同于寻常的attention-encoder/decoder模型。</p>
+<p><img src="/2018/12/05/扫文笔记2/8.png" width="90%" height="90%"></p>
+<ul>
+<li><p>Intra-Temporal Attention — 主要针对encoder部分</p>
+<p>普通的Attention都是依次计算当前decoder的状态$s_t$与每个encoder的隐层状态$h_i$的得分$e_i$，然后归一化得到权重$α_i$，再加权求和得到上下文向量$c_t$。</p>
+<p>这个attention则是先计算不同timestamp中decorder的隐层状态和hidden_input_state,并归一化，求得$e^’_ti$,再对不同位置的encoder的hidden_input_state做归一化，然后计算得到上下文向量。</p>
+<p>​</p>
+</li>
+<li><p>Intra-Decoder Attention — 主要针对decoder部分</p>
+</li>
+<li><p>Generation/Pointer — 针对生成当前输出的部分</p>
+</li>
+</ul>
 <p>​<br>​<br>​    </p>
 
       
@@ -609,7 +629,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a></li></ol></div>
             
 
           </div>
