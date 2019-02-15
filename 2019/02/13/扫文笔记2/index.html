@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/10.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/11.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/12.png">
-<meta property="og:updated_time" content="2019-02-13T08:01:36.994Z">
+<meta property="og:updated_time" content="2019-02-15T06:44:48.935Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -504,6 +504,19 @@
 <li>对于training时候提出的问题值得思考。</li>
 <li>copy or generate的方法很多文章都选用了，可以深入推敲一下。</li>
 </ul>
+<p><br></p>
+<h4 id="Controlling-Output-Length-in-Neural-Encoder-Decoders"><a href="#Controlling-Output-Length-in-Neural-Encoder-Decoders" class="headerlink" title="Controlling Output Length in Neural Encoder-Decoders"></a>Controlling Output Length in Neural Encoder-Decoders</h4><p>文章主要提出了四种方法来解决让Encoder-Decoder模型输出固定长度的ouput。</p>
+<p>方法1和方法2都属于比较粗爆的方法，基本就是强行到长度了就停掉，给他换个EOS上去。如果没写到就不让停这样的操作手法2333。</p>
+<p>方法三和四都是通过更改decoder部分来做的。</p>
+<ul>
+<li>三的做法是在decoder的每个timestamp上都新增一个关于长度的输入。这个输入的获取方式是通过本次output还剩余可以输出的长度乘以一个长度矩阵来获得的。【这个长度矩阵是通过training得到的】就通过这个增加input的方式，来解决输出问题。</li>
+<li>四的做法和三有些类似，但是他只是用一个memory-cell来控制输出，主要方式是更改了decoder的初始化值。</li>
+</ul>
+<p>感想：</p>
+<ul>
+<li>前两个方法不需要考虑，后两个方法中，有一个问题是，对于同一个source，我想生成不同长度的结果，感觉不像是从头生成的句子，更像是从前面短小的地方加上一些词。就说明其实我们在用length控制的时候对前面词的输出或者说对整个意思的传达没有一个很好的影响。</li>
+<li>对memory cell还有一定的不理解性。</li>
+</ul>
 <p>​    </p>
 
       
@@ -663,7 +676,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#感想"><span class="nav-number">7.1.</span> <span class="nav-text">感想</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#感想"><span class="nav-number">7.1.</span> <span class="nav-text">感想</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controlling-Output-Length-in-Neural-Encoder-Decoders"><span class="nav-number">8.</span> <span class="nav-text">Controlling Output Length in Neural Encoder-Decoders</span></a></li></ol></div>
             
 
           </div>
