@@ -87,7 +87,7 @@
 <meta property="og:description" content="预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/02/15/NLP各种相关模块/1.png">
-<meta property="og:updated_time" content="2019-02-16T07:35:47.262Z">
+<meta property="og:updated_time" content="2019-02-16T07:37:31.039Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NLP各种相关模块">
 <meta name="twitter:description" content="预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(">
@@ -325,7 +325,7 @@
       
         <h4 id="预训练技术"><a href="#预训练技术" class="headerlink" title="预训练技术"></a>预训练技术</h4><p>预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。</p>
 <p>NLP中最基础的预处理技术是<strong>word embedding</strong>。word embedding的基础是<strong>NNLM（神经网络语言模型）</strong></p>
-<h5 id="NNLM相关"><a href="#NNLM相关" class="headerlink" title="NNLM相关"></a>NNLM相关</h5><p>NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P($W_t$=”Hello”|$W_1$,$W_2$,…,$W_{t-1}$; \Theta )$。</p>
+<h5 id="NNLM相关"><a href="#NNLM相关" class="headerlink" title="NNLM相关"></a>NNLM相关</h5><p>NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(W_t=”Hello”|W_1,W_2,…,W_{t-1}; \Theta )$。</p>
 <p>训练的方式为：每个单词$W_i$用OneHot编码作为单词原始输入，之后乘以矩阵Q后获得向量$C(W_i)$,然后每个单词的向量拼接，上接隐层，然后接softmax去预测后面应该后续接哪个单词。$C(W_i)$就是单词对应的word embedding值。矩阵Q包含V行，V代表词典大小，每一行内容代表对应单词的Word Embedding，Q的内容也是网络参数，是在training中获得的。等网络训练好后，就等于Q被正确赋值了，等于单词的Word Embedding被学会了。</p>
 <p><img src="/2019/02/15/NLP各种相关模块/1.png" width="70%" height="50%"></p>
 <p>模型的整个训练过程以及公示如下：</p>
