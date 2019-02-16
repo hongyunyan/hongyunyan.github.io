@@ -87,7 +87,7 @@
 <meta property="og:description" content="预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/02/15/NLP各种相关模块/1.png">
-<meta property="og:updated_time" content="2019-02-16T07:31:35.968Z">
+<meta property="og:updated_time" content="2019-02-16T07:35:47.262Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NLP各种相关模块">
 <meta name="twitter:description" content="预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(">
@@ -694,7 +694,7 @@
           distractionFreeMode: 'true'
         })
         gitalk.render('gitalk-container')           
-       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+       </script>
 
 
 
@@ -714,6 +714,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
