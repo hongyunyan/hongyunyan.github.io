@@ -98,7 +98,8 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/10.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/11.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/12.png">
-<meta property="og:updated_time" content="2019-02-15T08:19:15.584Z">
+<meta property="og:image" content="http://yoursite.com/2019/02/13/扫文笔记2/13.png">
+<meta property="og:updated_time" content="2019-02-18T07:15:13.696Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -506,7 +507,12 @@
 <li>copy or generate的方法很多文章都选用了，可以深入推敲一下。</li>
 </ul>
 <p><br></p>
-<h4 id="Controlling-Output-Length-in-Neural-Encoder-Decoders"><a href="#Controlling-Output-Length-in-Neural-Encoder-Decoders" class="headerlink" title="Controlling Output Length in Neural Encoder-Decoders"></a>Controlling Output Length in Neural Encoder-Decoders</h4><p>文章主要提出了四种方法来解决让Encoder-Decoder模型输出固定长度的ouput。</p>
+<h4 id="Controlling-Output-Length-in-Neural-Encoder-Decoders"><a href="#Controlling-Output-Length-in-Neural-Encoder-Decoders" class="headerlink" title="Controlling Output Length in Neural Encoder-Decoders"></a>Controlling Output Length in Neural Encoder-Decoders</h4><ul>
+<li>文章地址 <a href="https://arxiv.org/pdf/1609.09552.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1609.09552.pdf</a></li>
+<li>Yuta Kikuchi, Graham Neubig, Ryohei Sasano, Hiroya Takamura, Manabu Okumura,Tokyo Institute of Technology, Carnegie Mellon University</li>
+<li>EMNLP 2016</li>
+</ul>
+<p>文章主要提出了四种方法来解决让Encoder-Decoder模型输出固定长度的ouput。</p>
 <p>方法1和方法2都属于比较粗爆的方法，基本就是强行到长度了就停掉，给他换个EOS上去。如果没写到就不让停这样的操作手法2333。</p>
 <p>方法三和四都是通过更改decoder部分来做的。</p>
 <ul>
@@ -518,7 +524,29 @@
 <li>前两个方法不需要考虑，后两个方法中，有一个问题是，对于同一个source，我想生成不同长度的结果，感觉不像是从头生成的句子，更像是从前面短小的地方加上一些词。就说明其实我们在用length控制的时候对前面词的输出或者说对整个意思的传达没有一个很好的影响。</li>
 <li>对memory cell还有一定的不理解性。</li>
 </ul>
-<p>​    </p>
+<p><br></p>
+<h4 id="Deep-contextualized-word-representations"><a href="#Deep-contextualized-word-representations" class="headerlink" title="Deep contextualized word representations"></a>Deep contextualized word representations</h4><ul>
+<li>文章地址 <a href="https://arxiv.org/pdf/1802.05365.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1802.05365.pdf</a></li>
+<li>Matthew E. Peters, Mark Neumann, Mohit Iyyer, Matt Gardner… Allen Institute for Artificial Intelligence</li>
+<li>NAACL 2018  Best Paper</li>
+</ul>
+<p>文章主要提出了一种新的embedding的方式，对应于传统的静态embedding，EMLo方式只训练language model，而word embedding是需要通过输入的句子上下文输出的。即很大程度上解决了一词多义的embedding问题。</p>
+<p>首先模型运用的是双向的language model[Bidirectional language models(BiLM)]。即给定N个tokens的序列$(t_1, t_2, … , t_n)$,     前向language model就是通过前k-1个输入序列 $(t_1, t_2, …,t_k)$的hidden表示, 预测第$k$个位置的token, 反向的language model就是给定后面的序列, 预测之前的, 然后将language model的第$k$个位置的hidden输出做为word embedding.</p>
+<p>BiLM训练的目标是最大化下图公式。</p>
+<p><img src="/2019/02/13/扫文笔记2/13.png" width="90%" height="90%"></p>
+<p>模型用的是L层双向LSTM，最原始的word embedding表示中，第k位置的词我们用$x_k^{LM}$表示，然后每一层的LSTM都会输出一个context-dependent的表示,正向的为$ \underset{h}{\rightarrow}^{LM}_{k,j}$,反向的为$\underset{h}{\leftarrow}^{LM}_{k,j}$, $j=1,2,…L$,其中$ \underset{h}{\rightarrow}^{LM}_{k,L}$是用来结合softmax一起预测$t_{k+1}$的。</p>
+<p>对于L层的biLM的输出，我们用$R_k =\left \{  h^{LM}_{k,j} | j = 0,…L \right \}$表示。其中$h^{LM}_{k,j} =\left [  \underset{h}{\rightarrow}^{LM}<em>{k,j} ; \underset{h}{\leftarrow}^{LM}\</em>{k,j}\right ]$。</p>
+<p>然后ELMo把R中所有层的表示一起压缩成一个vector。$ELMo_k = E(R_k ; \Theta_e )$。最简单的方式是直接ELMo取BiLM中最top层的输出表示，即$E(R_k) = h^{LM}_{k,j}$。更通用的是对于每一层的表示，我们计算task special的权重$$ELMo_k^{task} = E(R_k; \Theta^{task})  = \gamma^{task} \sum_{j=0}^{L}s_j^{task}h^{LM}_{k,j}$$，其中$s^{task}$是softmax-normalized weights。</p>
+<p>如何使用ELMo：[大概就是加到现有模型中2333]</p>
+<ul>
+<li>将该词向量加到一般的任务的方法是, 先固定一个权重, 构成一个$EMLo^{task}$ , 然后联结这个vector和最初始词向量$x$, 然后将这个向量输入到任务的模型中去. 然后在训练中一同训练权重因子.</li>
+<li>我们可以在output处也加一个这样的向量,即$\left [ h_k; ELMo^{task}_k \right ]$ , 不同是,这里应该采用与输入的向量用不同的权重因子.</li>
+<li>在ELMo模型中加入dropout，并用L2 loss提升模型。$\lambda$越大, 越有取各层平均值的意思, 越小, 越可以发挥各个层之间的不同带来的效果. 但是并不是说, 越小越好。</li>
+</ul>
+<p>感想：</p>
+<ul>
+<li>底层对语义的表达好坏从根本上影响结果。</li>
+</ul>
 
       
     </div>
@@ -681,7 +709,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controlling-Output-Length-in-Neural-Encoder-Decoders"><span class="nav-number">8.</span> <span class="nav-text">Controlling Output Length in Neural Encoder-Decoders</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controlling-Output-Length-in-Neural-Encoder-Decoders"><span class="nav-number">8.</span> <span class="nav-text">Controlling Output Length in Neural Encoder-Decoders</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-contextualized-word-representations"><span class="nav-number">9.</span> <span class="nav-text">Deep contextualized word representations</span></a></li></ol></div>
             
 
           </div>
