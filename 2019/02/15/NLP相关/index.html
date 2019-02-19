@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(">
+<meta name="description" content="Transformer一篇《Attention is all you need》带火了新版特征抽取器。 预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NLP各种相关模块">
 <meta property="og:url" content="http://yoursite.com/2019/02/15/NLP相关/index.html">
 <meta property="og:site_name" content="Yunyan Hong">
-<meta property="og:description" content="预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(">
+<meta property="og:description" content="Transformer一篇《Attention is all you need》带火了新版特征抽取器。 预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/02/15/NLP相关/1.png">
-<meta property="og:updated_time" content="2019-02-18T04:01:08.939Z">
+<meta property="og:updated_time" content="2019-02-18T07:41:29.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NLP各种相关模块">
-<meta name="twitter:description" content="预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(">
+<meta name="twitter:description" content="Transformer一篇《Attention is all you need》带火了新版特征抽取器。 预训练技术预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单">
 <meta name="twitter:image" content="http://yoursite.com/2019/02/15/NLP相关/1.png">
 
 
@@ -323,7 +323,8 @@
       
 
       
-        <h4 id="预训练技术"><a href="#预训练技术" class="headerlink" title="预训练技术"></a>预训练技术</h4><p>预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。</p>
+        <h4 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h4><p>一篇《Attention is all you need》带火了新版特征抽取器。</p>
+<h4 id="预训练技术"><a href="#预训练技术" class="headerlink" title="预训练技术"></a>预训练技术</h4><p>预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。</p>
 <p>NLP中最基础的预处理技术是<strong>word embedding</strong>。word embedding的基础是<strong>NNLM（神经网络语言模型）</strong></p>
 <h5 id="NNLM相关"><a href="#NNLM相关" class="headerlink" title="NNLM相关"></a>NNLM相关</h5><p>NNLM的学习任务是输入某句话中单词$W_t = “Hello” $前面句子的t-1个单词，要求网络正确预测单词Hello，即最大化$P(W_t=”Hello”|W_1,W_2,…,W_{t-1}; \Theta )$。</p>
 <p>训练的方式为：每个单词$W_i$用OneHot编码作为单词原始输入，之后乘以矩阵Q后获得向量$C(W_i)$,然后每个单词的向量拼接，上接隐层，然后接softmax去预测后面应该后续接哪个单词。$C(W_i)$就是单词对应的word embedding值。矩阵Q包含V行，V代表词典大小，每一行内容代表对应单词的Word Embedding，Q的内容也是网络参数，是在training中获得的。等网络训练好后，就等于Q被正确赋值了，等于单词的Word Embedding被学会了。</p>
@@ -337,7 +338,7 @@
 <h5 id="word2Vec相关"><a href="#word2Vec相关" class="headerlink" title="word2Vec相关"></a>word2Vec相关</h5><p>word2vec有两种训练方法，一种叫CBOW，即从一个句子里面把一个词扣掉，用这个词的上文和下文去预测这个被扣掉的词。另一种叫skip-gram，他和CBOW相反，是通过输入的某个词语，去预测它的上下文单词。</p>
 <p>他们其实都是做一个fake task，来训练出word embedding这个在task中的副产品，模型和NNLM是相似的。</p>
 <h5 id="为什么说word-embedding是预训练"><a href="#为什么说word-embedding是预训练" class="headerlink" title="为什么说word embedding是预训练"></a>为什么说word embedding是预训练</h5><p>我们以QA问题为例，即我们给定问题X，再给定句子Y, 来判断句子Y是否是问题X的正确答案。句子中的每个单词以OneHot形式作为输入，然后乘以学好的Word Embedding矩阵Q，就得到对应单词对应的Word Embedding了。所以word embedding的矩阵Q，其实就是OneHot曾到embedding曾映射的网络参数矩阵，也就是说他初始化了第一层的网络参数。后续在训练中，你是否需要更改word embedding层的网络参数都可以，如果word embedding那层网络参数固定不动，就是Frozen方法，如果跟着改就是Fine-Tuning方法。</p>
-<h5 id="一词多义问题"><a href="#一词多义问题" class="headerlink" title="一词多义问题"></a>一词多义问题</h5><p>word embedding中比较严重的问题就是一词多义了。ELMO提供了一种有效的解决问题[Deep contextualized word representation]。word embedding 本质是一个静态的方法，即训练好了以后单词的表达就不变了。</p>
+<h5 id="一词多义问题"><a href="#一词多义问题" class="headerlink" title="一词多义问题"></a>一词多义问题</h5><p>word embedding中比较严重的问题就是一词多义了。ELMO提供了一种有效的解决问题[Deep contextualized word representation,隔壁论文集合里有提到]。word embedding 本质是一个静态的方法，即训练好了以后单词的表达就不变了。ELMO采用了典型的两阶段过程，第一个阶段是利用语言模型进行预训练；第二个阶段是在做下游任务时，从预训练网络中提取对应单词的网络各层的Word Embedding作为新特征补充到下游任务中。</p>
 
       
     </div>
@@ -362,8 +363,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/13/扫文笔记2/" rel="next" title="Abstractive Summarization 扫文清单">
-                <i class="fa fa-chevron-left"></i> Abstractive Summarization 扫文清单
+              <a href="/2018/12/22/日本旅游/" rel="next" title="日本旅游攻略">
+                <i class="fa fa-chevron-left"></i> 日本旅游攻略
               </a>
             
           </div>
@@ -371,6 +372,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/18/扫文笔记2/" rel="prev" title="Abstractive Summarization 扫文清单">
+                Abstractive Summarization 扫文清单 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -496,7 +501,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#预训练技术"><span class="nav-number">1.</span> <span class="nav-text">预训练技术</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#NNLM相关"><span class="nav-number">1.1.</span> <span class="nav-text">NNLM相关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#word2Vec相关"><span class="nav-number">1.2.</span> <span class="nav-text">word2Vec相关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么说word-embedding是预训练"><span class="nav-number">1.3.</span> <span class="nav-text">为什么说word embedding是预训练</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一词多义问题"><span class="nav-number">1.4.</span> <span class="nav-text">一词多义问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Transformer"><span class="nav-number">1.</span> <span class="nav-text">Transformer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预训练技术"><span class="nav-number">2.</span> <span class="nav-text">预训练技术</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#NNLM相关"><span class="nav-number">2.1.</span> <span class="nav-text">NNLM相关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#word2Vec相关"><span class="nav-number">2.2.</span> <span class="nav-text">word2Vec相关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么说word-embedding是预训练"><span class="nav-number">2.3.</span> <span class="nav-text">为什么说word embedding是预训练</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一词多义问题"><span class="nav-number">2.4.</span> <span class="nav-text">一词多义问题</span></a></li></ol></li></ol></div>
             
 
           </div>
