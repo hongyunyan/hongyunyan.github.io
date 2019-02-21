@@ -106,7 +106,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/18.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/19.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/20.png">
-<meta property="og:updated_time" content="2019-02-21T08:24:48.135Z">
+<meta property="og:updated_time" content="2019-02-21T08:27:17.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -620,7 +620,8 @@
 <p>pointer-generator network提出结合softmax生成词和pointer选用input的词语。$p_{gen}$是用来计算是从input中复制个词语还是从词汇表生成词语的概率。$P_{vocab}(w)$用于表示softmax层算出来生成这个词语的概率，最后那个part就算attention权重计算的每个input位置的词的权重。如果这个词语并没有在input中，则后半个式子为0，如果词语是VOO，则前半个式子为0。</p>
 <p><img src="/2019/02/20/扫文笔记2/20.png" width="50%"></p>
 <p>Converage机制用于解决重复生成的问题。$a^t_i$表示的是每个词被注意的程度，我们希望所有的地方都被注意到，而不是在每次预测时候注意类似的地方，这样容易生成相同的内容，因此作者提出调整attention中e值计算方式。</p>
-<p>原先的计算方式为$e^t_i = v^Ttanh(W_hh_i + W_ss_t + b_attn)$, 更改为$e^t_i = v^Ttanh(W_hh_i + W_ss_t + W_c c^t_i + b_{attn})$, 其中$c^t = \sum_{t’=0}^{t-1}a^{t’}$。 同时更新了loss function。原先的loss function为$loss_t=-logP(w_{target}), loss = \frac{1}{T} \sum^{T}_{t=0}loss_t$,现在增加一项，$loss_t = -logP(w_{target}) + \lambda \sum_{i}min(a^t_i, c^t_i)$。</p>
+<p>原先的计算方式为$e^t_i = v^Ttanh(W_hh_i + W_ss_t + b_attn)$, 更改为$e^t_i = v^Ttanh(W_hh_i + W_ss_t + W_c c^t_i + b_{attn})$, 其中$c^t = \sum_{t’=0}^{t-1}a^{t’}$。 </p>
+<p>同时更新了loss function。原先的loss function为 $loss_t=-logP(w_{target})$, $loss = \frac{1}{T} \sum^{T}_{t=0}loss_t$, 现在增加一项, $loss_t = -logP(w_{target}) + \lambda \sum_{i}min(a^t_i, c^t_i)$。</p>
 <p>感想：</p>
 <ul>
 <li>这个去重复的想法还是比较简单的直接明了，但是效果挺好，从头看来就是生成一样的，就是关注了一样的，那我怎么关注不一样的，就设计减少关注已经关注的。</li>
