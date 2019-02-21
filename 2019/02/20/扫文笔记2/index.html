@@ -104,7 +104,9 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/16.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/17.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/18.png">
-<meta property="og:updated_time" content="2019-02-20T09:50:07.242Z">
+<meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/19.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/20.png">
+<meta property="og:updated_time" content="2019-02-21T08:21:30.259Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -602,6 +604,27 @@
 <p>convS2S部分和原facebook AI出得文章是一致的。</p>
 <p>对于两个encoder部分，我们在biased probablitiy generation生成的部分进行合作。如果这一个timestamp生成的候选word在topic vocabulary中，我们就将两个encoder部分一定方法相加，如果候选word不在topic，则只取非topic部分的信息。</p>
 <p>然后就是在训练中用的是强化训练【感觉好像在生成问题中，越来越多选用的都是强化学习，因为考虑到错误的累积性问题】</p>
+<p><br></p>
+<h4 id="Get-To-The-Point-Summarization-with-Pointer-Generator-Networks"><a href="#Get-To-The-Point-Summarization-with-Pointer-Generator-Networks" class="headerlink" title="Get To The Point: Summarization with Pointer-Generator Networks"></a>Get To The Point: Summarization with Pointer-Generator Networks</h4><ul>
+<li>文章地址：<a href="https://nlp.stanford.edu/pubs/see2017get.pdf" target="_blank" rel="noopener">https://nlp.stanford.edu/pubs/see2017get.pdf</a></li>
+<li>Stanford， Google Brain</li>
+<li>ACL 2017</li>
+</ul>
+<p>文章提出seq2seq+attention的传统模型的两个shortcuts：</p>
+<ul>
+<li>模型容易不准确地再现事实细节，也就是说模型生成的摘要不准确；</li>
+<li>生成的摘要往往会重复，也就是会重复生成一些词或者句子。</li>
+</ul>
+<p>因此作者提出了利用pointer-generator network以及converge来实现summarization。</p>
+<p><img src="/2019/02/20/扫文笔记2/19.png" width="100%"></p>
+<p>pointer-generator network提出结合softmax生成词和pointer选用input的词语。$p_{gen}$是用来计算是从input中复制个词语还是从词汇表生成词语的概率。$P_{vocab}(w)$用于表示softmax层算出来生成这个词语的概率，最后那个part就算attention权重计算的每个input位置的词的权重。如果这个词语并没有在input中，则后半个式子为0，如果词语是VOO，则前半个式子为0。</p>
+<p><img src="/2019/02/20/扫文笔记2/20.png" width="50%"></p>
+<p>Converage机制用于解决重复生成的问题。$a^t_i$表示的是每个词被注意的程度，我们希望所有的地方都被注意到，而不是在每次预测时候注意类似的地方，这样容易生成相同的内容，因此作者提出调整attention中e值计算方式。</p>
+<p>原先的计算方式为$e^t_i = v^Ttanh(W_hh_i + W_ss_t + b_attn)$, 更改为$e^t_i = v^Ttanh(W_hh_i + W_ss_t + W_c c^t_i + b_attn)$, 其中$c^t = \sum_{t’=0}^{t-1}a^{t’}。 同时更新了loss function。原先的loss function为$loss_t=-logP(w_{target}), loss = \frac{1}{T} \sum^{T}_{t=0}loss_t$,现在增加一项，$loss_t = -logP(w_{target}) + \lambda \sum_{i}min(a^t_i, c^t_i)$。</p>
+<p>感想：</p>
+<ul>
+<li>这个去重复的想法还是比较简单的直接明了，但是效果挺好，从头看来就是生成一样的，就是关注了一样的，那我怎么关注不一样的，就设计减少关注已经关注的。</li>
+</ul>
 
       
     </div>
@@ -760,7 +783,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controlling-Output-Length-in-Neural-Encoder-Decoders"><span class="nav-number">8.</span> <span class="nav-text">Controlling Output Length in Neural Encoder-Decoders</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-contextualized-word-representations"><span class="nav-number">9.</span> <span class="nav-text">Deep contextualized word representations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Attention-is-all-you-need"><span class="nav-number">10.</span> <span class="nav-text">Attention is all you need</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Reinforced-Topic-Aware-Convolutional-Sequence-to-Sequence-Model-for-Abstractive-Text-Summarization"><span class="nav-number">11.</span> <span class="nav-text">A Reinforced Topic-Aware Convolutional Sequence-to-Sequence Model for Abstractive Text Summarization</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Neural-Attention-Model-for-Abstractive-Sentence-Summariztion"><span class="nav-number">1.</span> <span class="nav-text">A Neural Attention Model for Abstractive Sentence Summariztion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Sentence-Summarization-with-Attentive-Recurrent-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Sentence Summarization with Attentive Recurrent Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstractive-Text-Summarization-Using-Sequence-to-Sequence-RNNs-and-Beyond"><span class="nav-number">3.</span> <span class="nav-text">Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selective-Encoding-for-Abstractive-Sentence-Summarization"><span class="nav-number">4.</span> <span class="nav-text">Selective Encoding for Abstractive Sentence Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Encoding-for-Abstractive-Summarization"><span class="nav-number">5.</span> <span class="nav-text">Global Encoding for Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controllable-Abstractive-Summarization"><span class="nav-number">6.</span> <span class="nav-text">Controllable Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Deep-Reinforced-Model-For-Abstractive-Summarization"><span class="nav-number">7.</span> <span class="nav-text">A Deep Reinforced Model For Abstractive Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Controlling-Output-Length-in-Neural-Encoder-Decoders"><span class="nav-number">8.</span> <span class="nav-text">Controlling Output Length in Neural Encoder-Decoders</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-contextualized-word-representations"><span class="nav-number">9.</span> <span class="nav-text">Deep contextualized word representations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Attention-is-all-you-need"><span class="nav-number">10.</span> <span class="nav-text">Attention is all you need</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Reinforced-Topic-Aware-Convolutional-Sequence-to-Sequence-Model-for-Abstractive-Text-Summarization"><span class="nav-number">11.</span> <span class="nav-text">A Reinforced Topic-Aware Convolutional Sequence-to-Sequence Model for Abstractive Text Summarization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Get-To-The-Point-Summarization-with-Pointer-Generator-Networks"><span class="nav-number">12.</span> <span class="nav-text">Get To The Point: Summarization with Pointer-Generator Networks</span></a></li></ol></div>
             
 
           </div>
