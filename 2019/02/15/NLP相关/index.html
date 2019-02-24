@@ -89,7 +89,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/15/NLP相关/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/15/NLP相关/2.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/15/NLP相关/3.png">
-<meta property="og:updated_time" content="2019-02-21T05:58:11.021Z">
+<meta property="og:updated_time" content="2019-02-21T14:10:28.993Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NLP各种相关模块">
 <meta name="twitter:description" content="预训练技术blog参考：https://zhuanlan.zhihu.com/p/49271699 预训练技术就是说在新的任务的神经网络中的部分层，可以直接用其他任务得到的参数，作为初始的参数值。再进行后续的训练。 NLP中最基础的预处理技术是word embedding。word embedding的基础是NNLM（神经网络语言模型） NNLM相关NNLM的学习任务是输入某句话中单词$W_t =">
@@ -386,8 +386,10 @@
 </li>
 </ul>
 <p><br></p>
-<h4 id="Pointer-Network"><a href="#Pointer-Network" class="headerlink" title="Pointer Network"></a>Pointer Network</h4><p>用于解决输出严重依赖输入的问题。</p>
+<h4 id="Pointer-Network"><a href="#Pointer-Network" class="headerlink" title="Pointer Network"></a>Pointer Network</h4><p>用于解决输出严重依赖输入的问题。特别适合解决OOV问题。</p>
 <p>pointer network是在seq2seq+attention的模型上提出的更改，在传统的seq2seq+attention模型中，decoder的隐状态对encoder的各个位置隐状态求权重，然后用每个位置的权重乘以每个encoder的输入得到对应的context vector。而pointer netword则在隐层状态计算后，经过softmax，算出对每个encoder位置影响的概率(p)。传统带有注意力机制的seq2seq模型输出的是针对输出词汇表的一个概率分布，而Pointer Networks输出的则是针对输入文本序列的概率分布。</p>
+<p>相关论文：隔壁的【Get To The Point: Summarization with Pointer-Generator Networks，Incorporating Copying Mechanism in Sequence-to-Sequence Learning】</p>
+<p><strong>个人觉得这个问题应该还是需要用在summarization上的，私以为是很多特定名字生成啊，稀有名次很好的处理方式</strong>。</p>
 
       
     </div>
