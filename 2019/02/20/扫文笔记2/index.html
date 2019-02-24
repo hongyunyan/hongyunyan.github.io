@@ -116,7 +116,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/28.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/29.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/20/扫文笔记2/30.png">
-<meta property="og:updated_time" content="2019-02-24T13:03:18.690Z">
+<meta property="og:updated_time" content="2019-02-24T13:25:29.768Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Abstractive Summarization 扫文清单">
 <meta name="twitter:description" content="A Neural Attention Model for Abstractive Sentence Summariztion 文章地址：https://www.aclweb.org/anthology/D/D15/D15-1044.pdf   Alexander M. Rush et al., Facebook AI Research/Harvard EMNLP2015  文章利用Seq2Seq模">
@@ -675,7 +675,7 @@
 <p><img src="/2019/02/20/扫文笔记2/29.png" width="40%"></p>
 <p><img src="/2019/02/20/扫文笔记2/30.png" width="20%"></p>
 <p>然后根据这个$c^*_t$用MLP+softmax计算词汇分配在词汇表上的概率</p>
-<p>另外，作者也提出了用pointer network的思想，copy和generate结合。最后的损失函数是最大似然 + 语义衔接损失【用 $\lamda 加权重】+ 增强学习的损失函数。</p>
+<p>另外，作者也提出了用pointer network的思想，copy和generate结合。最后的损失函数是最大似然 + 语义衔接损失【用 $\lambda  加权重】+ 增强学习的损失函数。</p>
 <p>感想：</p>
 <ul>
 <li>这种每段单独处理应该是对长文本信息保留的比较好的办法了，以及多层attention也非常的合适，有借鉴意义。</li>
