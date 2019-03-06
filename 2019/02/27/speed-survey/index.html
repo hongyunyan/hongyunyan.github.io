@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Yunyan Hong">
 <meta property="og:description" content="abstractive summarization 诸多模型框架速度性能对比 实验测试集，cnn-dailymail 30个train，各10个test/val ABS    【Rush的文章标准版】https://github.com/toru34/rush_emnlp_2015 【cnn】 ABS+  【Rush的文章标准版 + tuned】 RAS-Elman 【 Chopra et al.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-05T07:29:03.296Z">
+<meta property="og:updated_time" content="2019-03-06T02:54:02.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="abstractive summarization 模型速度问题">
 <meta name="twitter:description" content="abstractive summarization 诸多模型框架速度性能对比 实验测试集，cnn-dailymail 30个train，各10个test/val ABS    【Rush的文章标准版】https://github.com/toru34/rush_emnlp_2015 【cnn】 ABS+  【Rush的文章标准版 + tuned】 RAS-Elman 【 Chopra et al.">
@@ -330,10 +330,9 @@
 <p>copynet【Gu et al. (2016)】跟下面这个类似</p>
 <p>pointer network【Get To The Point: Summarization with Pointer-Generator Networks】<a href="https://github.com/abisee/pointer-generator" target="_blank" rel="noopener">https://github.com/abisee/pointer-generator</a>. [48961.3s 约等于 13h【最后出bug了2333】] 和下面那个大概6倍</p>
 <p>Fast Abstractive Summarization with Reinforce-Selected Sentence Rewriting <a href="https://github.com/ChenRocks/fast_abs_rl。" target="_blank" rel="noopener">https://github.com/ChenRocks/fast_abs_rl。</a> 【abstractor training time 31min46s， extractor training time 1:11:20，rl  1:19:53,  decoder 0.06s】</p>
-<p>ConvSeq2Seq   <a href="https://github.com/facebookresearch/fairseq" target="_blank" rel="noopener">https://github.com/facebookresearch/fairseq</a>. <a href="https://github.com/pytorch/fairseq" target="_blank" rel="noopener">https://github.com/pytorch/fairseq</a></p>
+<p>ConvSeq2Seq   <a href="https://github.com/facebookresearch/fairseq" target="_blank" rel="noopener">https://github.com/facebookresearch/fairseq</a>. <a href="https://github.com/pytorch/fairseq" target="_blank" rel="noopener">https://github.com/pytorch/fairseq</a> 【神速 training 4min，decode 1min-】</p>
 <p>WFE 【Cutting-off redundant repeating generations for neural abstractive summarization】【没有代码】</p>
-<p>Generative Adversarial Network for Abstractive Text Summarization <a href="https://github.com/iwangjian/textsum-gan" target="_blank" rel="noopener">https://github.com/iwangjian/textsum-gan</a></p>
-<p>Query and Output: Generating Words by Querying Distributed Word<br>Representations for Paraphrase Generation <a href="https://github.com/lancopku/WEAN" target="_blank" rel="noopener">https://github.com/lancopku/WEAN</a></p>
+<p>Generative Adversarial Network for Abstractive Text Summarization <a href="https://github.com/iwangjian/textsum-gan" target="_blank" rel="noopener">https://github.com/iwangjian/textsum-gan</a>  【我用很小的数据量跑了7个小时左右，感觉他没有收敛过。。。就停了，按道理说应该比pointer久很多】</p>
 
       
     </div>
