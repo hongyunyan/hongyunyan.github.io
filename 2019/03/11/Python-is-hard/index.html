@@ -87,7 +87,7 @@
 <meta property="og:description" content="我连python都不会写orz 都不会import tensorflow as tf，不会import torch。 我好菜啊  多进程 multiprocessing 提供了一个Process类来代表一个进程对象。在创建子进程的时候，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动。join()方法可以等待子进程结束后再继续往下进行【通常用于进程间的同步">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/03/11/Python-is-hard/1.png">
-<meta property="og:updated_time" content="2019-03-11T03:06:54.217Z">
+<meta property="og:updated_time" content="2019-03-11T08:21:39.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="不会写Python">
 <meta name="twitter:description" content="我连python都不会写orz 都不会import tensorflow as tf，不会import torch。 我好菜啊  多进程 multiprocessing 提供了一个Process类来代表一个进程对象。在创建子进程的时候，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动。join()方法可以等待子进程结束后再继续往下进行【通常用于进程间的同步">
@@ -339,7 +339,66 @@
 <ol start="3">
 <li>Process之间需要通信，multiProcessing模块也提供了Queue，Pipes等来交换数据。比如对于Queue，可以两个子进程一个往Queue里面写数据，一个从Queue里面读数据。</li>
 </ol>
+<p><br></p>
 <h4 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h4><p>多线程用threading模块，感觉跟Process用法相似。多进程和多线程最大的不同在于多进程中对于同一个变量，各自有一份拷贝存在每个进程中，互不影响，而多线程中，所有变量都由所有的线程共享，所以任何一个变量都可以被任何一个线程修改。因此就要在改变变量的时候记得加锁。<br>python的GLI遗留问题导致了多线程并不能有效利用多核，要利用多核需要用多进程来实现。</p>
+<p><br></p>
+<h4 id="torchtext-—-专门用于解决NLP的预处理问题"><a href="#torchtext-—-专门用于解决NLP的预处理问题" class="headerlink" title="torchtext — 专门用于解决NLP的预处理问题"></a>torchtext — 专门用于解决NLP的预处理问题</h4><p>参考链接：<a href="https://blog.csdn.net/u012436149/article/details/79310176" target="_blank" rel="noopener">https://blog.csdn.net/u012436149/article/details/79310176</a></p>
+<p>NLP预处理基本的步骤为：</p>
+<ul>
+<li>从文件中读数据</li>
+<li>对文本数据分词</li>
+<li>给每个单词创建唯一的整数标识</li>
+<li>把文本转化为整数序列</li>
+<li>调整成模型框架需要的格式</li>
+<li>把所有序列pad成相同的长度，这样才能以batch形式处理</li>
+</ul>
+<p>torchtext.data.Field 用于说明对文本处理的方式，比如说是序列处理吗，要怎么分词呢，小写还是大写呢</p>
+<p>torchtext.data.TabularDataset.splits用于加载语料库 [TabularDataset支持csv，txt，json格式的文本]</p>
+<p>build_vocab用于构建语料库的vocab，并且加载进预训练好的embedding</p>
+<p>torchtext.data.Iterator.splits用于来建立一个iterator，可以用next()来不断调用batch data</p>
+<p>torchtext使用的是动态padding，batch内的句子会自动pad成batch内最长的句子长度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> spacy</span><br><span class="line"><span class="keyword">import</span> torchtext</span><br><span class="line">spacy_en = spacy.load(<span class="string">'en'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tokenizer</span><span class="params">(text)</span>:</span> <span class="comment"># create a tokenizer function</span></span><br><span class="line">    <span class="keyword">return</span> [tok.text <span class="keyword">for</span> tok <span class="keyword">in</span> spacy_en.tokenizer(text)]</span><br><span class="line"></span><br><span class="line">TEXT = data.Field(sequential=<span class="keyword">True</span>, tokenize=tokenizer, lower=<span class="keyword">True</span>)</span><br><span class="line">LABEL = data.Field(sequential=<span class="keyword">False</span>, use_vocab=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">train, val, test = data.TabularDataset.splits(</span><br><span class="line">        path=<span class="string">'./data/'</span>, train=<span class="string">'train.tsv'</span>,</span><br><span class="line">        validation=<span class="string">'val.tsv'</span>, test=<span class="string">'test.tsv'</span>, format=<span class="string">'tsv'</span>,</span><br><span class="line">        fields=[(<span class="string">'Text'</span>, TEXT), (<span class="string">'Label'</span>, LABEL)])</span><br><span class="line"></span><br><span class="line">TEXT.build_vocab(train, vectors=<span class="string">"glove.6B.100d"</span>)</span><br><span class="line"></span><br><span class="line">train_iter, val_iter, test_iter = data.Iterator.splits(</span><br><span class="line">        (train, val, test), sort_key=<span class="keyword">lambda</span> x: len(x.Text),</span><br><span class="line">        batch_sizes=(<span class="number">32</span>, <span class="number">256</span>, <span class="number">256</span>), device=<span class="number">-1</span>)  <span class="comment">#device=-1意味着是cpu，为0意味是gpu</span></span><br><span class="line"></span><br><span class="line">batch = next(iter(train_iter))</span><br><span class="line">print(<span class="string">"batch text: "</span>, batch.Text) <span class="comment"># 对应 Fileld 的 name</span></span><br><span class="line">print(<span class="string">"batch label: "</span>, batch.Label)</span><br><span class="line"></span><br><span class="line">vocab = TEXT.vocab</span><br><span class="line">self.embed = nn.Embedding(len(vocab), emb_dim)</span><br><span class="line">self.embed.weight.data.copy_(vocab.vectors)</span><br></pre></td></tr></table></figure>
+<p>Field对象包含的参数：</p>
+<blockquote>
+<p><strong>sequential: 是否把数据表示成序列，如果是False, 不能使用分词 默认值: True</strong>.</p>
+<p>use_vocab: 是否使用词典对象. 如果是False 数据的类型必须已经是数值类型. 默认值: True.</p>
+<p>init_token: 每一条数据的起始字符 默认值: None.</p>
+<p>eos_token: 每条数据的结尾字符 默认值: None.</p>
+<p>fix_length: 修改每条数据的长度为该值，不够的用pad_token补全. 默认值: None.</p>
+<p>tensor_type: 把数据转换成的tensor类型 默认值: torch.LongTensor.</p>
+<p>preprocessing:在分词之后和数值化之前使用的管道 默认值: None.</p>
+<p>postprocessing: 数值化之后和转化成tensor之前使用的管道默认值: None.</p>
+<p>lower: 是否把数据转化为小写 默认值: False.</p>
+<p><strong>tokenize: 分词函数. 默认值: str.split</strong>.</p>
+<p>include_lengths: 是否返回一个已经补全的最小batch的元组和和一个包含每条数据长度的列表 . 默认值: False.</p>
+<p>batch_first: Whether to produce tensors with the batch dimension first. 默认值: False.</p>
+<p>pad_token: 用于补全的字符. 默认值: “<pad>“.</pad></p>
+<p>unk_token: 不存在词典里的字符. 默认值: “<unk>“.</unk></p>
+<p>pad_first: 是否补全第一个字符. 默认值: False.</p>
+</blockquote>
+<p>Field对象包含的重点方法：</p>
+<blockquote>
+<p>pad(minibatch): 在一个batch对齐每条数据</p>
+<p>build_vocab(): 建立词典</p>
+<p>numericalize(): 把文本数据数值化，返回tensor</p>
+</blockquote>
+<p>iterator是torchtext对模型的输出，它提供了我们对数据的一般处理方式，比如打乱，排序，等等，可以动态修改batch大小，这里也有splits方法 可以同时输出训练集，验证集，测试集。他包含的参数有：</p>
+<blockquote>
+<p>dataset: 加载的数据集</p>
+<p>batch_size: Batch 大小.</p>
+<p>batch_size_fn: 产生动态的batch大小 的函数</p>
+<p>sort_key: 排序的key</p>
+<p>train: 是否是一个训练集，默认true</p>
+<p>repeat: 是否在不同epoch中重复迭代, 默认False</p>
+<p>shuffle: 是否打乱数据，默认None</p>
+<p>sort: 是否对数据进行排序</p>
+<p>sort_within_batch: batch内部是否排序</p>
+<p>device: 建立batch的设备 -1:CPU ；0,1 …：对应的GPU</p>
+</blockquote>
+<p>torchtext还提供了一些现成的dataset，可以直接调用，比如</p>
+<blockquote>
+<p>train,val,test = datasets.WikiText2.splits(text_field=TEXT)</p>
+</blockquote>
 
       
     </div>
@@ -498,7 +557,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#多进程"><span class="nav-number">1.</span> <span class="nav-text">多进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多线程"><span class="nav-number">2.</span> <span class="nav-text">多线程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#多进程"><span class="nav-number">1.</span> <span class="nav-text">多进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多线程"><span class="nav-number">2.</span> <span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torchtext-—-专门用于解决NLP的预处理问题"><span class="nav-number">3.</span> <span class="nav-text">torchtext — 专门用于解决NLP的预处理问题</span></a></li></ol></div>
             
 
           </div>
