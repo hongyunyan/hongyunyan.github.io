@@ -87,7 +87,7 @@
 <meta property="og:description" content="我连python都不会写orz 都不会import tensorflow as tf，不会import torch。 我好菜啊  多进程 multiprocessing 提供了一个Process类来代表一个进程对象。在创建子进程的时候，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动。join()方法可以等待子进程结束后再继续往下进行【通常用于进程间的同步">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/03/11/Python-is-hard/1.png">
-<meta property="og:updated_time" content="2019-03-11T08:21:39.885Z">
+<meta property="og:updated_time" content="2019-03-11T10:50:39.415Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="不会写Python">
 <meta name="twitter:description" content="我连python都不会写orz 都不会import tensorflow as tf，不会import torch。 我好菜啊  多进程 multiprocessing 提供了一个Process类来代表一个进程对象。在创建子进程的时候，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动。join()方法可以等待子进程结束后再继续往下进行【通常用于进程间的同步">
@@ -338,6 +338,12 @@
 <p><img src="/2019/03/11/Python-is-hard/1.png" width="80%"></p>
 <ol start="3">
 <li>Process之间需要通信，multiProcessing模块也提供了Queue，Pipes等来交换数据。比如对于Queue，可以两个子进程一个往Queue里面写数据，一个从Queue里面读数据。</li>
+<li>multiprocessing 支持三种启动流程，分别为’spawn’, ‘fork’, ‘forkserver’<ul>
+<li>spawn： 由父进程启动一个新的Python解释器，子进程只继承run()方法所需的资源。不继承父进程不必要的其他内容。相对而言此方法启动进程相当慢。</li>
+<li>fork：分叉解释器，子进程开始的时候，和父进程实际上是相同的，父进程的所有资源都由子进程继承，这不能保证多线程的安全问题。</li>
+<li>forkserver：启动的是服务器进程，从此每次需要新进程时，父进程连接到服务器，请求分一个新进程，并且服务器的小县城也是单线程，没有不必要的资源被继承</li>
+</ul>
+</li>
 </ol>
 <p><br></p>
 <h4 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h4><p>多线程用threading模块，感觉跟Process用法相似。多进程和多线程最大的不同在于多进程中对于同一个变量，各自有一份拷贝存在每个进程中，互不影响，而多线程中，所有变量都由所有的线程共享，所以任何一个变量都可以被任何一个线程修改。因此就要在改变变量的时候记得加锁。<br>python的GLI遗留问题导致了多线程并不能有效利用多核，要利用多核需要用多进程来实现。</p>
