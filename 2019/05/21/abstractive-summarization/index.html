@@ -88,7 +88,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/2.png">
-<meta property="og:updated_time" content="2019-05-22T08:30:22.954Z">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/3.png">
+<meta property="og:updated_time" content="2019-05-24T06:40:59.501Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新一轮Summarization以及相关扫文工作">
 <meta name="twitter:description" content="A Robust Abstractive System for Cross-Lingual Summarization 文章地址：http://www.cs.columbia.edu/~ouyangj/OuyangSongMcKeown2019.pdf Columbia University NAACL 2019  文章主要的任务是指面对一个小语种的文本时，我如何生成一个大语种的摘要。在面对跨语种">
@@ -350,7 +351,24 @@
 </ul>
 <p>文章做的是一个无监督的文本摘要（也就是文本压缩），利用的是一个类似Autoencoder的结构，前面一部分是对文本的压缩，后一部分是根据摘要结果对文本进行重建。然后计算的方式都是Seq2Seq的结构。计算的loss一个是输入文本和重建文本的diff，一个是topic的diff（原文本和压缩后的文本，用TF-IDF计算),摘要和language model的KL分布diff，长度diff四个部分。</p>
 <p><img src="/2019/05/21/abstractive-summarization/2.png" width="60%" height="80%"></p>
-<h3 id=""><a href="#" class="headerlink" title=","></a>,</h3>
+<p><br></p>
+<h3 id="BI-DIRECTIONAL-ATTENTION-FLOW-FOR-MACHINE-COMPREHENSION"><a href="#BI-DIRECTIONAL-ATTENTION-FLOW-FOR-MACHINE-COMPREHENSION" class="headerlink" title="BI-DIRECTIONAL ATTENTION FLOW FOR MACHINE COMPREHENSION"></a>BI-DIRECTIONAL ATTENTION FLOW FOR MACHINE COMPREHENSION</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1611.01603.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1611.01603.pdf</a></li>
+</ul>
+<ul>
+<li>Allen Institute for Artificial Intelligence,Washington</li>
+<li>ICLR，2017</li>
+</ul>
+<p>文章主要的任务是通过阅读理解来回答question。也就是说给定一个文本，再给一个问题，让系统学习回答正确的答案。</p>
+<p>模型一共分为6层，如图所示：</p>
+<p><img src="/2019/05/21/abstractive-summarization/3.png" width="100%" height="80%"></p>
+<p>最下面三层主要的工作就是一个embedding的工作，一层是character embedding层，用字符级的CNN，CNN在整个宽度上max-pooling。另一层是一个word embedding层，用Glove预训练的词向量。然后这两个输入拼接起来输入Highway Network得到对应的context vector X(d,T)和query vector Q(d,J)。然后根据得到的vector通过bi-LSTM，获得对应的输出，H(2d, T), U(2d, J)。通过这样的编码操作，我们已经可以得到context和query整合了不同层次的表征信息。</p>
+<p>下一层是Attention Flow Layer，输入是上层得到的H和U，输出是具有问题感知的上下文表征G。在这层中我们是要计算两个方向的attention : context to query 以及query to context。首先我们要先计算一个这两个attention都要用到的一个相似矩阵。$S_{tj} = \alpha (H_{:t}, U_{:j})$ 。其中$S_{tj}$表明的是第t个上下文中的单词和第j个query中的单词的相似度，其中$\alpha(h,u) = W_S^T[h;u;h \circ u]$。</p>
+<p>Context-to-query Attention(C2Q)计算的是对每一个 context word 而言哪些 query words 和它最相关，所以$a_t = softmax(S_{t:})$, $\tilde{U_{:t}} = \sum_j a_{tj}U_{:j}$, 所以$\tilde{U}$是一个2d*T的矩阵，一个全新的问题编码。</p>
+<p>Query-to-context Attention(Q2C)计算的是对每一个 query word 而言哪些 context words 和它最相关,因此这些单词就和答案有很大的关系。所以直接取了S矩阵中最大的那列（也就是那个单词对我们query的相似性最大）$b=softmax(max_{col}(S))$, $\tilde{h} = \sum_t b_t H_{:t}$,然后重复T次得到$\tilde{H}$,也是2d*T。</p>
+<p>随后我们将这两个新编码经过一个MLP函数\beta的计算得到G， $G_{:t} = \beta(H_{:t}, \tilde{U_{:t}}, \tilde{H_{:t}})$, $\beta(h, \tilde{u}, \tilde{h}) = [h;\tilde{u}; h \circ \tilde{u}; h \circ \tilde{h}]$。（8d*T） </p>
+<p>G通过一个BiLSTM得到M（2d*T），来捕获矩阵在时序上的依赖关系。最后的output层就是输出起始位置和结束为止的概率分布。$p^1 = softmax(W^T_{p1}[G;M])$, $p^2 = softmax(W^T_{p2}[G;M])$，损失函数是$L(\Theta ) = -1/N \sum_i^N[log(p1_{y1}) + log(p2_{y2})]。</p>
+
       
     </div>
     
@@ -508,7 +526,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Robust-Abstractive-System-for-Cross-Lingual-Summarization"><span class="nav-number">1.</span> <span class="nav-text">A Robust Abstractive System for Cross-Lingual Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstractive-Summarization-of-Reddit-Posts-with-Multi-level-Memory-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Summarization of Reddit Posts with Multi-level Memory Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SEQ3-Differentiable-Sequence-to-Sequence-to-Sequence-Autoencoder-for-Unsupervised-Abstractive-Sentence-Compression"><span class="nav-number">3.</span> <span class="nav-text">SEQ3: Differentiable Sequence-to-Sequence-to-Sequence Autoencoder for Unsupervised Abstractive Sentence Compression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text">,</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Robust-Abstractive-System-for-Cross-Lingual-Summarization"><span class="nav-number">1.</span> <span class="nav-text">A Robust Abstractive System for Cross-Lingual Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstractive-Summarization-of-Reddit-Posts-with-Multi-level-Memory-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Summarization of Reddit Posts with Multi-level Memory Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SEQ3-Differentiable-Sequence-to-Sequence-to-Sequence-Autoencoder-for-Unsupervised-Abstractive-Sentence-Compression"><span class="nav-number">3.</span> <span class="nav-text">SEQ3: Differentiable Sequence-to-Sequence-to-Sequence Autoencoder for Unsupervised Abstractive Sentence Compression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BI-DIRECTIONAL-ATTENTION-FLOW-FOR-MACHINE-COMPREHENSION"><span class="nav-number">4.</span> <span class="nav-text">BI-DIRECTIONAL ATTENTION FLOW FOR MACHINE COMPREHENSION</span></a></li></ol></div>
             
 
           </div>
