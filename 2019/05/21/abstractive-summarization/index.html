@@ -89,7 +89,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/2.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/3.png">
-<meta property="og:updated_time" content="2019-05-24T06:40:59.501Z">
+<meta property="og:updated_time" content="2019-05-24T06:44:26.998Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新一轮Summarization以及相关扫文工作">
 <meta name="twitter:description" content="A Robust Abstractive System for Cross-Lingual Summarization 文章地址：http://www.cs.columbia.edu/~ouyangj/OuyangSongMcKeown2019.pdf Columbia University NAACL 2019  文章主要的任务是指面对一个小语种的文本时，我如何生成一个大语种的摘要。在面对跨语种">
@@ -367,7 +367,8 @@
 <p>Context-to-query Attention(C2Q)计算的是对每一个 context word 而言哪些 query words 和它最相关，所以$a_t = softmax(S_{t:})$, $\tilde{U_{:t}} = \sum_j a_{tj}U_{:j}$, 所以$\tilde{U}$是一个2d*T的矩阵，一个全新的问题编码。</p>
 <p>Query-to-context Attention(Q2C)计算的是对每一个 query word 而言哪些 context words 和它最相关,因此这些单词就和答案有很大的关系。所以直接取了S矩阵中最大的那列（也就是那个单词对我们query的相似性最大）$b=softmax(max_{col}(S))$, $\tilde{h} = \sum_t b_t H_{:t}$,然后重复T次得到$\tilde{H}$,也是2d*T。</p>
 <p>随后我们将这两个新编码经过一个MLP函数\beta的计算得到G， $G_{:t} = \beta(H_{:t}, \tilde{U_{:t}}, \tilde{H_{:t}})$, $\beta(h, \tilde{u}, \tilde{h}) = [h;\tilde{u}; h \circ \tilde{u}; h \circ \tilde{h}]$。（8d*T） </p>
-<p>G通过一个BiLSTM得到M（2d*T），来捕获矩阵在时序上的依赖关系。最后的output层就是输出起始位置和结束为止的概率分布。$p^1 = softmax(W^T_{p1}[G;M])$, $p^2 = softmax(W^T_{p2}[G;M])$，损失函数是$L(\Theta ) = -1/N \sum_i^N[log(p1_{y1}) + log(p2_{y2})]。</p>
+<p>G通过一个BiLSTM得到M（2d*T），来捕获矩阵在时序上的依赖关系。最后的output层就是输出起始位置和结束为止的概率分布。$p^1 = softmax(W^T_{p1}[G;M])$, $p^2 = softmax(W^T_{p2}[G;M])$，损失函数是$L(\Theta ) = -1/N \sum_i^N[log(p1_{y1}) + log(p2_{y2})]$。</p>
+<p>整体而言，文章的亮点是那个双向的attention思想，btw也是我第一次见到word embedding和char embedding组合的方式。</p>
 
       
     </div>
