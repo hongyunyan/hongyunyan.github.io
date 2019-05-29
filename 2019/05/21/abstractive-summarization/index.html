@@ -89,7 +89,15 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/2.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/3.png">
-<meta property="og:updated_time" content="2019-05-24T06:44:26.998Z">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/11.png">
+<meta property="og:updated_time" content="2019-05-29T06:54:19.878Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新一轮Summarization以及相关扫文工作">
 <meta name="twitter:description" content="A Robust Abstractive System for Cross-Lingual Summarization 文章地址：http://www.cs.columbia.edu/~ouyangj/OuyangSongMcKeown2019.pdf Columbia University NAACL 2019  文章主要的任务是指面对一个小语种的文本时，我如何生成一个大语种的摘要。在面对跨语种">
@@ -369,6 +377,64 @@
 <p>随后我们将这两个新编码经过一个MLP函数\beta的计算得到G， $G_{:t} = \beta(H_{:t}, \tilde{U_{:t}}, \tilde{H_{:t}})$, $\beta(h, \tilde{u}, \tilde{h}) = [h;\tilde{u}; h \circ \tilde{u}; h \circ \tilde{h}]$。（8d*T） </p>
 <p>G通过一个BiLSTM得到M（2d*T），来捕获矩阵在时序上的依赖关系。最后的output层就是输出起始位置和结束为止的概率分布。$p^1 = softmax(W^T_{p1}[G;M])$, $p^2 = softmax(W^T_{p2}[G;M])$，损失函数是$L(\Theta ) = -1/N \sum_i^N[log(p1_{y1}) + log(p2_{y2})]$。</p>
 <p>整体而言，文章的亮点是那个双向的attention思想，btw也是我第一次见到word embedding和char embedding组合的方式。</p>
+<p><br></p>
+<h3 id="Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models"><a href="#Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models" class="headerlink" title="Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models"></a>Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1604.00788.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1604.00788.pdf</a></li>
+<li>Stanford， Christopher D. Manning</li>
+<li>ACL 2016</li>
+</ul>
+<p>文章的主要观点就是提出了下面这个模型，也就是说在输入或输出word层为unk的地方，加入一个char层进行embedding和decoder。这样来解决char层又慢又容易出现错误单词，word层有unk出现的问题。</p>
+<p><img src="/2019/05/21/abstractive-summarization/4.png" width="50%" height="80%"></p>
+<p>对于在char层的输入的states，作者提出，因为原先word层用于softmax的h‘，因为都是生成了unk，有很大概率比较相近，很容易产生相同的char，所以作者提出利用context c和hidden states单独训练用于char层输入的h’‘。整体格式和训练h’相同，只是是不同的W而已。</p>
+<p><br></p>
+<h3 id="Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation"><a href="#Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation" class="headerlink" title="Fully Character-Level Neural Machine Translation without Explicit Segmentation"></a>Fully Character-Level Neural Machine Translation without Explicit Segmentation</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1610.03017.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1610.03017.pdf</a></li>
+<li>ETH Zu ̈rich</li>
+<li>2017 【 这篇看的比较简略，和A Character-Level Decoder without Explicit Segmentation<br>for Neural Machine Translation是一波人写的，想法基本一致的】</li>
+</ul>
+<p>文章利用完全的char层进行NMT工作，这个图就是对输入信息的encoder方式，用CNN+highway network等进行encoder。decoder用的是<a href="https://arxiv.org/pdf/1603.06147.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1603.06147.pdf</a>这篇文章中的。</p>
+<p><img src="/2019/05/21/abstractive-summarization/5.png" width="100%" height="80%"></p>
+<p><br></p>
+<h3 id="HL-EncDec-A-Hybrid-Level-Encoder-Decoder-for-Neural-Response-Generation"><a href="#HL-EncDec-A-Hybrid-Level-Encoder-Decoder-for-Neural-Response-Generation" class="headerlink" title="HL-EncDec: A Hybrid-Level Encoder-Decoder for Neural Response Generation"></a>HL-EncDec: A Hybrid-Level Encoder-Decoder for Neural Response Generation</h3><ul>
+<li>文章地址：<a href="https://www.aclweb.org/anthology/C18-1072" target="_blank" rel="noopener">https://www.aclweb.org/anthology/C18-1072</a></li>
+<li>北京大学</li>
+<li>ACL 2018</li>
+</ul>
+<p>用word层和char层一起生成语句回复。做的是中文的数据。用下图结构生成word 的embedding。用charCNN生成的embedding和word 本身的embedding相加，作为encoder结果。decoder就是要么生成word，要么就生成char，来避免oov。</p>
+<p><img src="/2019/05/21/abstractive-summarization/6.png" width="80%" height="80%"></p>
+<p><br></p>
+<h3 id="HIBERT-Document-Level-Pre-training-of-Hierarchical-Bidirectional-Transformers-for-Document-Summarization"><a href="#HIBERT-Document-Level-Pre-training-of-Hierarchical-Bidirectional-Transformers-for-Document-Summarization" class="headerlink" title="HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization"></a>HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1905.06566.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1905.06566.pdf</a></li>
+<li>MSRA，Beijing</li>
+<li>ACL 2019</li>
+</ul>
+<p>文章提出用双层的transformer来进行extractive summarization。双层也就是句子层和单词层。首先对模型先进行预训练。传统的预训练如ELMO，BERT都是预测单词进行训练，但是文章提出的是预测对应的句子。也就是说，对于一个文本n句话，随机选择15%的句子进行mask处理【处理中90%情况，直接用MASK token代替被选中的句子中的每个word，另10%情况是用另一句话来代替被选中的那句话】。然后我们的模型对mask的句子进行预测句子中的每个单词，来使得NLL最小化。生成单词的方式是结合句子中目前已经生成的单词和句子层的句子vector用transformer来对单词进行一个概率分布。</p>
+<p><img src="/2019/05/21/abstractive-summarization/7.png" width="60%"></p>
+<p>对于正式模型进行extractive summarization时，是对每个句子判断他对应的label，是被选取还是不被选取。</p>
+<p>真实预训练时候，模型先对一个GIGA-CM(Gigaword+CnnDm组合的)数据集进行大量的预训练，再用CNNDM进行小部分的预训练，然后用CNNDM进行summarizaitin的fine tuning。</p>
+<p><img src="/2019/05/21/abstractive-summarization/8.png" width="60%"></p>
+<p><br></p>
+<h3 id="Bottom-Up-Abstractive-Summarization"><a href="#Bottom-Up-Abstractive-Summarization" class="headerlink" title="Bottom-Up Abstractive Summarization"></a>Bottom-Up Abstractive Summarization</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1808.10792.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1808.10792.pdf</a></li>
+<li>Harvard University</li>
+</ul>
+<ul>
+<li>EMNLP 2018</li>
+</ul>
+<p>文章最主要的思想就是一个：在使用pointer network的情况下，出现的摘要有很大的概率直接copy了原文中很长的一句话到summary中，但是在真实的summary中，很少出现长句子的copy。因此我对source article选择了部分词语被mask，被mask的这些单词就不能被选中copy到生成的summary中，这样就阻止了很长的句子直接被copy。</p>
+<p>个人感觉：这个选择mask的单词没有一个标准答案啊，这很难训练吧？</p>
+<p><br></p>
+<h3 id="A-Unified-Model-for-Extractive-and-Abstractive-Summarization-using-Inconsistency-Loss"><a href="#A-Unified-Model-for-Extractive-and-Abstractive-Summarization-using-Inconsistency-Loss" class="headerlink" title="A Unified Model for Extractive and Abstractive Summarization using Inconsistency Loss"></a>A Unified Model for Extractive and Abstractive Summarization using Inconsistency Loss</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1805.06266.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1805.06266.pdf</a></li>
+<li>National Tsing Hua University</li>
+<li>ACL 2018</li>
+</ul>
+<p>文章使用的是extractive和abstractive结合的摘要生成方法。他主要的思想是extractive部分获得每个句子不同的重要程度，作为句子层的attention weight，然后用句子层的attention weight去影响单词层的attention weight，获得updated 的attention weight。如下图所示。这样的思想主要是如果句子attention比较小的句子中的词语的attention值应该也比较小，就是比较不应该被生成。</p>
+<p><img src="/2019/05/21/abstractive-summarization/9.png" width="40%"></p>
+<p>然后对于loss的计算，分为四个部分，一个部分是选了pointer generator中的converage loss，一个是abstractive 部分的最后生成的每个单词的概率分布的loss计算，一个是extractor部分计算的attention weight的loss。就是作者会根据原文和参考摘要用rouge L计算每个句子的重要程度，来决定这个句子是不是应该被选中，选中则$g_n=1$,作为一个groud truth去计算extractor部分的loss。</p>
+<p><img src="/2019/05/21/abstractive-summarization/10.png" width="50%"></p>
+<p>最后一个loss部分是去计算word 的attention和sentence 的attention是不是一致的，也就是说希望word attention大的单词对应的句子的sentence attention也是比较大的。这边是每个decoder步选topk个attention高的word来计算。</p>
+<p><img src="/2019/05/21/abstractive-summarization/11.png" width="50%"></p>
 
       
     </div>
@@ -527,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Robust-Abstractive-System-for-Cross-Lingual-Summarization"><span class="nav-number">1.</span> <span class="nav-text">A Robust Abstractive System for Cross-Lingual Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstractive-Summarization-of-Reddit-Posts-with-Multi-level-Memory-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Summarization of Reddit Posts with Multi-level Memory Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SEQ3-Differentiable-Sequence-to-Sequence-to-Sequence-Autoencoder-for-Unsupervised-Abstractive-Sentence-Compression"><span class="nav-number">3.</span> <span class="nav-text">SEQ3: Differentiable Sequence-to-Sequence-to-Sequence Autoencoder for Unsupervised Abstractive Sentence Compression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BI-DIRECTIONAL-ATTENTION-FLOW-FOR-MACHINE-COMPREHENSION"><span class="nav-number">4.</span> <span class="nav-text">BI-DIRECTIONAL ATTENTION FLOW FOR MACHINE COMPREHENSION</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Robust-Abstractive-System-for-Cross-Lingual-Summarization"><span class="nav-number">1.</span> <span class="nav-text">A Robust Abstractive System for Cross-Lingual Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstractive-Summarization-of-Reddit-Posts-with-Multi-level-Memory-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Summarization of Reddit Posts with Multi-level Memory Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SEQ3-Differentiable-Sequence-to-Sequence-to-Sequence-Autoencoder-for-Unsupervised-Abstractive-Sentence-Compression"><span class="nav-number">3.</span> <span class="nav-text">SEQ3: Differentiable Sequence-to-Sequence-to-Sequence Autoencoder for Unsupervised Abstractive Sentence Compression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BI-DIRECTIONAL-ATTENTION-FLOW-FOR-MACHINE-COMPREHENSION"><span class="nav-number">4.</span> <span class="nav-text">BI-DIRECTIONAL ATTENTION FLOW FOR MACHINE COMPREHENSION</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models"><span class="nav-number">5.</span> <span class="nav-text">Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation"><span class="nav-number">6.</span> <span class="nav-text">Fully Character-Level Neural Machine Translation without Explicit Segmentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HL-EncDec-A-Hybrid-Level-Encoder-Decoder-for-Neural-Response-Generation"><span class="nav-number">7.</span> <span class="nav-text">HL-EncDec: A Hybrid-Level Encoder-Decoder for Neural Response Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HIBERT-Document-Level-Pre-training-of-Hierarchical-Bidirectional-Transformers-for-Document-Summarization"><span class="nav-number">8.</span> <span class="nav-text">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bottom-Up-Abstractive-Summarization"><span class="nav-number">9.</span> <span class="nav-text">Bottom-Up Abstractive Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Unified-Model-for-Extractive-and-Abstractive-Summarization-using-Inconsistency-Loss"><span class="nav-number">10.</span> <span class="nav-text">A Unified Model for Extractive and Abstractive Summarization using Inconsistency Loss</span></a></li></ol></div>
             
 
           </div>
