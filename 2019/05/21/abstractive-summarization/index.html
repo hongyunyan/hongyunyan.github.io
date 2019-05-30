@@ -97,7 +97,10 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/9.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/10.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/11.png">
-<meta property="og:updated_time" content="2019-05-29T06:54:19.878Z">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/abstractive-summarization/14.png">
+<meta property="og:updated_time" content="2019-05-30T12:32:03.984Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新一轮Summarization以及相关扫文工作">
 <meta name="twitter:description" content="A Robust Abstractive System for Cross-Lingual Summarization 文章地址：http://www.cs.columbia.edu/~ouyangj/OuyangSongMcKeown2019.pdf Columbia University NAACL 2019  文章主要的任务是指面对一个小语种的文本时，我如何生成一个大语种的摘要。在面对跨语种">
@@ -435,6 +438,56 @@
 <p><img src="/2019/05/21/abstractive-summarization/10.png" width="50%"></p>
 <p>最后一个loss部分是去计算word 的attention和sentence 的attention是不是一致的，也就是说希望word attention大的单词对应的句子的sentence attention也是比较大的。这边是每个decoder步选topk个attention高的word来计算。</p>
 <p><img src="/2019/05/21/abstractive-summarization/11.png" width="50%"></p>
+<p><br></p>
+<h3 id="A-Discourse-Aware-Attention-Model-for-Abstractive-Summarization-of-Long-Documents"><a href="#A-Discourse-Aware-Attention-Model-for-Abstractive-Summarization-of-Long-Documents" class="headerlink" title="A Discourse-Aware Attention Model for Abstractive Summarization of Long Documents"></a>A Discourse-Aware Attention Model for Abstractive Summarization of Long Documents</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1804.05685.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1804.05685.pdf</a></li>
+<li>Adobe Research</li>
+<li>NAACL 2018</li>
+</ul>
+<p>文章的摘要对象是科研论文，如在arxiv上的论文。感觉模型整体 不是很有创意，就是一个章节层，一个词语层，算attention的时候，不仅要算word的attention，还要算跟section的attention，并且运用了copynet的想法去解决oov问题。</p>
+<p><br></p>
+<h3 id="MASS-Masked-Sequence-to-Sequence-Pre-training-for-Language-Generation"><a href="#MASS-Masked-Sequence-to-Sequence-Pre-training-for-Language-Generation" class="headerlink" title="MASS: Masked Sequence to Sequence Pre-training for Language Generation"></a>MASS: Masked Sequence to Sequence Pre-training for Language Generation</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1905.02450.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1905.02450.pdf</a></li>
+</ul>
+<ul>
+<li>MSRA</li>
+<li>ICML 2019</li>
+</ul>
+<p>文章提出是一个用于seq2seq模型的masked预训练模型，用于进行language generation。如BERT这些模型，其实等于只是预训练了一个encoder或者一个decoder，如果要用在seq2seq上，则要两个单独训练，效果并不好。因此这边提出了用一个encoder decoder的结构的进行预训练，然后用于language generation。</p>
+<p><img src="/2019/05/21/abstractive-summarization/12.png" width="80%"></p>
+<p>在输入中mask掉长度为k的单词，然后再decoder中生成这些被mask的词语，并且在decoder中没有mask的词语并不会有对应的input信息进行提示，这样来帮助整个encoder，decoder模型更好的被pretrain。然后长度为k的k在训练中是取不同值来进行不同性质的训练的。</p>
+<p>问题：如何fine tune？我感觉是直接fine tune啊？？</p>
+<p><br></p>
+<h3 id="GRAPH2SEQ-GRAPH-TO-SEQUENCE-LEARNING-WITH-ATTENTION-BASED-NEURAL-NETWORKS"><a href="#GRAPH2SEQ-GRAPH-TO-SEQUENCE-LEARNING-WITH-ATTENTION-BASED-NEURAL-NETWORKS" class="headerlink" title="GRAPH2SEQ: GRAPH TO SEQUENCE LEARNING WITH ATTENTION-BASED NEURAL NETWORKS"></a>GRAPH2SEQ: GRAPH TO SEQUENCE LEARNING WITH ATTENTION-BASED NEURAL NETWORKS</h3><ul>
+<li>文章地址：<a href="https://arxiv.org/pdf/1804.00823.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1804.00823.pdf</a></li>
+<li>IBM</li>
+<li>arxiv，2018</li>
+</ul>
+<p>文章提出用图-序列的Graph2Seq模型来处理对应的具有明显结构性的任务。下图为整个模型的结构图，首先我们先要计算每个node的embedding，计算方式为：</p>
+<ul>
+<li>先初始化每个节点，根据节点原本的信息，比如map到matrix计算啊，或者本身经过LSTM等。</li>
+<li>然后在有向图中一个节点分为前向节点和后向节点，每一轮，分别更新所有节点，更新方法是把这个节点相关的节点信息结合起来（结合的方法有直接取平均，或随机排列后输入LSTM，或各自经过前向神经网络，然后maxpooling。</li>
+<li>迭代k轮以后，把前向和后向节点concat得到node embedding。</li>
+</ul>
+<p>然后我们根据node embedding获得graph embedding，graph embedding也有两个方法，一个是经过fully connecetd layer然后max pooling获得对应的表示；另一个就是加一个附加节点，然后链接所有节点，获取对应的表示。</p>
+<p>获得对应的graph embedding后，我们可以来decoder了。在decoder的时候我们也会进行attention计算，每个隐藏层状态和node embedding求attention weight获取对应的context vector，作为attention相关表示，帮助decoder。</p>
+<p>对应的实验是进行了三个：</p>
+<ul>
+<li>bAbI任务：一个简单推理任务</li>
+<li>最短路径任务：输入为一个有向图，一个开始节点与一个结束节点，输出为连接开始节点与结束节点的路径（使用节点序列进行表示）。</li>
+<li>自然语言生成任务：输入为SQL语句，输出为相应的文本。</li>
+</ul>
+<p><img src="/2019/05/21/abstractive-summarization/13.png" width="90%"></p>
+<p><br></p>
+<h3 id="Tree-to-Sequence-Attentional-Neural-Machine-Translation"><a href="#Tree-to-Sequence-Attentional-Neural-Machine-Translation" class="headerlink" title="Tree-to-Sequence Attentional Neural Machine Translation"></a>Tree-to-Sequence Attentional Neural Machine Translation</h3><ul>
+<li>文章地址：<a href="https://www.aclweb.org/anthology/P16-1078" target="_blank" rel="noopener">https://www.aclweb.org/anthology/P16-1078</a></li>
+<li>The University of Tokyo</li>
+<li>ACL 2016</li>
+</ul>
+<p>文章提出encoder部分不仅有 Sequential Encoder还要有Tree-based Encoder，用于学习输入文本的结构信息。Tree-based Encoder可以理解为一个二叉树结构，用tree-LSTM进行一层层的计算。在decoder的时候也是利用两个 encoder的信息，也用两个encoder来做attention处理。</p>
+<p><img src="/2019/05/21/abstractive-summarization/14.png" width="60%"></p>
+<p>然后他decoder中最后softmax步骤用的是blackout的方式【BLACKOUT: SPEEDING UP RECURRENT NEURAL NET- WORK LANGUAGE MODELS WITH VERY LARGE VO- CABULARIES，ICLR2016】大概思想就是取k个词语来代替分母中对所有词语的概率计算加和。—论文还论述了这个方法和优化softmax的另两个方法NOISE CONTRASTIVE ESTIMATION和IMPORTANCE SAMPLING的区别，但是这两个神仙方法我不是很看懂了，只感觉第一个的区别在与和本方法中k取值概率分布的差距，第二个感觉思路就是不同的啊，使用一部分的概率分布来作为全部的分布？？？？带讨论哎</p>
+<p>​    </p>
 
       
     </div>
@@ -593,7 +646,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Robust-Abstractive-System-for-Cross-Lingual-Summarization"><span class="nav-number">1.</span> <span class="nav-text">A Robust Abstractive System for Cross-Lingual Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstractive-Summarization-of-Reddit-Posts-with-Multi-level-Memory-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Summarization of Reddit Posts with Multi-level Memory Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SEQ3-Differentiable-Sequence-to-Sequence-to-Sequence-Autoencoder-for-Unsupervised-Abstractive-Sentence-Compression"><span class="nav-number">3.</span> <span class="nav-text">SEQ3: Differentiable Sequence-to-Sequence-to-Sequence Autoencoder for Unsupervised Abstractive Sentence Compression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BI-DIRECTIONAL-ATTENTION-FLOW-FOR-MACHINE-COMPREHENSION"><span class="nav-number">4.</span> <span class="nav-text">BI-DIRECTIONAL ATTENTION FLOW FOR MACHINE COMPREHENSION</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models"><span class="nav-number">5.</span> <span class="nav-text">Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation"><span class="nav-number">6.</span> <span class="nav-text">Fully Character-Level Neural Machine Translation without Explicit Segmentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HL-EncDec-A-Hybrid-Level-Encoder-Decoder-for-Neural-Response-Generation"><span class="nav-number">7.</span> <span class="nav-text">HL-EncDec: A Hybrid-Level Encoder-Decoder for Neural Response Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HIBERT-Document-Level-Pre-training-of-Hierarchical-Bidirectional-Transformers-for-Document-Summarization"><span class="nav-number">8.</span> <span class="nav-text">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bottom-Up-Abstractive-Summarization"><span class="nav-number">9.</span> <span class="nav-text">Bottom-Up Abstractive Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Unified-Model-for-Extractive-and-Abstractive-Summarization-using-Inconsistency-Loss"><span class="nav-number">10.</span> <span class="nav-text">A Unified Model for Extractive and Abstractive Summarization using Inconsistency Loss</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Robust-Abstractive-System-for-Cross-Lingual-Summarization"><span class="nav-number">1.</span> <span class="nav-text">A Robust Abstractive System for Cross-Lingual Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstractive-Summarization-of-Reddit-Posts-with-Multi-level-Memory-Networks"><span class="nav-number">2.</span> <span class="nav-text">Abstractive Summarization of Reddit Posts with Multi-level Memory Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SEQ3-Differentiable-Sequence-to-Sequence-to-Sequence-Autoencoder-for-Unsupervised-Abstractive-Sentence-Compression"><span class="nav-number">3.</span> <span class="nav-text">SEQ3: Differentiable Sequence-to-Sequence-to-Sequence Autoencoder for Unsupervised Abstractive Sentence Compression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BI-DIRECTIONAL-ATTENTION-FLOW-FOR-MACHINE-COMPREHENSION"><span class="nav-number">4.</span> <span class="nav-text">BI-DIRECTIONAL ATTENTION FLOW FOR MACHINE COMPREHENSION</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models"><span class="nav-number">5.</span> <span class="nav-text">Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation"><span class="nav-number">6.</span> <span class="nav-text">Fully Character-Level Neural Machine Translation without Explicit Segmentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HL-EncDec-A-Hybrid-Level-Encoder-Decoder-for-Neural-Response-Generation"><span class="nav-number">7.</span> <span class="nav-text">HL-EncDec: A Hybrid-Level Encoder-Decoder for Neural Response Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HIBERT-Document-Level-Pre-training-of-Hierarchical-Bidirectional-Transformers-for-Document-Summarization"><span class="nav-number">8.</span> <span class="nav-text">HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bottom-Up-Abstractive-Summarization"><span class="nav-number">9.</span> <span class="nav-text">Bottom-Up Abstractive Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Unified-Model-for-Extractive-and-Abstractive-Summarization-using-Inconsistency-Loss"><span class="nav-number">10.</span> <span class="nav-text">A Unified Model for Extractive and Abstractive Summarization using Inconsistency Loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Discourse-Aware-Attention-Model-for-Abstractive-Summarization-of-Long-Documents"><span class="nav-number">11.</span> <span class="nav-text">A Discourse-Aware Attention Model for Abstractive Summarization of Long Documents</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MASS-Masked-Sequence-to-Sequence-Pre-training-for-Language-Generation"><span class="nav-number">12.</span> <span class="nav-text">MASS: Masked Sequence to Sequence Pre-training for Language Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GRAPH2SEQ-GRAPH-TO-SEQUENCE-LEARNING-WITH-ATTENTION-BASED-NEURAL-NETWORKS"><span class="nav-number">13.</span> <span class="nav-text">GRAPH2SEQ: GRAPH TO SEQUENCE LEARNING WITH ATTENTION-BASED NEURAL NETWORKS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tree-to-Sequence-Attentional-Neural-Machine-Translation"><span class="nav-number">14.</span> <span class="nav-text">Tree-to-Sequence Attentional Neural Machine Translation</span></a></li></ol></div>
             
 
           </div>
