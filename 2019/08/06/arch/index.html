@@ -79,17 +79,22 @@
 
 
 
-<meta name="description" content="Amdahl定律的主要观点：想要显著加速整个系统，必须提升全系统中相当大的部分的速度。 32位的程序当时决定了寻址空间为4GB。这是啥？寻址空间是指虚拟空间么？？好像是的感觉？？感觉是主存大小的意思？ DRAM来做系统的内存，SRAM来做cache，SRAM比DRAM快且贵。 ​ ​ RAM (random access memory) 随机存储器。存储单元的内容可按需随意取出或存入，且存取的速">
+<meta name="description" content="显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死  Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B 清华 + 百度  文章主要做的是通过随机森林的方法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSAPP读书笔记">
-<meta property="og:url" content="http://yoursite.com/2019/07/31/csapp/index.html">
+<meta property="og:title" content="系统方向相关学习">
+<meta property="og:url" content="http://yoursite.com/2019/08/06/arch/index.html">
 <meta property="og:site_name" content="Yunyan Hong">
-<meta property="og:description" content="Amdahl定律的主要观点：想要显著加速整个系统，必须提升全系统中相当大的部分的速度。 32位的程序当时决定了寻址空间为4GB。这是啥？寻址空间是指虚拟空间么？？好像是的感觉？？感觉是主存大小的意思？ DRAM来做系统的内存，SRAM来做cache，SRAM比DRAM快且贵。 ​ ​ RAM (random access memory) 随机存储器。存储单元的内容可按需随意取出或存入，且存取的速">
+<meta property="og:description" content="显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死  Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B 清华 + 百度  文章主要做的是通过随机森林的方法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-01T06:29:36.470Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/2.png">
+<meta property="og:updated_time" content="2019-08-06T09:05:00.824Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSAPP读书笔记">
-<meta name="twitter:description" content="Amdahl定律的主要观点：想要显著加速整个系统，必须提升全系统中相当大的部分的速度。 32位的程序当时决定了寻址空间为4GB。这是啥？寻址空间是指虚拟空间么？？好像是的感觉？？感觉是主存大小的意思？ DRAM来做系统的内存，SRAM来做cache，SRAM比DRAM快且贵。 ​ ​ RAM (random access memory) 随机存储器。存储单元的内容可按需随意取出或存入，且存取的速">
+<meta name="twitter:title" content="系统方向相关学习">
+<meta name="twitter:description" content="显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死  Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B 清华 + 百度  文章主要做的是通过随机森林的方法">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/06/arch/4.png">
 
 
 
@@ -119,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/31/csapp/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/06/arch/">
 
 
 
 
 
-  <title>CSAPP读书笔记 | Yunyan Hong</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>系统方向相关学习 | Yunyan Hong</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -232,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/31/csapp/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/06/arch/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yunyan.hong">
@@ -249,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CSAPP读书笔记</h1>
+          <h1 class="post-title" itemprop="name headline">系统方向相关学习</h1>
         
 
         <div class="post-meta">
@@ -261,8 +266,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-31T14:59:41+08:00">
-                2019-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-06T15:56:00+08:00">
+                2019-08-06
               </time>
             
 
@@ -284,8 +289,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/工程相关集锦/" itemprop="url" rel="index">
-                    <span itemprop="name">工程相关集锦</span>
+                  <a href="/categories/Research/" itemprop="url" rel="index">
+                    <span itemprop="name">Research</span>
                   </a>
                 </span>
 
@@ -321,22 +326,56 @@
       
 
       
-        <ul>
-<li>Amdahl定律的主要观点：想要显著加速整个系统，必须提升全系统中相当大的部分的速度。</li>
-<li>32位的程序当时决定了寻址空间为4GB。这是啥？寻址空间是指虚拟空间么？？好像是的感觉？？感觉是主存大小的意思？</li>
-<li>DRAM来做系统的内存，SRAM来做cache，SRAM比DRAM快且贵。</li>
-<li>​</li>
-<li>​</li>
-<li>RAM (random access memory) 随机存储器。存储单元的内容可按需随意取出或存入，且存取的速度与存储单元的位置无关的存储器。这种存储器在断电时将丢失其存储内容【易失性存储器】，故主要用于存储短时间使用的程序。 按照存储信息的不同，随机存储器又分为静态随机存储器（Static RAM,SRAM)和动态随机存储器（Dynamic RAM,DRAM)。RAM就是主存，与CPU直接交换数据的内部存储器。<ul>
-<li>DRAM（Dynamic Random Access Memory），动态随机存取存储器，最为常见的系统内存。DRAM 只能将数据保持很短的时间。为了保持数据，DRAM使用电容存储，所以必须隔一段时间刷新（refresh）一次，如果存储单元没有被刷新，存储的信息就会丢失。 （关机就会丢失数据）</li>
-<li>SRAM不需要刷新电路即能保存它内部存储的数据。所以SRAM具有较高的性能，但是他集成度比较低，能耗高。SRAM速度快于</li>
-<li>SRAM主要用于缓存。DRAM用于内存。</li>
-<li>SDRAM ：同步动态RAM，需要刷新，速度较快，容量大。 </li>
-<li>DDR SDRAM： 双通道同步动态RAM，需要刷新，速度快，容量大。</li>
-<li>其实看到现在，我也没有搞清楚，等第六章看完来写这段吧！！！！</li>
+        <blockquote>
+<p>显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死</p>
+</blockquote>
+<h3 id="Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><a href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning" class="headerlink" title="Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning"></a>Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</h3><ul>
+<li>ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B</li>
+<li>清华 + 百度</li>
 </ul>
+<p>文章主要做的是通过随机森林的方法来建立了一个自动检测系统异常的框架。由于实际场景中数据的不同，用机器学习方法进行分类时需要花大量时间去调参，作者想用一个框架将数据标记、机器学习算法统一起来，并尽可能减少调参工作。</p>
+<p>整个系统的结构如图所示</p>
+<p><img src="/2019/08/06/arch/4.png" width="70%"></p>
+<p>对于检测这个系统的异常情况的系统数据，文章采用的是PV，#SR，SRT三种KPI (Key Performance Indicator)。</p>
+<ul>
+<li>PV — 成功的服务查询数量</li>
+<li>#SR — 查询数据中心较慢响应的数量</li>
+<li>SRT — 八十百分位数的搜索响应时间</li>
+<li>KPI数据的表现形式都是timestamp-value的形式</li>
+</ul>
+<p>我们人工需要做的事情就是进行对历史数据的标注，并且在系统开始运行前指定对precision和recall的基本要求。</p>
+<p>模型选择随机森林的算法原因是考虑到他对噪音的鲁棒性，且对于冗余数据也有较好的处理表现，因此可以便于我们在后续对detector的选择中不用进行处理。</p>
+<p>系统的特征表示文章提出的是对于上述的三种系统数据用不同的计算方式【detectors】辅以每个detectors不同的参数选择来计算对应的特征值。 </p>
+<ul>
+<li><p>特征值的计算方法是我们通过系统数据，通过对应参数以及detector计算出severity(一个0-1之间的值)，然后根据cThld来判断我们的severity值是不正常的(1)还是正常的(0)</p>
+</li>
+<li><p>对于detector对应的参数选择，我们有两种方式，一种方式是在对应参数的取值范围中选择几个不同的值作为参数，另一种则是只选择一个最佳参数。</p>
+</li>
+<li><p>我们选择的detectors要满足能对实时的数据进行快速计算severity，他的计算时间要小于data interval。并且对于满足这个条件的detectors我们不经过测评选择，而是直接全部使用，因为我们的随机森林模型对于数据是比较鲁棒的。</p>
+</li>
+<li><p>然后实验中选择的是14个detectors，组合参数共133个features。</p>
+<p><img src="/2019/08/06/arch/3.png" width="50%"></p>
 </li>
 </ul>
+<p>然后文章提出解决选择cThlds的问题。这边分为了offline数据和online数据。</p>
+<ul>
+<li><p>对于offline的数据，选用的是一个PC-Score的评判标准，这边+1是为了保证首先满足预设的对recall和precision的要求，然后再追求F-Score值的最大化。【跟他进行比较的有F-score, 默认thld 0.5, SD(1,1)[这是指PR-curve中离1,1点欧式距离最短的点]】</p>
+<p><img src="/2019/08/06/arch/1.png" width="80%"></p>
+</li>
+<li><p>对于online的数据，这边用的方法是EWMA(指数加权移动平均模型)，其中p表示的是该周的预测值结果，b代表的是前面这些周中best thld。对比的方法用的是k-flod prediction,即将数据分为k分，用k-1份训练对应的模型，然后用剩下的那份进行测试【针对不同的cThld进行训练测试】然后选出平均PC-score最小的对应的cThld值。但是由于不同周的cThld差异很大，因此这种方法不如EWMA方法。【为啥是PC-score越小？？？是写错么？？？】</p>
+<p><img src="/2019/08/06/arch/2.png" width="80%"></p>
+</li>
+</ul>
+<p>在evalution的部分，文章测试了</p>
+<ul>
+<li>随机森林和two static combanation methods的acc情况，因为这边没有设置cThld，所以不能直接比较precsion和recall值，因此这边选用的比较指标为PR-curve中围起来的那个面积。</li>
+<li>随机森林和其他机器学习算法如决策树，逻辑回归，SVM，贝叶斯等方法结果比较，比较指标同上。</li>
+<li>比较了不同生成training sets的方法，包括所有数据，最近八周数据，最早八周数据【都是以4周为一个moving window】，表现最好的为所有数据来训练【也称为incremental retrainng？】</li>
+<li>比较了offline数据下PC-score和其他metric下对cThld选择的结果表现</li>
+<li>比较了online数据下EWMA和5-fold方法比较【还把online数据作为offline数据用PC-score方法计算cThld来作为一个baseline比较】</li>
+<li>然后还比较了我们提供的标记系统后标记需要的时间和原本调整detection需要的时间【我们提供的标记系统其实就是一个能把数据进行图形化表示然后用鼠标选择出异常片段的一个软件】</li>
+</ul>
+<p>文章声明，这边的异常检测并不代表是故障检测，有些异常表现可能是系统的一些特殊操作导致，比如升级等，在我们这个研究范围内我们考虑所有的异常情况。另外对于未来会发生的新的异常情况，作者提出的是通过增量训练在线学习来跟进模型。</p>
 
       
     </div>
@@ -361,8 +400,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/21/abstractive-summarization/" rel="next" title="新一轮Summarization以及相关扫文工作">
-                <i class="fa fa-chevron-left"></i> 新一轮Summarization以及相关扫文工作
+              <a href="/2019/07/31/csapp/" rel="next" title="CSAPP读书笔记">
+                <i class="fa fa-chevron-left"></i> CSAPP读书笔记
               </a>
             
           </div>
@@ -370,10 +409,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/06/arch/" rel="prev" title="系统方向相关学习">
-                系统方向相关学习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -428,8 +463,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -480,6 +524,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -672,7 +732,7 @@
           distractionFreeMode: 'true'
         })
         gitalk.render('gitalk-container')           
-       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+       </script>
 
 
 
@@ -692,6 +752,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
