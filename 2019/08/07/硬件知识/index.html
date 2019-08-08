@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="abstractive summarization 诸多模型框架速度性能对比 实验测试集，cnn-dailymail 30个train，各10个test/val ABS    【Rush的文章标准版】https://github.com/toru34/rush_emnlp_2015 【cnn】 ABS+  【Rush的文章标准版 + tuned】 RAS-Elman 【 Chopra et al.">
+<meta name="description" content="DRAM结构相关 RAM（Random Access Memory）存取时间为固定值，不会因为资料在记忆体的位置而影响存取时间。  RAM在电脑中分为SRAM(静态随机存取记忆体)和DRAM(动态随机存取记忆体)，基础原理都是将电荷储存至内部。  SRAM结构复杂，单位面积的容量较少，存取速度快。 DRAM则是构造简单，单位面积容量较多但存取时间比SRAM慢，同时DRAM需要通过再充电的动作保持电">
 <meta property="og:type" content="article">
-<meta property="og:title" content="abstractive summarization 模型速度问题">
-<meta property="og:url" content="http://yoursite.com/2019/02/27/speed-survey/index.html">
+<meta property="og:title" content="硬件知识相关">
+<meta property="og:url" content="http://yoursite.com/2019/08/07/硬件知识/index.html">
 <meta property="og:site_name" content="Yunyan Hong">
-<meta property="og:description" content="abstractive summarization 诸多模型框架速度性能对比 实验测试集，cnn-dailymail 30个train，各10个test/val ABS    【Rush的文章标准版】https://github.com/toru34/rush_emnlp_2015 【cnn】 ABS+  【Rush的文章标准版 + tuned】 RAS-Elman 【 Chopra et al.">
+<meta property="og:description" content="DRAM结构相关 RAM（Random Access Memory）存取时间为固定值，不会因为资料在记忆体的位置而影响存取时间。  RAM在电脑中分为SRAM(静态随机存取记忆体)和DRAM(动态随机存取记忆体)，基础原理都是将电荷储存至内部。  SRAM结构复杂，单位面积的容量较少，存取速度快。 DRAM则是构造简单，单位面积容量较多但存取时间比SRAM慢，同时DRAM需要通过再充电的动作保持电">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-11T01:36:04.033Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/07/硬件知识/1.png">
+<meta property="og:updated_time" content="2019-08-07T08:09:08.883Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="abstractive summarization 模型速度问题">
-<meta name="twitter:description" content="abstractive summarization 诸多模型框架速度性能对比 实验测试集，cnn-dailymail 30个train，各10个test/val ABS    【Rush的文章标准版】https://github.com/toru34/rush_emnlp_2015 【cnn】 ABS+  【Rush的文章标准版 + tuned】 RAS-Elman 【 Chopra et al.">
+<meta name="twitter:title" content="硬件知识相关">
+<meta name="twitter:description" content="DRAM结构相关 RAM（Random Access Memory）存取时间为固定值，不会因为资料在记忆体的位置而影响存取时间。  RAM在电脑中分为SRAM(静态随机存取记忆体)和DRAM(动态随机存取记忆体)，基础原理都是将电荷储存至内部。  SRAM结构复杂，单位面积的容量较少，存取速度快。 DRAM则是构造简单，单位面积容量较多但存取时间比SRAM慢，同时DRAM需要通过再充电的动作保持电">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/07/硬件知识/1.png">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/27/speed-survey/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/07/硬件知识/">
 
 
 
 
 
-  <title>abstractive summarization 模型速度问题 | Yunyan Hong</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>硬件知识相关 | Yunyan Hong</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -232,7 +234,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/speed-survey/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/07/硬件知识/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yunyan.hong">
@@ -249,7 +251,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">abstractive summarization 模型速度问题</h1>
+          <h1 class="post-title" itemprop="name headline">硬件知识相关</h1>
         
 
         <div class="post-meta">
@@ -261,8 +263,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-27T16:27:52+08:00">
-                2019-02-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-07T09:53:05+08:00">
+                2019-08-07
               </time>
             
 
@@ -321,18 +323,27 @@
       
 
       
-        <p>abstractive summarization 诸多模型框架速度性能对比</p>
-<p>实验测试集，cnn-dailymail 30个train，各10个test/val</p>
-<p>ABS    【Rush的文章标准版】<a href="https://github.com/toru34/rush_emnlp_2015" target="_blank" rel="noopener">https://github.com/toru34/rush_emnlp_2015</a> 【cnn】</p>
-<p>ABS+  【Rush的文章标准版 + tuned】</p>
-<p>RAS-Elman 【 Chopra et al.(2016) 版本】<a href="https://github.com/facebookarchive/NAMAS" target="_blank" rel="noopener">https://github.com/facebookarchive/NAMAS</a> 【cnn encoder + rnn decoder】</p>
-<p>Abstractive Text Summarization using Sequence-to-sequence RNNs and<br>Beyond 【rnn encoder decoder】<a href="https://github.com/alesee/abstractive-text-summarization" target="_blank" rel="noopener">https://github.com/alesee/abstractive-text-summarization</a></p>
-<p>copynet【Gu et al. (2016)】跟下面这个类似</p>
-<p>pointer network【Get To The Point: Summarization with Pointer-Generator Networks】<a href="https://github.com/abisee/pointer-generator" target="_blank" rel="noopener">https://github.com/abisee/pointer-generator</a>. [48961.3s 约等于 13h【最后出bug了2333】] 和下面那个大概6倍</p>
-<p>Fast Abstractive Summarization with Reinforce-Selected Sentence Rewriting <a href="https://github.com/ChenRocks/fast_abs_rl。" target="_blank" rel="noopener">https://github.com/ChenRocks/fast_abs_rl。</a> 【abstractor training time 31min46s， extractor training time 1:11:20，rl  1:19:53,  decoder 0.06s】</p>
-<p>ConvSeq2Seq   <a href="https://github.com/facebookresearch/fairseq" target="_blank" rel="noopener">https://github.com/facebookresearch/fairseq</a>. <a href="https://github.com/pytorch/fairseq" target="_blank" rel="noopener">https://github.com/pytorch/fairseq</a> 【神速 training 4min，decode 1min-】</p>
-<p>WFE 【Cutting-off redundant repeating generations for neural abstractive summarization】【没有代码】</p>
-<p>Generative Adversarial Network for Abstractive Text Summarization <a href="https://github.com/iwangjian/textsum-gan" target="_blank" rel="noopener">https://github.com/iwangjian/textsum-gan</a>  【我用很小的数据量跑了7个小时左右，感觉他没有收敛过。。。就停了，按道理说应该比pointer久很多】</p>
+        <h4 id="DRAM结构相关"><a href="#DRAM结构相关" class="headerlink" title="DRAM结构相关"></a>DRAM结构相关</h4><ul>
+<li><p>RAM（Random Access Memory）存取时间为固定值，不会因为资料在记忆体的位置而影响存取时间。</p>
+</li>
+<li><p>RAM在电脑中分为SRAM(静态随机存取记忆体)和DRAM(动态随机存取记忆体)，基础原理都是将电荷储存至内部。</p>
+<ul>
+<li>SRAM结构复杂，单位面积的容量较少，存取速度快。</li>
+<li>DRAM则是构造简单，单位面积容量较多但存取时间比SRAM慢，同时DRAM需要通过再充电的动作保持电容储存的资料。</li>
+<li>SRAM适合作为暂存器和CPU快取使用 ，DRAM适合做为主记忆体【就是内存】或其他装置间的快取使用？</li>
+<li>DRAM和SRAM都是断电后就无法保存内部资料的，而ROM(read only memory) 和 flash Memory断电后还能保存内部资料。</li>
+</ul>
+</li>
+<li><p>DRAM的结构图如下图所示，DIMM是记忆体模组，每组bank下方还会有个row buffer,负责将独出的row资料暂存，等到column位址送到后输出正确的位元，以及判断储存的资料是0还是1。目前常用的是双通道，来增加资料汇流排宽度，达到同时读写更多资料的能力。</p>
+<p><img src="/2019/08/07/硬件知识/1.png" width="80%"></p>
+</li>
+<li><p>单个DRAM存储单元以矩阵的方法排列在一起，称为一个DRAM array，给定行号列号，能指定唯一的DRAM cell，从中读取或写入一个比特的数据。通过每个bank有自己的row buffer，减少了不同bank访问时候row buffer减少切换，使其可以同时工作，减少行激活，提高速度。</p>
+</li>
+<li><p>一个内存颗粒有多个bank，4或8个。每个bank即一组dram arrays，一个dram array即一个mxn的dram cell矩阵，一个dram cell是1T1C结构，即一个三级管，一个电容</p>
+</li>
+<li><p>给定地址后，先读出那一整行的数据，存在row buffer中【也就是行激活】，然后再根据列地址，在row buffer中选一个位读回去。所以列快于行。</p>
+</li>
+</ul>
 
       
     </div>
@@ -357,8 +368,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/20/扫文笔记2/" rel="next" title="Abstractive Summarization 扫文清单">
-                <i class="fa fa-chevron-left"></i> Abstractive Summarization 扫文清单
+              <a href="/2019/08/06/arch/" rel="next" title="系统方向相关学习">
+                <i class="fa fa-chevron-left"></i> 系统方向相关学习
               </a>
             
           </div>
@@ -366,10 +377,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/11/Python-is-hard/" rel="prev" title="不会写Python">
-                不会写Python <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -424,8 +431,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -476,6 +492,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#DRAM结构相关"><span class="nav-number">1.</span> <span class="nav-text">DRAM结构相关</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

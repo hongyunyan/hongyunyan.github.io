@@ -90,7 +90,12 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/3.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/2.png">
-<meta property="og:updated_time" content="2019-08-06T09:05:00.824Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/9.png">
+<meta property="og:updated_time" content="2019-08-08T06:55:59.766Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统方向相关学习">
 <meta name="twitter:description" content="显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死  Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B 清华 + 百度  文章主要做的是通过随机森林的方法">
@@ -376,6 +381,57 @@
 <li>然后还比较了我们提供的标记系统后标记需要的时间和原本调整detection需要的时间【我们提供的标记系统其实就是一个能把数据进行图形化表示然后用鼠标选择出异常片段的一个软件】</li>
 </ul>
 <p>文章声明，这边的异常检测并不代表是故障检测，有些异常表现可能是系统的一些特殊操作导致，比如升级等，在我们这个研究范围内我们考虑所有的异常情况。另外对于未来会发生的新的异常情况，作者提出的是通过增量训练在线学习来跟进模型。</p>
+<p><strong>问题：</strong></p>
+<p>1.incremental training是什么东西，他是怎么进行的呢？ — online machine learning</p>
+<p>2.如何理解图12，没有看懂那个图 — 第二列是第一列的那个区域的放大版，就是看我们有多少在那个块中出现的。</p>
+<p>3.为什么在offline数据选cThld时候选用的是PC-score的最大值，而在online时候选用的是平均PC-score的最小值 —不知道，感觉是个bug啊</p>
+<p><br></p>
+<h3 id="Memory-Failure-Prediction-Using-Online-Learning"><a href="#Memory-Failure-Prediction-Using-Online-Learning" class="headerlink" title="Memory Failure Prediction Using Online Learning"></a>Memory Failure Prediction Using Online Learning</h3><ul>
+<li>MEMSYS 2018【不知道啥会】</li>
+<li>Intel</li>
+</ul>
+<p>文章主要讲的是如何用online learning的方法来做memroy failure的预测，预测的主要是以cell，row和column为单位的failure。</p>
+<p>首先作者区分了fault（故障）, error（错误）和failure（失败）。</p>
+<ul>
+<li>fault指的是错误的根本原因，分为软错误和硬错误，硬错误是指硬件种的不可逆损坏。</li>
+<li>Error是观察到的故障症状，软故障引起软错误，由硬故障引起的硬错误即时一次次通过ECC纠正，还是可能会重复出现</li>
+<li>failure是指DRAM和预期有偏差的行为表现。</li>
+</ul>
+<p>作者首先总结了一些前任研究的结论观点：</p>
+<ul>
+<li>memory中的错误主要是hard error，soft error很少重复出现。</li>
+<li>memory错误主要是correctable error，但是uncorrectable error会有更严重的影响。</li>
+<li>一小部分故障节点站了很大一部分的错误。</li>
+<li>在存在先前错误的情况下，CE和UE的概率都会增加。</li>
+<li>临近行列有先前错误的情况下，有错误的概率也会增加，一行里面有出错会导致整行容易出错，一列有问题也会影响附近几行。</li>
+<li>faults和failures是DRAM健康状况的最佳指标，而不是error。 这是因为内存错误与内存访问率密切相关。 内存访问率随各种因素而变化，包括工作负载模式，操作系统调度，CPU缓存未命中以及内存控制器的调度策略。—but failure不是和error一样需要触发么？？？？</li>
+</ul>
+<p>本文中预测的是memory的failure，而不是error和faults。【感觉是通过error来预测失败emmm】</p>
+<blockquote>
+<p>In this paper we limit our focus on prediction of DRAM failures instead of errors or faults. This is because that repeated DRAM errors may come from one failure. Therefore counting the error number is less informative considering the uncertainty of access patterns and data content. We also do not focus on DRAM faults. This is because that the underlying faults can be dormant (that is, not causing errors). Therefore the ground truth of the faults is not revealed.</p>
+</blockquote>
+<p>他把时间分为多个cycle，每个cycle为几天。t用来表示cycle的time step, 用$\vec{x_t}$来表示该cycle中观察到的错误，如果是对于每个cell，$\vec{x_t}$就是一个标量了，就表示这个cycle这个cell出现错误的次数。如果是column和row就是一个向量表示，每个元素表示对应位置错误的次数。</p>
+<p>对于整个预测的思路有几点：</p>
+<ul>
+<li><p>如果一个单位发生过两次错误了，那接下去就预测这个单位继续错误。<img src="/2019/08/06/arch/5.png" width="35%"></p>
+<p>但是这个想法没有cover到观察到只发生过一次或者还没发生错误的part.</p>
+</li>
+<li><p>所以下面就考虑用核函数来衡量最新cycle表现和前面cycle表现的相似性，来判断是否可能failure。</p>
+</li>
+</ul>
+<p><img src="/2019/08/06/arch/6.png" width="45%"></p>
+<ul>
+<li><p>相似的判断方法主要就是判断每个cell或者row，column的表现是不是一样。sgn函数即里面大于0则为1，反之为-1</p>
+</li>
+<li><p>这步还有个$c_t$,这个的计算方式是当前预测和groud truth结果的差乘以learning rate。但我觉得很奇怪啊，这个$c_t$这样的表示含义是啥呢？？？？</p>
+<p><img src="/2019/08/06/arch/7.png" width="40%"></p>
+</li>
+<li><p>大概这就是第一part的基本思想</p>
+<p><img src="/2019/08/06/arch/8.png" width="70%"></p>
+</li>
+</ul>
+<p>然后因为上面讲的是我有历史错误数据的prediction表示，那我怎么能知道那些原来没有错误过的cell怎么预测会不会挂呢。这边的想法是如果一个cell的两边邻居都被预测要fail，然后还有很高的$c_t$，就要挂了。然后我们就根据这样的思想去扩展周围的cell或者row或者column，来进行propagation。</p>
+<p><img src="/2019/08/06/arch/9.png" width="70%"></p>
 
       
     </div>
@@ -409,6 +465,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/07/硬件知识/" rel="prev" title="硬件知识相关">
+                硬件知识相关 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -488,7 +548,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -534,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li></ol></div>
             
 
           </div>
