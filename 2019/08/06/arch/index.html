@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/7.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/8.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/9.png">
-<meta property="og:updated_time" content="2019-08-08T06:55:59.766Z">
+<meta property="og:updated_time" content="2019-08-08T10:51:24.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统方向相关学习">
 <meta name="twitter:description" content="显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死  Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B 清华 + 百度  文章主要做的是通过随机森林的方法">
@@ -432,6 +432,21 @@
 </ul>
 <p>然后因为上面讲的是我有历史错误数据的prediction表示，那我怎么能知道那些原来没有错误过的cell怎么预测会不会挂呢。这边的想法是如果一个cell的两边邻居都被预测要fail，然后还有很高的$c_t$，就要挂了。然后我们就根据这样的思想去扩展周围的cell或者row或者column，来进行propagation。</p>
 <p><img src="/2019/08/06/arch/9.png" width="70%"></p>
+<p><br></p>
+<h3 id="DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study"><a href="#DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study" class="headerlink" title="DRAM Errors in the Wild: A Large-Scale Field Study"></a>DRAM Errors in the Wild: A Large-Scale Field Study</h3><ul>
+<li>2009 SIGMETRICS</li>
+<li>GOOGLE</li>
+</ul>
+<p>本文主要的事情就是通过一个两年的真实数据给出了一堆结论。</p>
+<ul>
+<li>DRAM的故障率并没有以往说的低。</li>
+<li>Memory的error之间互相有着很强的关联。已经发生过CE的DIMM会有个更高的CE发生率，发生过CE的有更高概率发生UE。</li>
+<li>memory年纪越大，越有可能发生CE，但是越不可能发生UE。这是因为发生一次UE的DIMM都会被替换掉。</li>
+<li>没有证据显示越新一代的DIMM有更差的表现。</li>
+<li>温度对Memory的影响不大。</li>
+<li>CPU使用率对DRAM错误情况影响很大。</li>
+<li>DRAM的错误由hard error占主要部分。</li>
+</ul>
 
       
     </div>
@@ -594,7 +609,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study"><span class="nav-number">3.</span> <span class="nav-text">DRAM Errors in the Wild: A Large-Scale Field Study</span></a></li></ol></div>
             
 
           </div>

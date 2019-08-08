@@ -87,7 +87,7 @@
 <meta property="og:description" content="DRAM结构相关 RAM（Random Access Memory）存取时间为固定值，不会因为资料在记忆体的位置而影响存取时间。  RAM在电脑中分为SRAM(静态随机存取记忆体)和DRAM(动态随机存取记忆体)，基础原理都是将电荷储存至内部。  SRAM结构复杂，单位面积的容量较少，存取速度快。 DRAM则是构造简单，单位面积容量较多但存取时间比SRAM慢，同时DRAM需要通过再充电的动作保持电">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/08/07/硬件知识/1.png">
-<meta property="og:updated_time" content="2019-08-07T08:09:08.883Z">
+<meta property="og:updated_time" content="2019-08-08T12:55:25.401Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="硬件知识相关">
 <meta name="twitter:description" content="DRAM结构相关 RAM（Random Access Memory）存取时间为固定值，不会因为资料在记忆体的位置而影响存取时间。  RAM在电脑中分为SRAM(静态随机存取记忆体)和DRAM(动态随机存取记忆体)，基础原理都是将电荷储存至内部。  SRAM结构复杂，单位面积的容量较少，存取速度快。 DRAM则是构造简单，单位面积容量较多但存取时间比SRAM慢，同时DRAM需要通过再充电的动作保持电">
@@ -344,6 +344,12 @@
 <li><p>给定地址后，先读出那一整行的数据，存在row buffer中【也就是行激活】，然后再根据列地址，在row buffer中选一个位读回去。所以列快于行。</p>
 </li>
 </ul>
+<h4 id="内存故障预测项目"><a href="#内存故障预测项目" class="headerlink" title="内存故障预测项目"></a>内存故障预测项目</h4><p>背景是大规模数据中心中由于服务器数量多，因此内存故障多发。我们要预测的是UCE错误，在这里等同于宕机。为了保证性能，一般是在CE达到一定数量以后开始上报，所以我们并不能获得全部的错误信息。</p>
+<p>对于CE错误我们能获得是cell对应的错误。</p>
+<p>ECC则是以bit为单位来检测错误。</p>
+<p>目前CE是一个bit的错误，UCE是两个bit的错误，undetected error是三个比特以上的错误，但是一般错误的比特数是逐渐发展的。</p>
+<p>因为这是一个不断有数据进来的环境，所以一般用的是online learning，所以如果用神经网络模型，一般用的也是时序模型。</p>
+<p>因为宕机log少，我们想通过故障注入的方式来增加宕机log。</p>
 
       
     </div>
@@ -502,7 +508,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#DRAM结构相关"><span class="nav-number">1.</span> <span class="nav-text">DRAM结构相关</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#DRAM结构相关"><span class="nav-number">1.</span> <span class="nav-text">DRAM结构相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存故障预测项目"><span class="nav-number">2.</span> <span class="nav-text">内存故障预测项目</span></a></li></ol></div>
             
 
           </div>
