@@ -87,7 +87,8 @@
 <meta property="og:description" content="DRAM结构相关 RAM（Random Access Memory）存取时间为固定值，不会因为资料在记忆体的位置而影响存取时间。  RAM在电脑中分为SRAM(静态随机存取记忆体)和DRAM(动态随机存取记忆体)，基础原理都是将电荷储存至内部。  SRAM结构复杂，单位面积的容量较少，存取速度快。 DRAM则是构造简单，单位面积容量较多但存取时间比SRAM慢，同时DRAM需要通过再充电的动作保持电">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/08/07/硬件知识/1.png">
-<meta property="og:updated_time" content="2019-08-08T12:55:25.401Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/07/硬件知识/2.png">
+<meta property="og:updated_time" content="2019-08-13T12:38:16.817Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="硬件知识相关">
 <meta name="twitter:description" content="DRAM结构相关 RAM（Random Access Memory）存取时间为固定值，不会因为资料在记忆体的位置而影响存取时间。  RAM在电脑中分为SRAM(静态随机存取记忆体)和DRAM(动态随机存取记忆体)，基础原理都是将电荷储存至内部。  SRAM结构复杂，单位面积的容量较少，存取速度快。 DRAM则是构造简单，单位面积容量较多但存取时间比SRAM慢，同时DRAM需要通过再充电的动作保持电">
@@ -350,6 +351,39 @@
 <p>目前CE是一个bit的错误，UCE是两个bit的错误，undetected error是三个比特以上的错误，但是一般错误的比特数是逐渐发展的。</p>
 <p>因为这是一个不断有数据进来的环境，所以一般用的是online learning，所以如果用神经网络模型，一般用的也是时序模型。</p>
 <p>因为宕机log少，我们想通过故障注入的方式来增加宕机log。</p>
+<h4 id="专有名词"><a href="#专有名词" class="headerlink" title="专有名词"></a>专有名词</h4><p>RAS指的是对于计算机的硬件，我们追求可靠性，可用性，可维护性(Reliability, Availability and Serviceability)</p>
+<ul>
+<li>Reliability — 是指定时间t内，产生正式输出的几率</li>
+<li>Availability — 是指系统的运作时间，工作时间比总时间，一般用百分比表示，例如99.999%</li>
+<li>Serviceability — 是指若系统发生故障，需要多长时间检查和维修。</li>
+</ul>
+<p>MCA — Machine Check Architecture (Intel 从奔腾4开始的CPU中加入的一种机制)，它用来检测硬件错误。CPU检测到可纠正的MCE数量超过一定阈值后，会触发CMCI(Corrected Machine Check Error Interupt)，此时软件捕捉到该终端进行处理【感觉这个就是指的可纠正的MCE错误需要累积到一定数目以后才会被记到log中，当然应该是可以调整阈值的。】 ？？这个要确认一下，不一定这个log机制是这个！！！</p>
+<p>MCA是通过一定数量的MST(Model Specific Register)来实现的，</p>
+<p>MCE (Machine Check Exception) 是由CPU侦探出来的错误，它错误包含主要两种类型，notice/warning 和 fatal exception(致命性的错误)</p>
+<ul>
+<li>warning 会在系统log下输出一条类似于Machine Check Event logged的信息。我们可以通过一些linux的应用程序对这部分log进行查看</li>
+<li>fatal MCE 会导致机器停止响应，MCE的详细信息也会输出到系统的console中。</li>
+</ul>
+<p>MCE错误的原因：</p>
+<ul>
+<li>内存错误或ECC问题</li>
+<li>冷却不足、CPU过热</li>
+<li>系统总线错误</li>
+<li>缓存处理器或硬件错误</li>
+</ul>
+<p>MCE是在硬件不能纠正内部错误的时候发生，这种情况下，通常会中断CPU当前正在运行的程序，并且调用一个特殊的异常处理程序。当硬件能纠正内部错误时候，称为silent machine check。当这种错误发生的时候，硬件会把相应的错误信息登记到特殊的寄存器，之后，操作系统或者是BIOS就可以从这写寄存器中读取信息，登记和分析这些错误信息有助于提前预测机器硬件的故障。‘</p>
+<p>在发生了一个硬件错误之后，机器的状态可能已经变得不太稳定了，当处理函数在等待机器进去一个更加容易被处理的状态时候，这个时间可能会变得不能被处理【错误可能会覆盖且变得不可处理】</p>
+<p>登记machine check是由BIOS来进行的，在下一次热启动之后，BIOS将从最后一次machine check中找到信息，并登记在日志文件中— 我感觉这样就使故障时间记录的是不准确的。</p>
+<p>BIOS — Basic Input Output System 是个人电脑启动时加载的第一个软件。他是一组固化到计算机内主板上一个ROM芯片的程序，保存着计算机最重要的基本输入输出程序，开机后自检程序和系统自启动程序，可从CMOS中读写系统设置的具体信息。</p>
+<p>在ECC技术出现之前，内存中应用的是Parity(奇偶校验)。</p>
+<ul>
+<li>Parity技术是对内存中每八个bit就额外用以为来进行错误检测，因此内存查到哪个数据位有错误时，却不能确定是在哪个位，因此也不一定能修复错误。</li>
+<li>ECC的方法是如果数据位是8位，则需要增加5位来进行ECC错误检测和纠正，数据位每增加一倍，ECC只增加一位校验位</li>
+</ul>
+<p><img src="/2019/08/07/硬件知识/2.png" width="100%"></p>
+<p>我们的log是可以区分soft error和hard error的</p>
+<p>然后CPU是有page offline机制的，就比如一个页面超过每24h10个错误的阈值时候，会offline page。当然page 也有soft page的功能。</p>
+<p>大页和非大页内存在挂的情况上有区别么????</p>
 
       
     </div>
@@ -508,7 +542,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#DRAM结构相关"><span class="nav-number">1.</span> <span class="nav-text">DRAM结构相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存故障预测项目"><span class="nav-number">2.</span> <span class="nav-text">内存故障预测项目</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#DRAM结构相关"><span class="nav-number">1.</span> <span class="nav-text">DRAM结构相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存故障预测项目"><span class="nav-number">2.</span> <span class="nav-text">内存故障预测项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#专有名词"><span class="nav-number">3.</span> <span class="nav-text">专有名词</span></a></li></ol></div>
             
 
           </div>

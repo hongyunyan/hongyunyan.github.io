@@ -95,7 +95,13 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/7.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/8.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/9.png">
-<meta property="og:updated_time" content="2019-08-08T10:51:24.899Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/15.png">
+<meta property="og:updated_time" content="2019-08-14T08:08:00.522Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统方向相关学习">
 <meta name="twitter:description" content="显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死  Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B 清华 + 百度  文章主要做的是通过随机森林的方法">
@@ -447,6 +453,98 @@
 <li>CPU使用率对DRAM错误情况影响很大。</li>
 <li>DRAM的错误由hard error占主要部分。</li>
 </ul>
+<p><br></p>
+<h3 id="Predicting-DRAM-Reliability-in-the-Field-with-Machine-Learning"><a href="#Predicting-DRAM-Reliability-in-the-Field-with-Machine-Learning" class="headerlink" title="Predicting DRAM Reliability in the Field with Machine Learning"></a>Predicting DRAM Reliability in the Field with Machine Learning</h3><ul>
+<li>2017 Association for Computing Machinery</li>
+<li>IBM</li>
+</ul>
+<p>感觉这篇文章的主要point在如何用一些trick来提高预测DRAM故障的准确率。</p>
+<ul>
+<li>我们应用变更点检测来选择那些在DRAM发生故障之前趋势发生变化的传感器指标。</li>
+<li>我们对数据进行处理，去除了六个月中没有任何memory event的记录，来调整正负样本的比例。</li>
+<li>我们提供估算机制，以便在存在数据缺口的情况下对更大的机器集进行预测。</li>
+<li>我们在特定窗口框架上应用随机森林来预测DRAM故障是否会在特定机器上发生。</li>
+</ul>
+<p>他说他有96%的正确率emmmm，你信么？</p>
+<p><br></p>
+<h3 id="Physics-Informed-Machine-Learning-for-DRAM-Error-Modeling"><a href="#Physics-Informed-Machine-Learning-for-DRAM-Error-Modeling" class="headerlink" title="Physics-Informed Machine Learning for DRAM Error Modeling"></a>Physics-Informed Machine Learning for DRAM Error Modeling</h3><ul>
+<li>2018 IEEE International Symposium on Defect and Fault Tolerance in VLSI and Nanotechnology Systems (DFT)</li>
+<li>AMD</li>
+</ul>
+<p>文章主要是提出了用markov random field的方法来对error进行预测，主要的思想也是在DRAM的cell中，相邻，同row，同column的cell影响很大，因此作者提出用下面这个式子来算整个grid的状态（三个参数分别相关的是是否相邻，是否同row，是否同column), 然后再用下面的式子来计算prob。但是在实际计算中，由于这个Z的计算时间复杂度高，因此作者选择的是用logistic regression来进行相似计算。</p>
+<p><img src="/2019/08/06/arch/10.png" width="70%"></p>
+<p><img src="/2019/08/06/arch/11.png" width="20%"></p>
+<p>经过实验，发现MRF这个方法相比其他machine learning方法和MLP的方法都有比较好的表现，在通过学习旧系统预测新系统中，MRF的表现也非常的好，另外MRF的False Positive Rate和False Negative Rate都远远低于其他模型，体现了模型良好的性能。</p>
+<p><br></p>
+<h3 id="Memory-Errors-in-Modern-Systems-The-Good-The-Bad-and-The-Ugly"><a href="#Memory-Errors-in-Modern-Systems-The-Good-The-Bad-and-The-Ugly" class="headerlink" title="Memory Errors in Modern Systems: The Good, The Bad, and The Ugly"></a>Memory Errors in Modern Systems: The Good, The Bad, and The Ugly</h3><ul>
+<li>2015 ASPLOS（A）</li>
+<li>AMD</li>
+</ul>
+<p>感觉主要有价值的point有：</p>
+<ul>
+<li>我们应该用fault去分析，而不是用Error，因为fault更能反映出内存的健康状态，而error的情况会容易强调那些permanent faults，因为他们容易造城error的反复出现。</li>
+</ul>
+<p><br></p>
+<h3 id="Feng-Shui-of-Supercomputer-Memory"><a href="#Feng-Shui-of-Supercomputer-Memory" class="headerlink" title="Feng Shui of Supercomputer Memory"></a>Feng Shui of Supercomputer Memory</h3><ul>
+<li>2013</li>
+<li>AMD</li>
+</ul>
+<p>这几篇论文都更像是分析数据和结构获得一些结论。</p>
+<ul>
+<li>DRAM故障的组成在DRAM寿命的前两年内发生了显着变化，从主要是永久性故障转变为主要是瞬态故障。</li>
+<li>海拔高度对故障率有显著影响。</li>
+<li>DRAM 行，列和存储体地址故障分布大致均匀。？？？【我的理解是每次挂掉的地方是不同的，但不能说对于一块芯片挂掉的位置没有相关性？】</li>
+</ul>
+<p><br></p>
+<h3 id="Revisiting-Memory-Errors-in-Large-Scale-Production-Data-Centers-Analysis-and-Modeling-of-New-Trends-from-the-Field"><a href="#Revisiting-Memory-Errors-in-Large-Scale-Production-Data-Centers-Analysis-and-Modeling-of-New-Trends-from-the-Field" class="headerlink" title="Revisiting Memory Errors in Large-Scale Production Data Centers: Analysis and Modeling of New Trends from the Field"></a>Revisiting Memory Errors in Large-Scale Production Data Centers: Analysis and Modeling of New Trends from the Field</h3><ul>
+<li>2015 IEEE International Conference on Dependable Systems and Networks（CCF-B）</li>
+<li>Facebook</li>
+</ul>
+<p>我捕捉到的比较有价值的point是：</p>
+<ul>
+<li><p>这篇文章阐述了对page offline的探索</p>
+<ul>
+<li>when to take a page offline — 一般情况下，是等待页面上发生了一定数量的内存错误后进行offline,但对于有些程序不受内存错误影响的，会让产生错误的page使用更长时间。</li>
+<li>for how long to take a page offline — 这边主要的一个问题是，如何让被offline掉的page 在机器重启或者更换其他硬件的时候还是被offline 的。目前的策略是选择把这些页面存储在分布式数据库中，在加载os内核时候会对数据库进行查询，在更换DRAM时候，会对数据库进行更新。</li>
+<li>how many pages to take offline — 因为大量的page offline会减少系统的物理地址，影响性能，文章中提到的是如果5%以上的page offline了就进行repair。</li>
+</ul>
+<p>下图很明显的显示开启page offline后整个errors就大幅减少了，但是使用page offline稳定后，还是有近18<br>%的error，这个数据也是很高的。</p>
+<p>另外page offline除了一方面会减少memory capacity，另一方面还可能会有page offline失败，比如想offline的时候又刚好被访问，当然这个可以通过retry来补救。</p>
+<p><img src="/2019/08/06/arch/13.png" width="50%"></p>
+</li>
+<li><p>比较了不同层次的error出现频率和导致宕机的频率，可以发现虽然socket和channel的error率很高，但是由于他们能比较好的被correcting errors,因此导致宕机的比例就很低。而Bank和Cell的就恰恰相反，在宕机中占了很高的比例。</p>
+<p><img src="/2019/08/06/arch/12.png" width="70%"></p>
+</li>
+</ul>
+<p><br></p>
+<h3 id="Cosmic-Rays-Don’t-Strike-Twice-Understanding-the-Nature-of-DRAM-Errors-and-the-Implications-for-System-Design"><a href="#Cosmic-Rays-Don’t-Strike-Twice-Understanding-the-Nature-of-DRAM-Errors-and-the-Implications-for-System-Design" class="headerlink" title="Cosmic Rays Don’t Strike Twice: Understanding the Nature of DRAM Errors and the Implications for System Design"></a>Cosmic Rays Don’t Strike Twice: Understanding the Nature of DRAM Errors and the Implications for System Design</h3><ul>
+<li>2012 ASPLOS(CCF-A)</li>
+<li>Toronto U</li>
+</ul>
+<p>文章提出了很多观察分析得到的观点，并提出了一些解决的办法。</p>
+<p><strong>观点</strong></p>
+<ul>
+<li>在错误中，repeat address是最常见的，repeat row和column也是非常常见</li>
+<li>90%的repeat errors都会出现在第一次error发生的两周之内。</li>
+<li>background的srubber 并没有很显著的效果</li>
+<li>repeat address error会提高row或column中的error rate。</li>
+<li>每个bank中挂掉的row和column数目基本相等（正相关）</li>
+<li>error会提高临近row和column的error</li>
+<li>chip中的位置会影响error rate，top和bottom有比较高的概率，左上角一般是用于OS的memory，因此也会有很高的rate。</li>
+<li>retrie 很小一部分的page会很大程度缓解error rate。</li>
+<li>multi-bit和chipkill 的error一般出现在repeat error之后</li>
+</ul>
+<p><strong>策略</strong></p>
+<ul>
+<li>下图是一些page retirement的政策</li>
+</ul>
+<p><img src="/2019/08/06/arch/14.png" width="70%"></p>
+<p>利用数据模拟计算以后得到了下图结果【为什么row和column这么高retired pages–因为一个row和一个column中的每个cell分布在多个page中，但是我们把它全部retired掉了】这边显示的效果非常的高，但是上一篇文章测出来没有这么高的效果！！！</p>
+<p><img src="/2019/08/06/arch/15.png" width="100%"></p>
+<ul>
+<li>又由于考虑到chip中error rate的分布不均匀，提出对高error rate区域重点保护。</li>
+<li>另一个想法是因为有一些cell坏掉了但是没有detect到就会逐渐发展为UCE，因此提出要用一些test来不断的测DRAM(真的是这样么？？)</li>
+</ul>
 
       
     </div>
@@ -609,7 +707,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study"><span class="nav-number">3.</span> <span class="nav-text">DRAM Errors in the Wild: A Large-Scale Field Study</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study"><span class="nav-number">3.</span> <span class="nav-text">DRAM Errors in the Wild: A Large-Scale Field Study</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Predicting-DRAM-Reliability-in-the-Field-with-Machine-Learning"><span class="nav-number">4.</span> <span class="nav-text">Predicting DRAM Reliability in the Field with Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Physics-Informed-Machine-Learning-for-DRAM-Error-Modeling"><span class="nav-number">5.</span> <span class="nav-text">Physics-Informed Machine Learning for DRAM Error Modeling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Errors-in-Modern-Systems-The-Good-The-Bad-and-The-Ugly"><span class="nav-number">6.</span> <span class="nav-text">Memory Errors in Modern Systems: The Good, The Bad, and The Ugly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Feng-Shui-of-Supercomputer-Memory"><span class="nav-number">7.</span> <span class="nav-text">Feng Shui of Supercomputer Memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Revisiting-Memory-Errors-in-Large-Scale-Production-Data-Centers-Analysis-and-Modeling-of-New-Trends-from-the-Field"><span class="nav-number">8.</span> <span class="nav-text">Revisiting Memory Errors in Large-Scale Production Data Centers: Analysis and Modeling of New Trends from the Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cosmic-Rays-Don’t-Strike-Twice-Understanding-the-Nature-of-DRAM-Errors-and-the-Implications-for-System-Design"><span class="nav-number">9.</span> <span class="nav-text">Cosmic Rays Don’t Strike Twice: Understanding the Nature of DRAM Errors and the Implications for System Design</span></a></li></ol></div>
             
 
           </div>
