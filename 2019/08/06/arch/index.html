@@ -101,7 +101,13 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/12.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/14.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/15.png">
-<meta property="og:updated_time" content="2019-08-14T08:08:00.522Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/18.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/19.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/20.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/21.png">
+<meta property="og:updated_time" content="2019-08-19T02:02:56.791Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统方向相关学习">
 <meta name="twitter:description" content="显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死  Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B 清华 + 百度  文章主要做的是通过随机森林的方法">
@@ -545,6 +551,85 @@
 <li>又由于考虑到chip中error rate的分布不均匀，提出对高error rate区域重点保护。</li>
 <li>另一个想法是因为有一些cell坏掉了但是没有detect到就会逐渐发展为UCE，因此提出要用一些test来不断的测DRAM(真的是这样么？？)</li>
 </ul>
+<p><br></p>
+<h3 id="Assessment-of-the-Effect-of-Memory-Page-Retirement-on-System-RAS-Against-Hardware-Faults"><a href="#Assessment-of-the-Effect-of-Memory-Page-Retirement-on-System-RAS-Against-Hardware-Faults" class="headerlink" title="Assessment of the Effect of Memory Page Retirement on System RAS Against Hardware Faults"></a>Assessment of the Effect of Memory Page Retirement on System RAS Against Hardware Faults</h3><ul>
+<li>2006 DSN (B)</li>
+<li>SUN</li>
+</ul>
+<p>emm感觉也没啥东西，贴个他的page offline结果吧【我感觉他没说清楚他的page offline政策，感觉非常的糊】大致思想是：如果一个页面确定呗底层硬件问题影响了，就retired并用新的页面来替换他。</p>
+<ul>
+<li>如果是干净页发生了UE，这个页面就retired，然后找个新的页面重新读取内容</li>
+<li>如果是脏页发生UE, 并且是在cache写回时发现的UE，则标记这个页面有UE，但先不处理他</li>
+<li>如果UE影响了脏页切错误在访问时被检测到了，OS终止受影响的进程，退出受影响页面，重启服务。</li>
+</ul>
+<p><img src="/2019/08/06/arch/16.png" width="45%"> <img src="/2019/08/06/arch/17.png" width="42%"></p>
+<p><br></p>
+<h3 id="A-System-Software-Approach-to-Proactive-Memory-Error-Avoidance"><a href="#A-System-Software-Approach-to-Proactive-Memory-Error-Avoidance" class="headerlink" title="A System Software Approach to Proactive Memory-Error Avoidance"></a>A System Software Approach to Proactive Memory-Error Avoidance</h3><ul>
+<li>2014 International Conference for High Performance Performance Computing, Networking, Storage and Analysis（SC）（CCF-A）</li>
+<li>IBM</li>
+</ul>
+<p>文章提出一个system来预测memory error。</p>
+<p>大概的想法就是：</p>
+<ul>
+<li>一个page上detect到了error — 计算出他的page number(PFN),</li>
+<li>在pages hash table(PHT)中search PFN<ul>
+<li>如果不存在这个PFN，那就先把PFN加入PHT，然后把page的addr加入address hash tables(AHT)</li>
+<li>如果存在，那就在AHT中找addr<ul>
+<li>如果存在addr，增加对应repeat此数， 根据当前的时间和上次发生的时间计算error rate<ul>
+<li>如果error rate超过阈值，就标记这个page 为fatal，没有超过就标记为unhealthy</li>
+</ul>
+</li>
+<li>如果不存在addr，就标记PFN为healthy，把addr加入AHT【但是感觉这边有个问题，不知道这是啥情况会有pfn没有addr。】</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>然后反正如果fatal了，就把它offline 了。这边说的是一个memory的hotplug来实现offline。然后page migration的操作是：【并且不是所有page都可以offline的，跟kernel/text/stack相关的就不行】</p>
+<ul>
+<li>分配一个新page</li>
+<li>更改radix tree</li>
+<li>使指向旧页面的页表条目（PTE）描述符无效</li>
+<li>将页面内容从旧页面复制到新页面。</li>
+</ul>
+<p>然后文章中还提到了offline分为soft offline和hard offline。hard就是offline page的process要被kill掉，soft就是不kill。</p>
+<p>对于大页的情况，是把它先broke up再offline掉一个piece，而不是整个大页dump【应该就是那个对应到4k然后offline掉一块4k】</p>
+<p>然后他做了实验，page offline的策略是 【we offline any page that has an error address repetition with a frequency greater than 1 error per second】来在单节点和多节点上测对性能的影响，发现是基本没有影响的。</p>
+<p>然后他的system在在单节点和多节点上的结果如下。</p>
+<p><img src="/2019/08/06/arch/18.png" width="90%"></p>
+<p><br></p>
+<h3 id="Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content"><a href="#Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content" class="headerlink" title="Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content"></a>Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content</h3><ul>
+<li>2017 MICRO(CCF-A)</li>
+<li>Intel &amp; Nvidia</li>
+</ul>
+<p>【讲道理，我没有特别看懂这篇文章orz】</p>
+<p>文章主要讲的就是针对data-dependent 的failure 进行减少DRAM错误。</p>
+<p>data-dependent failure就是指failure的出现和内存里存的data是相关的。因为DRAM的行列是共用bitline和wordline的，所以数据存储在cell中会对周围的cell有影响。比如下面的例子或者说row hammer。也就是说导致failure的原因和每个cell中存放的真实数据有关。</p>
+<blockquote>
+<p>举个简单但不一定正确的例子</p>
+<p>1  1  1<br>1  0  1<br>1  1  1<br>这里中间的0，有可能因为周围都是1，电荷上的作用就很容易翻转为1</p>
+</blockquote>
+<p>DRAM cell本身就是会丢失电荷的，需要一直refresh来存储数据的，在特定的data pattern下可能某些cell丢失得更快。</p>
+<p>这种情况，可以通过refresh消除，但是频繁的refresh会导致大量的额外开销，所以这篇文章想要对容易出错的cell用高频refresh，不容易出错的用低频refresh。test的作用就是确定哪些高频哪些低频。由于test本身也会有开销，必须有足够多的低频时间来平摊这部分开销，所以引入了write interval的概念。</p>
+<p>所以文章提出了一种test方法，来检测这块是不是容易造成data-dependent failure的，然后用这个算法来平摊overhead。</p>
+<p>平摊的方法就是说我只在两次读写之间时间足够长的page进行test。</p>
+<p><br></p>
+<h3 id="DeepLog-Anomaly-Detection-and-Diagnosis-from-System-Logs-through-Deep-Learning"><a href="#DeepLog-Anomaly-Detection-and-Diagnosis-from-System-Logs-through-Deep-Learning" class="headerlink" title="DeepLog : Anomaly Detection and Diagnosis from System Logs through Deep Learning"></a>DeepLog : Anomaly Detection and Diagnosis from System Logs through Deep Learning</h3><ul>
+<li>CCS 2017 (CCF-A)</li>
+<li>Utah</li>
+</ul>
+<p>提出了一个DeepLog的结构来detect anomaly。</p>
+<p>首先把每个log parser成 log key 和parameter。【下划线就是log key，大概就是一种固定的句式，表示一种type，parameter就是里面相关的参数，就是同一句式里面不同的东西了，再加上log时间差】</p>
+<p><img src="/2019/08/06/arch/19.png" width="80%"></p>
+<p><img src="/2019/08/06/arch/20.png" width="100%"></p>
+<p>上图是整个系统的架构，首先用我们获得的key去train一个模型，这个模型其实是一个类似language model的感觉，就是根据已经打出的log，预测下一条log会是怎么样的，然后算下一条log是前面出现过的每个种类log的概率分布。这边的模型用的是一个两层或者更多层的LSTM。如果实际发生的新key是在预测的topk内，就认为是正常的，不然就是异常的。</p>
+<p>同时担心异常发生时候，可能是日志内的参数发生了大异常，因此如果key的model测试出来是没有问题的，就去再测试parameter是不是有问题。parameter这边也是用LSTM来train的model。在实际应用中，如果预测值和观测值之间的误差在高斯分布的高置信区间内，则输入的日志参数被认为是正常，否则认为是异常事件。</p>
+<p>在许多系统日志中，日志消息是由多个不同的线程或并发运行的任务生成的。然而现有的方法都是基于单个任务的日志来生成工作流模型。所以在创建工作流模型时，会发生：同一个任务并发产生了不同的日志，或者新的任务产生了新的日志类型。DeepLog会将日志分类成不同任务对应下的日志，然后使用传统的工作流模型来生成工作流，方便运维工程师查看异常原因。[这边用到的方法，一个是用LSTM算出来的概率进行构建，一个是用co-occurrance matrix计算log key之间的关系，如果rate高，就说明这两个key需要总是一起出现blabla]</p>
+<p><img src="/2019/08/06/arch/21.png" width="100%"></p>
+<p>idea：</p>
+<p>就这篇文章其实就跟predict没关系了，只是一个快速发现bug已经发生和帮助查找bug在哪的sys。主要点可能在那个对log的处理上。</p>
+<p><br></p>
+<h3 id="Desh-Deep-Learning-for-System-Health-Prediction-of-Lead-Times-to-Failure-in-HPC"><a href="#Desh-Deep-Learning-for-System-Health-Prediction-of-Lead-Times-to-Failure-in-HPC" class="headerlink" title="Desh: Deep Learning for System Health Prediction of Lead Times to   Failure in HPC"></a>Desh: Deep Learning for System Health Prediction of Lead Times to   Failure in HPC</h3><p>占坑，待补，看是看完了，但是就很懵逼orz</p>
 
       
     </div>
@@ -707,7 +792,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study"><span class="nav-number">3.</span> <span class="nav-text">DRAM Errors in the Wild: A Large-Scale Field Study</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Predicting-DRAM-Reliability-in-the-Field-with-Machine-Learning"><span class="nav-number">4.</span> <span class="nav-text">Predicting DRAM Reliability in the Field with Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Physics-Informed-Machine-Learning-for-DRAM-Error-Modeling"><span class="nav-number">5.</span> <span class="nav-text">Physics-Informed Machine Learning for DRAM Error Modeling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Errors-in-Modern-Systems-The-Good-The-Bad-and-The-Ugly"><span class="nav-number">6.</span> <span class="nav-text">Memory Errors in Modern Systems: The Good, The Bad, and The Ugly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Feng-Shui-of-Supercomputer-Memory"><span class="nav-number">7.</span> <span class="nav-text">Feng Shui of Supercomputer Memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Revisiting-Memory-Errors-in-Large-Scale-Production-Data-Centers-Analysis-and-Modeling-of-New-Trends-from-the-Field"><span class="nav-number">8.</span> <span class="nav-text">Revisiting Memory Errors in Large-Scale Production Data Centers: Analysis and Modeling of New Trends from the Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cosmic-Rays-Don’t-Strike-Twice-Understanding-the-Nature-of-DRAM-Errors-and-the-Implications-for-System-Design"><span class="nav-number">9.</span> <span class="nav-text">Cosmic Rays Don’t Strike Twice: Understanding the Nature of DRAM Errors and the Implications for System Design</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study"><span class="nav-number">3.</span> <span class="nav-text">DRAM Errors in the Wild: A Large-Scale Field Study</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Predicting-DRAM-Reliability-in-the-Field-with-Machine-Learning"><span class="nav-number">4.</span> <span class="nav-text">Predicting DRAM Reliability in the Field with Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Physics-Informed-Machine-Learning-for-DRAM-Error-Modeling"><span class="nav-number">5.</span> <span class="nav-text">Physics-Informed Machine Learning for DRAM Error Modeling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Errors-in-Modern-Systems-The-Good-The-Bad-and-The-Ugly"><span class="nav-number">6.</span> <span class="nav-text">Memory Errors in Modern Systems: The Good, The Bad, and The Ugly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Feng-Shui-of-Supercomputer-Memory"><span class="nav-number">7.</span> <span class="nav-text">Feng Shui of Supercomputer Memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Revisiting-Memory-Errors-in-Large-Scale-Production-Data-Centers-Analysis-and-Modeling-of-New-Trends-from-the-Field"><span class="nav-number">8.</span> <span class="nav-text">Revisiting Memory Errors in Large-Scale Production Data Centers: Analysis and Modeling of New Trends from the Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cosmic-Rays-Don’t-Strike-Twice-Understanding-the-Nature-of-DRAM-Errors-and-the-Implications-for-System-Design"><span class="nav-number">9.</span> <span class="nav-text">Cosmic Rays Don’t Strike Twice: Understanding the Nature of DRAM Errors and the Implications for System Design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Assessment-of-the-Effect-of-Memory-Page-Retirement-on-System-RAS-Against-Hardware-Faults"><span class="nav-number">10.</span> <span class="nav-text">Assessment of the Effect of Memory Page Retirement on System RAS Against Hardware Faults</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-System-Software-Approach-to-Proactive-Memory-Error-Avoidance"><span class="nav-number">11.</span> <span class="nav-text">A System Software Approach to Proactive Memory-Error Avoidance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content"><span class="nav-number">12.</span> <span class="nav-text">Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DeepLog-Anomaly-Detection-and-Diagnosis-from-System-Logs-through-Deep-Learning"><span class="nav-number">13.</span> <span class="nav-text">DeepLog : Anomaly Detection and Diagnosis from System Logs through Deep Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Desh-Deep-Learning-for-System-Health-Prediction-of-Lead-Times-to-Failure-in-HPC"><span class="nav-number">14.</span> <span class="nav-text">Desh: Deep Learning for System Health Prediction of Lead Times to   Failure in HPC</span></a></li></ol></div>
             
 
           </div>
