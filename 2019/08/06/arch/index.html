@@ -107,7 +107,8 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/19.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/20.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/arch/21.png">
-<meta property="og:updated_time" content="2019-08-19T02:02:56.791Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/arch/22.png">
+<meta property="og:updated_time" content="2019-08-23T08:27:49.168Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统方向相关学习">
 <meta name="twitter:description" content="显然，我看的论文开始换领域了，因为意外的换了导师换了方向23333，开始入硬核系统坑，希望不会埋死  Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning ACM ICM 2015 [我也不知道投的为啥是个网络的会] CCF-B 清华 + 百度  文章主要做的是通过随机森林的方法">
@@ -598,11 +599,10 @@
 <p>然后他的system在在单节点和多节点上的结果如下。</p>
 <p><img src="/2019/08/06/arch/18.png" width="90%"></p>
 <p><br></p>
-<h3 id="Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content"><a href="#Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content" class="headerlink" title="Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content"></a>Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content</h3><ul>
-<li>2017 MICRO(CCF-A)</li>
-<li>Intel &amp; Nvidia</li>
+<h3 id="Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content-A-Case-for-Memory-Content-Based-Detection-and-Mitigation-of-Data-Dependent-Failures-in-DRAM"><a href="#Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content-A-Case-for-Memory-Content-Based-Detection-and-Mitigation-of-Data-Dependent-Failures-in-DRAM" class="headerlink" title="Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content / A Case for Memory Content-Based Detection and Mitigation of Data-Dependent Failures in DRAM"></a>Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content / A Case for Memory Content-Based Detection and Mitigation of Data-Dependent Failures in DRAM</h3><ul>
+<li>2017 MICRO(CCF-A) / 2016 CAL期刊（我也不懂为什么期刊先于会议emmm）</li>
+<li>Intel &amp; Nvidia（同班人马）</li>
 </ul>
-<p>【讲道理，我没有特别看懂这篇文章orz】</p>
 <p>文章主要讲的就是针对data-dependent 的failure 进行减少DRAM错误。</p>
 <p>data-dependent failure就是指failure的出现和内存里存的data是相关的。因为DRAM的行列是共用bitline和wordline的，所以数据存储在cell中会对周围的cell有影响。比如下面的例子或者说row hammer。也就是说导致failure的原因和每个cell中存放的真实数据有关。</p>
 <blockquote>
@@ -610,9 +610,11 @@
 <p>1  1  1<br>1  0  1<br>1  1  1<br>这里中间的0，有可能因为周围都是1，电荷上的作用就很容易翻转为1</p>
 </blockquote>
 <p>DRAM cell本身就是会丢失电荷的，需要一直refresh来存储数据的，在特定的data pattern下可能某些cell丢失得更快。</p>
-<p>这种情况，可以通过refresh消除，但是频繁的refresh会导致大量的额外开销，所以这篇文章想要对容易出错的cell用高频refresh，不容易出错的用低频refresh。test的作用就是确定哪些高频哪些低频。由于test本身也会有开销，必须有足够多的低频时间来平摊这部分开销，所以引入了write interval的概念。</p>
-<p>所以文章提出了一种test方法，来检测这块是不是容易造成data-dependent failure的，然后用这个算法来平摊overhead。</p>
+<p>这种情况，可以通过refresh消除，但是频繁的refresh会导致大量的额外开销，所以这篇文章想要对容易出错的cell用高频refresh，不容易出错的用低频refresh。test的作用就是确定哪些需要高频哪些需要低频。由于test本身也会有开销，必须有足够多的低频时间来平摊这部分开销，所以引入了write interval的概念。</p>
+<p>所以文章提出了两种test方法，来检测这块是不是容易造成data-dependent failure的，test的想法很简单，就是把这个row的内容前后读两次，比较一不一样，一样的话，就说明不容易。两种test方法不同在一个是读到自己对应的buffer，另一是读到另一个region（因为如果需要test很大一块的时候，没有对应很大的buffer）</p>
+<p>然后用这个算法来平摊overhead。</p>
 <p>平摊的方法就是说我只在两次读写之间时间足够长的page进行test。</p>
+<p><strong>备注</strong>：个人理解data-dependent failure是一个soft error，但是他会引起CE还是UCE并不是一定的，所以感觉是预测failure的另一个failure子集part。</p>
 <p><br></p>
 <h3 id="DeepLog-Anomaly-Detection-and-Diagnosis-from-System-Logs-through-Deep-Learning"><a href="#DeepLog-Anomaly-Detection-and-Diagnosis-from-System-Logs-through-Deep-Learning" class="headerlink" title="DeepLog : Anomaly Detection and Diagnosis from System Logs through Deep Learning"></a>DeepLog : Anomaly Detection and Diagnosis from System Logs through Deep Learning</h3><ul>
 <li>CCS 2017 (CCF-A)</li>
@@ -630,6 +632,71 @@
 <p>就这篇文章其实就跟predict没关系了，只是一个快速发现bug已经发生和帮助查找bug在哪的sys。主要点可能在那个对log的处理上。</p>
 <p><br></p>
 <h3 id="Desh-Deep-Learning-for-System-Health-Prediction-of-Lead-Times-to-Failure-in-HPC"><a href="#Desh-Deep-Learning-for-System-Health-Prediction-of-Lead-Times-to-Failure-in-HPC" class="headerlink" title="Desh: Deep Learning for System Health Prediction of Lead Times to   Failure in HPC"></a>Desh: Deep Learning for System Health Prediction of Lead Times to   Failure in HPC</h3><p>占坑，待补，看是看完了，但是就很懵逼orz</p>
+<p><br></p>
+<h3 id="Filpping-Bits-in-Memory-Without-Accessing-Them-An-experimental-Study-of-DRAM-Disturbance-Errors"><a href="#Filpping-Bits-in-Memory-Without-Accessing-Them-An-experimental-Study-of-DRAM-Disturbance-Errors" class="headerlink" title="Filpping Bits in Memory Without Accessing Them: An experimental Study of DRAM Disturbance Errors"></a>Filpping Bits in Memory Without Accessing Them: An experimental Study of DRAM Disturbance Errors</h3><ul>
+<li>ISCA 2014 （CCF-A）</li>
+<li>CMU Intel 还是O教授</li>
+</ul>
+<p>文章讲的是关于row hammer的问题，也就是说我反复open和close同一个row，会容易使得该row旁边的row中的cell的元素产生error。</p>
+<p>文章做了几组实验，体现：</p>
+<ul>
+<li>refresh 间隔越短， row hammer导致的error越少</li>
+<li>row hammer的频率越高，error越多</li>
+<li>温度对row hammer影响不大</li>
+</ul>
+<p>另外作者提出了一个解决办法，叫做PARA(probabilistic adjacent row activation)，基本的想法就是当一个row被open后，他相邻的row会以一个很低的概率也被open（等于进行refresh），这样当一个row高频被open的时候，他周围的row也会被open close的进行refresh。另外他通过将物理地址和逻辑地址的映射 存到一个rom中，方便memory controll了解对应的物理分布，便于refresh。</p>
+<p><br></p>
+<h3 id="The-Reach-Profiler-REAPER-Enabling-the-Mitigation-of-DRAM-Retention-Failures-via-Profiling-at-Aggressive-Conditions"><a href="#The-Reach-Profiler-REAPER-Enabling-the-Mitigation-of-DRAM-Retention-Failures-via-Profiling-at-Aggressive-Conditions" class="headerlink" title="The Reach Profiler(REAPER):Enabling the Mitigation of DRAM Retention Failures via Profiling at Aggressive Conditions"></a>The Reach Profiler(REAPER):Enabling the Mitigation of DRAM Retention Failures via Profiling at Aggressive Conditions</h3><ul>
+<li>ISCA 2017 (CCF-A)</li>
+<li>ETH &amp; CMU O教授</li>
+</ul>
+<p>文章主要解决的事DRAM Retention Failure的问题，大概意思就是每个cell 需要的refresh 间隔是不一样的，因为每个cell的放电速度也有所不同（都受data pattern的影响，并且本身每个cell的时间就是有波动的），因此如何找到一个合适的refresh 间隔，并且不让overhead过于大，就是本篇文章在解决的问题。</p>
+<p>这边提出的方法是让系统在更高温度和更长的refresh interval的情况下，看看哪些cell会挂，来找出这些failing cells进行对应的处理。</p>
+<p>因为实验发现在普通情况挂掉的cell在更差的环境下也都会挂掉，因此用更高温度和更长refresh interval可以测出极大部分在正常情况下会挂掉的cell，并且有并不大的false positive，以及在测试时间上也是可以接受的。</p>
+<p>当然我们这个每次计算的refresh interval都是需要online的调整的，也就是每几天，都要根据当前系统的情况，错误率等来调整interval。并且这些调整还要考虑ECC的程度，能忍受多少error。</p>
+<p><br></p>
+<h3 id="RAIDR：Retention-Aware-Intelligent-DRAM-Refresh"><a href="#RAIDR：Retention-Aware-Intelligent-DRAM-Refresh" class="headerlink" title="RAIDR：Retention-Aware Intelligent DRAM Refresh"></a>RAIDR：Retention-Aware Intelligent DRAM Refresh</h3><ul>
+<li>ISCA 2012 (CCF-A)</li>
+<li>CMU O教授</li>
+</ul>
+<p>这篇文章解决的问题和上篇是一模一样的，是上一篇文章的前文。他提出的方法是，我首先关掉refresh，检测出每个row需要refresh的时间档次是哪种，然后把对应同档次的row分为一类，然后对每个档次的row用每个档次的refresh 频率。然后存每个row的档次用的是布隆过滤器，来保证不会过度浪费空间。</p>
+<p><br></p>
+<h3 id="Meta-Cure-A-Reliability-Enhancement-Strategy-for-Metadata-in-NAND-Flash-Memory-Storage-Systems"><a href="#Meta-Cure-A-Reliability-Enhancement-Strategy-for-Metadata-in-NAND-Flash-Memory-Storage-Systems" class="headerlink" title="Meta-Cure: A Reliability Enhancement Strategy for Metadata in NAND Flash Memory Storage Systems"></a>Meta-Cure: A Reliability Enhancement Strategy for Metadata in NAND Flash Memory Storage Systems</h3><ul>
+<li>DAC 2012 ( CCF-A )</li>
+<li>HONGKONG Polytechnic</li>
+</ul>
+<p>这篇文章针对的是对NAND Flash Memory来增强他的reliability的。想法是选择性的copy page。</p>
+<ul>
+<li>判断page 是不是critical page，是的话，并且还没复制备份的，备份一下</li>
+<li>在读的时候，如果是critical page，就从原处和备份出都读出page，然后如果page的错误率高于了阈值，就根据另一个page来进行update，避免错误。</li>
+</ul>
+<p>主要的思想其实是，两个page都出现多个bit错误的概率被降低了，来提高整个flash的可靠性。</p>
+<p><br></p>
+<h3 id="MRLoc-Mitigating-Row-hammering-based-on-memory-Locality"><a href="#MRLoc-Mitigating-Row-hammering-based-on-memory-Locality" class="headerlink" title="MRLoc: Mitigating Row-hammering based on memory Locality"></a>MRLoc: Mitigating Row-hammering based on memory Locality</h3><ul>
+<li>DAC 2019</li>
+<li>Korea某大学</li>
+</ul>
+<p>提出一个算法，首先用一个queue来维护最新访问的row相邻的row，就比如一个queue size 15，然后每次访问一个row以后，就把这个row相邻的两个row塞进queue, 然后因此也会挤出去queue里面放了最久的row。</p>
+<p>然后根据queue来计算每个row被增加refresh的概率，L为queue的长度，d为每个row在queue里的位置。</p>
+<p><img src="/2019/08/06/arch/22.png" width="30%"></p>
+<p>最后是对比了PARA和PRoHIT，然后发现这种方法是增加了非常说好的refresh但减少了很大的row hammer error。</p>
+<p>感觉其实思想差不多，就是不同的row 有不同概率的refresh，而不是像PARA一样同等概率refresh，但是我感觉其实这个方法也没有很靠谱2333。</p>
+<p><br></p>
+<h3 id="Improving-Srvice-Availability-of-Cloud-Systems-by-Predicting-Disk-Error"><a href="#Improving-Srvice-Availability-of-Cloud-Systems-by-Predicting-Disk-Error" class="headerlink" title="Improving Srvice Availability of Cloud Systems by Predicting Disk Error"></a>Improving Srvice Availability of Cloud Systems by Predicting Disk Error</h3><ul>
+<li>USENIX ATC 2018（A）</li>
+<li>MSRA</li>
+</ul>
+<p>文章提出的是我们要做一个可以在实际数据中运用的对disk error的预测模型，以前的工作做的都是offline的工作。</p>
+<p>一般来说，在硬盘故障前的15-16天，硬盘错误就开始出现，并且一般在故障前的最后一周，重新分配的分区数量会增加三倍，设备重置次数会增加十倍。在高强度的工作负载下，出现故障迹象的磁盘可能很快就会发生故障，但在硬盘驱动的工作负载较少的服务器中，同样的硬盘可能仍然可以继续运转几周到几个月。</p>
+<p>作者运用系统级和磁盘层级的监测数据。</p>
+<p>主要的思想是两个：</p>
+<ul>
+<li>一个是feature selection，我们将数据分为traing 和 validation，如果当去掉一个feature时候validation的performance提高了，我们就吧这个feature删了，直到删到我们的阈值下限。</li>
+<li>另一个是考虑到我们的样本里面正负样本相差很多，因此我们就不做一个classification问题，而是做成一个ranking问题，按照error proneness排序，然后定我们的topk问题。这边K的选择考虑的是false positive和false negative的一个balance。cost = cost1<em>#FP + cost2</em>#FN，我们就是要让这些cost最小，即选出了topk。<ul>
+<li>讲道理我觉得这个topk的挑选很迷惑，这个是在模型里面确定了以后一直用呢还是对每次都要重新确定？？？</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -792,7 +859,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study"><span class="nav-number">3.</span> <span class="nav-text">DRAM Errors in the Wild: A Large-Scale Field Study</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Predicting-DRAM-Reliability-in-the-Field-with-Machine-Learning"><span class="nav-number">4.</span> <span class="nav-text">Predicting DRAM Reliability in the Field with Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Physics-Informed-Machine-Learning-for-DRAM-Error-Modeling"><span class="nav-number">5.</span> <span class="nav-text">Physics-Informed Machine Learning for DRAM Error Modeling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Errors-in-Modern-Systems-The-Good-The-Bad-and-The-Ugly"><span class="nav-number">6.</span> <span class="nav-text">Memory Errors in Modern Systems: The Good, The Bad, and The Ugly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Feng-Shui-of-Supercomputer-Memory"><span class="nav-number">7.</span> <span class="nav-text">Feng Shui of Supercomputer Memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Revisiting-Memory-Errors-in-Large-Scale-Production-Data-Centers-Analysis-and-Modeling-of-New-Trends-from-the-Field"><span class="nav-number">8.</span> <span class="nav-text">Revisiting Memory Errors in Large-Scale Production Data Centers: Analysis and Modeling of New Trends from the Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cosmic-Rays-Don’t-Strike-Twice-Understanding-the-Nature-of-DRAM-Errors-and-the-Implications-for-System-Design"><span class="nav-number">9.</span> <span class="nav-text">Cosmic Rays Don’t Strike Twice: Understanding the Nature of DRAM Errors and the Implications for System Design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Assessment-of-the-Effect-of-Memory-Page-Retirement-on-System-RAS-Against-Hardware-Faults"><span class="nav-number">10.</span> <span class="nav-text">Assessment of the Effect of Memory Page Retirement on System RAS Against Hardware Faults</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-System-Software-Approach-to-Proactive-Memory-Error-Avoidance"><span class="nav-number">11.</span> <span class="nav-text">A System Software Approach to Proactive Memory-Error Avoidance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content"><span class="nav-number">12.</span> <span class="nav-text">Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DeepLog-Anomaly-Detection-and-Diagnosis-from-System-Logs-through-Deep-Learning"><span class="nav-number">13.</span> <span class="nav-text">DeepLog : Anomaly Detection and Diagnosis from System Logs through Deep Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Desh-Deep-Learning-for-System-Health-Prediction-of-Lead-Times-to-Failure-in-HPC"><span class="nav-number">14.</span> <span class="nav-text">Desh: Deep Learning for System Health Prediction of Lead Times to   Failure in HPC</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Opprentice：Towards-Practical-and-Automatic-Anomaly-Detection-Through-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Opprentice：Towards Practical and Automatic Anomaly Detection Through Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Failure-Prediction-Using-Online-Learning"><span class="nav-number">2.</span> <span class="nav-text">Memory Failure Prediction Using Online Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DRAM-Errors-in-the-Wild-A-Large-Scale-Field-Study"><span class="nav-number">3.</span> <span class="nav-text">DRAM Errors in the Wild: A Large-Scale Field Study</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Predicting-DRAM-Reliability-in-the-Field-with-Machine-Learning"><span class="nav-number">4.</span> <span class="nav-text">Predicting DRAM Reliability in the Field with Machine Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Physics-Informed-Machine-Learning-for-DRAM-Error-Modeling"><span class="nav-number">5.</span> <span class="nav-text">Physics-Informed Machine Learning for DRAM Error Modeling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-Errors-in-Modern-Systems-The-Good-The-Bad-and-The-Ugly"><span class="nav-number">6.</span> <span class="nav-text">Memory Errors in Modern Systems: The Good, The Bad, and The Ugly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Feng-Shui-of-Supercomputer-Memory"><span class="nav-number">7.</span> <span class="nav-text">Feng Shui of Supercomputer Memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Revisiting-Memory-Errors-in-Large-Scale-Production-Data-Centers-Analysis-and-Modeling-of-New-Trends-from-the-Field"><span class="nav-number">8.</span> <span class="nav-text">Revisiting Memory Errors in Large-Scale Production Data Centers: Analysis and Modeling of New Trends from the Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cosmic-Rays-Don’t-Strike-Twice-Understanding-the-Nature-of-DRAM-Errors-and-the-Implications-for-System-Design"><span class="nav-number">9.</span> <span class="nav-text">Cosmic Rays Don’t Strike Twice: Understanding the Nature of DRAM Errors and the Implications for System Design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Assessment-of-the-Effect-of-Memory-Page-Retirement-on-System-RAS-Against-Hardware-Faults"><span class="nav-number">10.</span> <span class="nav-text">Assessment of the Effect of Memory Page Retirement on System RAS Against Hardware Faults</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-System-Software-Approach-to-Proactive-Memory-Error-Avoidance"><span class="nav-number">11.</span> <span class="nav-text">A System Software Approach to Proactive Memory-Error Avoidance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Detecting-and-Mitigating-Data-Dependent-DRAM-Failures-by-Exploiting-Current-Memory-Content-A-Case-for-Memory-Content-Based-Detection-and-Mitigation-of-Data-Dependent-Failures-in-DRAM"><span class="nav-number">12.</span> <span class="nav-text">Detecting and Mitigating Data-Dependent DRAM Failures by Exploiting Current Memory Content / A Case for Memory Content-Based Detection and Mitigation of Data-Dependent Failures in DRAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DeepLog-Anomaly-Detection-and-Diagnosis-from-System-Logs-through-Deep-Learning"><span class="nav-number">13.</span> <span class="nav-text">DeepLog : Anomaly Detection and Diagnosis from System Logs through Deep Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Desh-Deep-Learning-for-System-Health-Prediction-of-Lead-Times-to-Failure-in-HPC"><span class="nav-number">14.</span> <span class="nav-text">Desh: Deep Learning for System Health Prediction of Lead Times to   Failure in HPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filpping-Bits-in-Memory-Without-Accessing-Them-An-experimental-Study-of-DRAM-Disturbance-Errors"><span class="nav-number">15.</span> <span class="nav-text">Filpping Bits in Memory Without Accessing Them: An experimental Study of DRAM Disturbance Errors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Reach-Profiler-REAPER-Enabling-the-Mitigation-of-DRAM-Retention-Failures-via-Profiling-at-Aggressive-Conditions"><span class="nav-number">16.</span> <span class="nav-text">The Reach Profiler(REAPER):Enabling the Mitigation of DRAM Retention Failures via Profiling at Aggressive Conditions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAIDR：Retention-Aware-Intelligent-DRAM-Refresh"><span class="nav-number">17.</span> <span class="nav-text">RAIDR：Retention-Aware Intelligent DRAM Refresh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Meta-Cure-A-Reliability-Enhancement-Strategy-for-Metadata-in-NAND-Flash-Memory-Storage-Systems"><span class="nav-number">18.</span> <span class="nav-text">Meta-Cure: A Reliability Enhancement Strategy for Metadata in NAND Flash Memory Storage Systems</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MRLoc-Mitigating-Row-hammering-based-on-memory-Locality"><span class="nav-number">19.</span> <span class="nav-text">MRLoc: Mitigating Row-hammering based on memory Locality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Improving-Srvice-Availability-of-Cloud-Systems-by-Predicting-Disk-Error"><span class="nav-number">20.</span> <span class="nav-text">Improving Srvice Availability of Cloud Systems by Predicting Disk Error</span></a></li></ol></div>
             
 
           </div>
