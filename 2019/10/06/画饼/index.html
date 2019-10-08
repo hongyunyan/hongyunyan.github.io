@@ -87,7 +87,9 @@
 <meta property="og:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/1.png">
-<meta property="og:updated_time" content="2019-10-06T07:48:47.801Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
+<meta property="og:updated_time" content="2019-10-08T08:59:39.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -361,6 +363,22 @@
 <p>这边提到的预测模型，是根据已知的层参数和对应的latency，energy消耗来拟合作的一个对数回归函数。</p>
 <p>最后，作者使用8个不同的DNN作为我们的基准，通过Wi-Fi，LTE和3G无线连接，仅支持CPU和GPU的端平台，来评估Neurosurgeon。进行了latency，energy，和MAUI架构的对比，对网络情况的适应性测试，对Server load变化适应性测试，和数据中心吞吐量的指标测评。</p>
 <p>与仅云处理相比，神经外科医生在8个基准测试中实现了平均3.1倍和最高达40.7倍的连续加速，平均降低了59.5％和最高达94.7％的移动能耗，并提高了数据中心的吞吐量平均1.5倍，最高为6.7倍。</p>
+<p><br></p>
+<h3 id="Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><a href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices" class="headerlink" title="Distributed Deep Neural Networks over the Cloud, the Edge and End Devices"></a>Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</h3><ul>
+<li>ICDCS 2017 (B)</li>
+<li>Harvard University</li>
+</ul>
+<p>本文主要关注的也是end devices, edge和cloud协同进行对网络进行inference。主要的方法也是先在end devices算，然后end结束以后判断一下end算的符不符合confident，符合就直接作为结果返回，如果不足够，就把当前的结果作为输入输给edge，继续算剩下的layers，然后edge结束再进行新一轮判断，符合就作为结果返回，如果不够就再输给cloud算。【我的理解是整个end，edge，cloud的所有层拼起来是一个完整的DNN，仿佛是这个意思哈，整个是看能不能提前exit的意思，到时候看一下他引用的BranchyNet怎么做early exit的】。</p>
+<p><img src="/2019/10/06/画饼/2.png" width="100%"></p>
+<p>因为你的end device，或者是edge都可以是多个组成的，所以当他们各自算完以后，有一个aggregation的步骤，这边给出了三种方法，Max pooling，Average Pooling和Concatenation。</p>
+<p>这边DDNN的training part我感觉我没有理解的很清楚，反正他说是根据BranchyNet的方法，所以到时候再说吧。这边有提到的是说</p>
+<blockquote>
+<p>to train the DDNN we form a joint optimization problem as minimizing a weighted sum of the loss functions of each exit.</p>
+</blockquote>
+<p>然后对于inference的exit的threshold，这边用的是求一个normalized entropy[虽然为什么用熵我也不是很了解2333]</p>
+<p><img src="/2019/10/06/画饼/3.png" width="50%"></p>
+<p>这边的测试选用的是6个end device，一个edge和一个cloud, 那六个device可以理解为一个交通口不同位置的摄像头，在抓拍照片，然后我们就是要识别这些抓拍到的照片里面的对象。发现多个device的时候，我们其实是相比单个device提高了精准度的，当device少的时候，更多的sample最后被扔到云上去后续计算了，而device增多的时候，在device本身能解决的sample也增多了。最后的threshold设为了0.8，这样达到最后overall 97的准确率，并有62%的sample没有被发到云上。</p>
+<p>最后的结果反正就是说这样的做法准确率也很高，容错性也很好，也减少了传输的cost。</p>
 
       
     </div>
@@ -519,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li></ol></div>
             
 
           </div>
