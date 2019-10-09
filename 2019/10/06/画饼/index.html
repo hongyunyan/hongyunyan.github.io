@@ -89,7 +89,9 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/2.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
-<meta property="og:updated_time" content="2019-10-08T08:59:39.208Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
+<meta property="og:updated_time" content="2019-10-09T08:44:16.029Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -378,7 +380,24 @@
 <p>然后对于inference的exit的threshold，这边用的是求一个normalized entropy[虽然为什么用熵我也不是很了解2333]</p>
 <p><img src="/2019/10/06/画饼/3.png" width="50%"></p>
 <p>这边的测试选用的是6个end device，一个edge和一个cloud, 那六个device可以理解为一个交通口不同位置的摄像头，在抓拍照片，然后我们就是要识别这些抓拍到的照片里面的对象。发现多个device的时候，我们其实是相比单个device提高了精准度的，当device少的时候，更多的sample最后被扔到云上去后续计算了，而device增多的时候，在device本身能解决的sample也增多了。最后的threshold设为了0.8，这样达到最后overall 97的准确率，并有62%的sample没有被发到云上。</p>
-<p>最后的结果反正就是说这样的做法准确率也很高，容错性也很好，也减少了传输的cost。</p>
+<p>最后的结果反正就是说这样的做法准确率也很高，容错性也很好，也减少了传输的cost。 </p>
+<p><br></p>
+<h3 id="Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><a href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference" class="headerlink" title="Big/Little Deep Neural Network for Ultra Low Power Inference"></a>Big/Little Deep Neural Network for Ultra Low Power Inference</h3><ul>
+<li>CODES 2015（B）</li>
+<li>Seoul National University + Samsumg</li>
+</ul>
+<p>这篇文章就是非常典型的大小网络，他认为说以图片分类为例，大部分的sample其实都用不到那么复杂的网络，只要一个简单的小一点的网络其实就能实现比较好的结果了，并且这些小的网络可以很大程度的节省energy。所以他就是提出说要先让sample跑小网络，然后跑完检测说这个结果靠谱么，如果靠谱就直接作为最终的结果，如果不靠谱就再扔到大网络里面去跑。</p>
+<p><img src="/2019/10/06/画饼/5.png" width="80%"></p>
+<p>对于这个区分靠谱不靠谱，这边给出的想法是用一个score margin来作为指标。score margin这边给的是1st score - 2st score. 感觉作为一个分类问题，这样的设计方法还是蛮合理当然也很直观233.【感觉大小网络的一个研究点不就在于怎么判断我小网络的结果是可以的，不需要大网络来算了么】然后对于这个score margin，我们再设定一个阈值，如果大于阈值，我就认为我相信这个结果，如果小于，那就扔到大网络里面去。</p>
+<p>然后对于这个挑阈值的问题，这边给出了两个方法，一个是固定的threshold，一个是dynamic调整threshold。</p>
+<ul>
+<li><p>static Threshold的想法是说，我一个比较好的threshold是一方面可以尽可能少的用到大网络，另一个是我要减少loss of inference accuracy。所以就在这两个方向做tradeoff，来获得一个合适的threshold值</p>
+</li>
+<li><p>dynamic threshold的想法是说，首先我将整个问题转化为最大化下面这个式子，这边原来想最大化的是P(correct)，但是我们认为这个其实可以认为是下面这个和网络算出来的score margin线性相关的，所以就用下一个式子来表示【因为P也不好算嘛】【当然其实这个要是等价，首先的前提就是说score margin决定结果是不是对的这个想法是可信的，这个part我具体没有了解过，是不是这样靠谱的。】然后那我要最大化下面这个式子，我怎么来找到合适的threshold的呢？这边作者给出的方法比较直接，我先初始化$Theta$和$\Delta$,然后每次我们比较threshold取$Theta$和$Theta + Delta$的下面这个式子的结果大小，如果$Theta$比较好，那就继续用这个，然后调整$Delta$,如果是后者比较好，就调整为后者，然后也调节一下$Delta$，整个过程就是一个梯度感觉。</p>
+<p><img src="/2019/10/06/画饼/4.png" width="70%"></p>
+</li>
+</ul>
+<p>然后这边实验部分还提到了一个对应做了一个hardware accelerator来处理，这个part没有太了解懂，也不是很重要吧，先放一放。然后作者在MNIST和ImageNet两个数据集上做了测试，来验证自己的想法是work的，还比较了不同小网络的结果。另外还比较了SRAM size的大小对energy的影响，在一定程度下，SRAM增大，energy consumption就会降低，因为SRAM增大，减少了off-chip DRAM access.</p>
 
       
     </div>
@@ -537,7 +556,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li></ol></div>
             
 
           </div>
