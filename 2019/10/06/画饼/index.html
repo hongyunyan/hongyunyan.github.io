@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
-<meta property="og:updated_time" content="2019-10-09T10:20:25.513Z">
+<meta property="og:updated_time" content="2019-10-09T12:44:15.079Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -401,6 +401,11 @@
 </li>
 </ul>
 <p>然后这边实验部分还提到了一个对应做了一个hardware accelerator来处理，这个part没有太了解懂，也不是很重要吧，先放一放。然后作者在MNIST和ImageNet两个数据集上做了测试，来验证自己的想法是work的，还比较了不同小网络的结果。另外还比较了SRAM size的大小对energy的影响，在一定程度下，SRAM增大，energy consumption就会降低，因为SRAM增大，减少了off-chip DRAM access.</p>
+<p><br></p>
+<h3 id="The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><a href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things" class="headerlink" title="The Cascading Neural Network: Building the Internet of Smart Things"></a>The Cascading Neural Network: Building the Internet of Smart Things</h3><ul>
+<li>KNOWLEDGE AND INFORMATION SYSTEMS(B 会) 2017</li>
+</ul>
+<p>这篇文章感觉创新点没啥，主要的想法就是在一个网络里面，可以每层都直接接一个softmax，然后来判断是不是已经够了，不用继续往后面训练了。反正就是一个网络里面切出多个part，每个part结束都连一个softmax，然后判断现在的结果达标了么，没达标继续，达标了就结束。判断好没好，是选了softmax结果里面的max值是不是大于了阈值。这边说的网络的训练，可以直接先以传统的方式训练本身的网络，然后再保留每个层的中间结果，去训每层外接的softmax的参数就可以了。</p>
 
       
     </div>
@@ -559,7 +564,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li></ol></div>
             
 
           </div>
