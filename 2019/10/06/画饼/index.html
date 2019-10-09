@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
-<meta property="og:updated_time" content="2019-10-09T08:44:16.029Z">
+<meta property="og:updated_time" content="2019-10-09T10:20:25.513Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -365,6 +365,9 @@
 <p>这边提到的预测模型，是根据已知的层参数和对应的latency，energy消耗来拟合作的一个对数回归函数。</p>
 <p>最后，作者使用8个不同的DNN作为我们的基准，通过Wi-Fi，LTE和3G无线连接，仅支持CPU和GPU的端平台，来评估Neurosurgeon。进行了latency，energy，和MAUI架构的对比，对网络情况的适应性测试，对Server load变化适应性测试，和数据中心吞吐量的指标测评。</p>
 <p>与仅云处理相比，神经外科医生在8个基准测试中实现了平均3.1倍和最高达40.7倍的连续加速，平均降低了59.5％和最高达94.7％的移动能耗，并提高了数据中心的吞吐量平均1.5倍，最高为6.7倍。</p>
+<blockquote>
+<p>吃饭的时候聊到说目前的网络大部分层的output的data size都是大于原有input的，所以其实如果要找到一层size比较小的情况然后发到云上，那一般在很后面的层了，不过好像后面的fc层的确是latency比较大的层，可能也是合理的吧。cq学长提到说，对这样的一部分在设备端，一部分在云上的，是不是应该考虑自己建一个网络，而不是用现有的网络进行分割。</p>
+</blockquote>
 <p><br></p>
 <h3 id="Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><a href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices" class="headerlink" title="Distributed Deep Neural Networks over the Cloud, the Edge and End Devices"></a>Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</h3><ul>
 <li>ICDCS 2017 (B)</li>
