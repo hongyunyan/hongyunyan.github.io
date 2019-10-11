@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
-<meta property="og:updated_time" content="2019-10-11T12:07:50.204Z">
+<meta property="og:updated_time" content="2019-10-11T13:37:37.459Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -433,6 +433,13 @@
 <li>奥目前的压缩网络好像就不能真实实际的减少计算时间，因为没有对应的算子保证？，那些置0的weight还是会被计算到，所以现在的压缩还是在模拟层面的？</li>
 <li>感觉那个判断是否confident的不就是那个approximate网络里面的predictor么？为什么都不用网络做，是因为目的是减少计算时间，所以用一个网络过于慢了吗？</li>
 <li>感觉应该看一下那个online learning那种的思想么？学习边做边调整 ?</li>
+<li>还有的就是用近似网络来近似复杂的算法，用一个predictor来判断这个数据能不能近似，然后再来用近似网络进行近似。</li>
+<li>感觉就两种方法– 一种就是先根据input来判断能不能用小网络来替换大网络，另一种就是说根据小网络结果来判断是不是需要大网络重新算。</li>
+<li>我们现在要想的是考虑云端和设备端的协同，我们有哪些可以做的事情，而不是单单考虑说如何在设备端加速神经网络速度，来适配设备端的需求。感觉眼界可以再放大一点。目前有的<ul>
+<li>神经网络加速</li>
+<li>神经网络根据数据分布调整，就可以选取全模型中 对当前数据分布比较重要的point来调整小网络。</li>
+</ul>
+</li>
 </ul>
 </blockquote>
 
