@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
-<meta property="og:updated_time" content="2019-10-11T11:08:59.862Z">
+<meta property="og:updated_time" content="2019-10-11T12:07:50.204Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -420,6 +420,21 @@
 <li>因为有部分sample在inference时候是在提前退出的，所以说做bp的时候layer层比较少，这样就更可以抓到discriminative的features【感觉这就很神奇啊，也就是说层数少的网络可以抓住更重要的feature，但是层数多的网络可能能更全面的进行计算？】</li>
 <li>exit point就像提供了一种正则化，来避免很多sample被overfit，所以提高了acc。</li>
 </ul>
+<p><br></p>
+<blockquote>
+<p>论文读到现在的感受：</p>
+<ul>
+<li>首先大家的目标其实是找到一个网络可以算的更快【所以说直接目标不是要他多小，主要想的是让他算的快】</li>
+<li>然后大家很大部分的方法是，当我觉得我目前几层算的够了，我就提前退出。然后这个怎么提前退出，有的人一个网络设一个early exit点，有的设好几个，有的是只在conv层后面设。一般都是加个softmax层，这样根据他softmax的结果来算他的sc，根据threshold来判断能否退出。</li>
+<li>感觉大家做的很没有创意啊…所有的论文感觉都是同一个思想，除了exit点设计的不一样，都没有更改判断是否exit的方式。</li>
+<li>说到大小网络的话，其实做的人很少，大小网络的话，就是一个小网络算完判断是否ok，不ok继续大网络计算，然后他的ok不ok还是sc来判断。然后应用的话一般都是小网络放device上，大网络放云端吧。</li>
+<li>不过这边的提出其实也不是专门针对edge的问题的。</li>
+<li>大家说的都是inference的时候用这些，没有边训练边调整模型的。好像目前就没有说如何在设备端做training的。</li>
+<li>奥目前的压缩网络好像就不能真实实际的减少计算时间，因为没有对应的算子保证？，那些置0的weight还是会被计算到，所以现在的压缩还是在模拟层面的？</li>
+<li>感觉那个判断是否confident的不就是那个approximate网络里面的predictor么？为什么都不用网络做，是因为目的是减少计算时间，所以用一个网络过于慢了吗？</li>
+<li>感觉应该看一下那个online learning那种的思想么？学习边做边调整 ?</li>
+</ul>
+</blockquote>
 
       
     </div>
