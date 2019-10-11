@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
-<meta property="og:updated_time" content="2019-10-09T12:44:15.079Z">
+<meta property="og:updated_time" content="2019-10-11T11:08:59.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -406,6 +406,20 @@
 <li>KNOWLEDGE AND INFORMATION SYSTEMS(B 会) 2017</li>
 </ul>
 <p>这篇文章感觉创新点没啥，主要的想法就是在一个网络里面，可以每层都直接接一个softmax，然后来判断是不是已经够了，不用继续往后面训练了。反正就是一个网络里面切出多个part，每个part结束都连一个softmax，然后判断现在的结果达标了么，没达标继续，达标了就结束。判断好没好，是选了softmax结果里面的max值是不是大于了阈值。这边说的网络的训练，可以直接先以传统的方式训练本身的网络，然后再保留每个层的中间结果，去训每层外接的softmax的参数就可以了。</p>
+<p><br></p>
+<h3 id="Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing"><a href="#Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing" class="headerlink" title="Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing"></a>Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing</h3><p>一篇edge intelligence的综述文章，中文翻译链接<a href="http://tongtianta.site/paper/46983" target="_blank" rel="noopener">http://tongtianta.site/paper/46983</a></p>
+<p><br></p>
+<h3 id="BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks"><a href="#BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks" class="headerlink" title="BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks"></a>BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks</h3><ul>
+<li>2017</li>
+<li>Harvard U</li>
+</ul>
+<p>一篇exit early的很有名的paper, 在网络里面插多个exit点。这篇文章讲了他怎么train 整个带exit的网络，首先用原始的网络训练完的参数初始化这个带exit的网络，然后再train这个新的网络，loss是带权重的每个exit处的loss function的累加和，带权重是指前面的exit branch的权重高，后面的exit branch的权重低。</p>
+<p>这篇文章网络的结果是不仅时间短了，而且我看数据，三个网络里面的两个网络的acc也是比原有网络提升了0.几个点的。感觉很有意思。</p>
+<p>文章里面提到的几个观点和解释也很有意思：</p>
+<ul>
+<li>因为有部分sample在inference时候是在提前退出的，所以说做bp的时候layer层比较少，这样就更可以抓到discriminative的features【感觉这就很神奇啊，也就是说层数少的网络可以抓住更重要的feature，但是层数多的网络可能能更全面的进行计算？】</li>
+<li>exit point就像提供了一种正则化，来避免很多sample被overfit，所以提高了acc。</li>
+</ul>
 
       
     </div>
@@ -564,7 +578,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing"><span class="nav-number">5.</span> <span class="nav-text">Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks"><span class="nav-number">6.</span> <span class="nav-text">BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks</span></a></li></ol></div>
             
 
           </div>
