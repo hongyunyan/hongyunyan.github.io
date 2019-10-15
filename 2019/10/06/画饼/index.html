@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
-<meta property="og:updated_time" content="2019-10-11T13:37:37.459Z">
+<meta property="og:updated_time" content="2019-10-15T08:22:30.089Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -442,6 +442,30 @@
 </li>
 </ul>
 </blockquote>
+<p><br></p>
+<h3 id="distilling-the-Knowledge-in-a-Neural-Network"><a href="#distilling-the-Knowledge-in-a-Neural-Network" class="headerlink" title="distilling the Knowledge in a Neural Network"></a>distilling the Knowledge in a Neural Network</h3><ul>
+<li>2015</li>
+<li>Hinton, Google</li>
+</ul>
+<blockquote>
+<p>因为这篇文章实在是太火了，所以这边会摘取各位朋友对这篇文章的理解和分析。</p>
+</blockquote>
+<p>知识蒸馏的motivation：</p>
+<blockquote>
+<p>Knowledge Distill是一种简单弥补分类问题监督信号不足的办法。传统的分类问题，模型的目标是将输入的特征映射到输出空间的一个点上，例如在著名的Imagenet比赛中，就是要将所有可能的输入图片映射到输出空间的1000个点上。这么做的话这1000个点中的每一个点是一个one hot编码的类别信息。这样一个label能提供的监督信息只有log(class)这么多bit。然而在KD中，我们可以使用teacher model对于每个样本输出一个连续的label分布，这样可以利用的监督信息就远比one hot的多了。另外一个角度的理解，大家可以想象如果只有label这样的一个目标的话，那么这个模型的目标就是把训练样本中每一类的样本强制映射到同一个点上，这样其实对于训练很有帮助的类内variance和类间distance就损失掉了。然而使用teacher model的输出可以恢复出这方面的信息。具体的举例就像是paper中讲的， 猫和狗的距离比猫和桌子要近，同时如果一个动物确实长得像猫又像狗，那么它是可以给两类都提供监督。综上所述，KD的核心思想在于”打散”原来压缩到了一个点的监督信息，让student模型的输出尽量match teacher模型的输出分布。其实要达到这个目标其实不一定使用teacher model，在数据标注或者采集的时候本身保留的不确定信息也可以帮助模型的训练。</p>
+</blockquote>
+<p>文章的蒸馏方法主要是依靠soften了softmax的prob来实现的。以MINST为例，比如teacher net识别这个图片是2的概率为0.99，为3的概率为0.01，为7的概率为0.0001。那我的student的网络如何能学到除了这张图应该识别为2的知识呢？也就是要学到自己在对这张图片做softmax的时候，为3的概率应该也是比7大的。所以这边就提出了soften（也就是升温）</p>
+<p>传统的softmax函数为$q_i = \frac{exp(zi)}{\sum_j exp(z_i) }$，我这边通过升温以后使他变为$q_i = \frac{exp(zi / T)}{\sum_j exp(z_i/T) }$。也就是说原来除以1，现在除以一个比1大的数，这样让每个softmax的值之间差距缩小。然后我们用这个soften的softmax prob作为student学习的一个soft target，传统的label产生的交叉熵作为hard target ，soft target和hard target一起指导student net学习。</p>
+<p>实验部分，作者使用了MNIST进行图片分类的实验，一个有趣的地方在于（和论文前半部分举的2和3识别的例子呼应），作者在数据集中有意地去除了标签为3的样本。没有KD的student网络不能识别测试时候提供的3的数字，有KD的student网络能够识别一些3（虽然它从来没有在训练样本中出现过！）。后面，作者在语音识别和一个Google内部的很大的图像分类数据集（JFT dataset）上做了实验。</p>
+<p>论文的另一个部分是集成模型，训练大数据集的一个简单方法是集成模型（将数据分成数个子集，分别训练然后集成），这种方法很容易并行化，但是却在测试的时候需要耗费大量的计算资源，而distillation可以解决这个问题。集成的一个主要问题是容易过拟合，这里也是利用soft targets的思想来处理这个问题，通过KL散度约束新模型与全体及分别的概率分布比较相似。</p>
+<p>soft target还能用于避免overfit，避免模型的过度训练。</p>
+<blockquote>
+<p>突然觉得这个集成模型，不是很像我们实际应该分散在每个edge上的设备么?云端应该是那个general的net，然后edge是那个special的net。</p>
+</blockquote>
+<p><br></p>
+<p>两篇近似网络的前文:</p>
+<h3 id="Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012"><a href="#Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012" class="headerlink" title="Neural Acceleration for General-Purpose Approximate Programs(2012)"></a>Neural Acceleration for General-Purpose Approximate Programs(2012)</h3><h3 id="Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015"><a href="#Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015" class="headerlink" title="Prediction-Based Quality Control for Approximate Accelerators(2015)"></a>Prediction-Based Quality Control for Approximate Accelerators(2015)</h3><p>第一篇文章提出了我们能用神经网络来近似诸多函数。我们应当先选择合适的code部分来近似，要求这些code有固定size的input和固定size的output，这样才能保证我近似的神经网络输入输出的size是固定的。然后对于选择网络来拟合，这边首先是限定了能选择的网络拓扑结构的选择范围（比如隐层有1-2层，节点数最多是多少个），然后在训练各个拓扑下的网络，最后选择一个最好的网络，作为我们的近似网络。</p>
+<p>第二篇文章提出了说我们不应该只有一个近似网络，我们还需要一个predictor来判断当前的输入适不适合用我们的近似网络进行近似，如果适合近似，我们才用我们的近似网络来计算，如果不适合，我们就用原来的code来计算。这边提出的predictor有两种类型，一种是table-based，另一种是network的。这边就是根据我能接受的最大的error diff来训练我的predictor。我觉得这边比较好的检验方法应该是比较每个获得的predictor的判断正确程度？论文里没有提到如何比较。</p>
 
       
     </div>
@@ -600,7 +624,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing"><span class="nav-number">5.</span> <span class="nav-text">Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks"><span class="nav-number">6.</span> <span class="nav-text">BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing"><span class="nav-number">5.</span> <span class="nav-text">Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks"><span class="nav-number">6.</span> <span class="nav-text">BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#distilling-the-Knowledge-in-a-Neural-Network"><span class="nav-number">7.</span> <span class="nav-text">distilling the Knowledge in a Neural Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012"><span class="nav-number">8.</span> <span class="nav-text">Neural Acceleration for General-Purpose Approximate Programs(2012)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015"><span class="nav-number">9.</span> <span class="nav-text">Prediction-Based Quality Control for Approximate Accelerators(2015)</span></a></li></ol></div>
             
 
           </div>
