@@ -91,7 +91,11 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/3.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
-<meta property="og:updated_time" content="2019-10-15T08:22:30.089Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/home/hyy/Desktop/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/home/hyy/Desktop/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/home/hyy/Desktop/8.png">
+<meta property="og:updated_time" content="2019-10-15T12:56:35.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -466,6 +470,28 @@
 <p>两篇近似网络的前文:</p>
 <h3 id="Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012"><a href="#Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012" class="headerlink" title="Neural Acceleration for General-Purpose Approximate Programs(2012)"></a>Neural Acceleration for General-Purpose Approximate Programs(2012)</h3><h3 id="Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015"><a href="#Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015" class="headerlink" title="Prediction-Based Quality Control for Approximate Accelerators(2015)"></a>Prediction-Based Quality Control for Approximate Accelerators(2015)</h3><p>第一篇文章提出了我们能用神经网络来近似诸多函数。我们应当先选择合适的code部分来近似，要求这些code有固定size的input和固定size的output，这样才能保证我近似的神经网络输入输出的size是固定的。然后对于选择网络来拟合，这边首先是限定了能选择的网络拓扑结构的选择范围（比如隐层有1-2层，节点数最多是多少个），然后在训练各个拓扑下的网络，最后选择一个最好的网络，作为我们的近似网络。</p>
 <p>第二篇文章提出了说我们不应该只有一个近似网络，我们还需要一个predictor来判断当前的输入适不适合用我们的近似网络进行近似，如果适合近似，我们才用我们的近似网络来计算，如果不适合，我们就用原来的code来计算。这边提出的predictor有两种类型，一种是table-based，另一种是network的。这边就是根据我能接受的最大的error diff来训练我的predictor。我觉得这边比较好的检验方法应该是比较每个获得的predictor的判断正确程度？论文里没有提到如何比较。</p>
+<p><br></p>
+<h3 id="Born-Again-Neural-Networks"><a href="#Born-Again-Neural-Networks" class="headerlink" title="Born-Again Neural Networks"></a>Born-Again Neural Networks</h3><ul>
+<li>2018 ICML</li>
+<li>南加州</li>
+</ul>
+<p>这篇文章的主要思想是下图的结构。也就是我先有一个teacher网络，然后用teacher网络去初始化第一个student网络，然后学生网络以预测正确标签，与教师输出分布相匹配这两个目标来进行训练。然后第一个student网络收敛后，就用它的参数去初始化下一个student网络，这样依次训练。最后把所有的student network集合起来作为我们的ensemble network，发现他的效果好于teacher网络。【但是这样多个net不是很占内存啥的么？速度也不快？所以是不是和原有的目标有违背?】奥好像是说他测试的时候会选这一群训出来的最后一个network来作为我们的BAN网络，和teacher网络进行比较。</p>
+<p>另外他还提到可以用不同的拓扑结构的teacher网络辅导别的架构的student网络进行学习提升。</p>
+<p><img src="/2019/10/06/画饼/6.png" width="100%"></p>
+<p><br></p>
+<h3 id="Rocket-Launching-A-Universal-and-Efficient-Framework-for-Training-Well-performing-Light-Net"><a href="#Rocket-Launching-A-Universal-and-Efficient-Framework-for-Training-Well-performing-Light-Net" class="headerlink" title="Rocket Launching: A Universal and Efficient Framework for Training Well-performing Light Net"></a>Rocket Launching: A Universal and Efficient Framework for Training Well-performing Light Net</h3><ul>
+<li><p>2018 AAAI</p>
+</li>
+<li><p>清华 + 阿里</p>
+<p>文章提出了一个新的方法来得到轻量的网络。下图是网络的结构，大小网络share了前n层网络的参数，并且他们是一起training的，因为作者认为小网络不仅仅要学习最后的结果，还要学习大网络学习的过程。对于整个网络的loss则为两个网络各自的cross-entropy以及l(x)和z(x)之间hint函数的。</p>
+<p><img src="/2019/10/06/画饼/home/hyy/Desktop/7.png" width="50%"></p>
+<p>网络中l(x)和z(x)之间hint函数，作者给出了几种函数。（有些是q(x)和p(x)，就是softmax前或者softmax后）</p>
+<p><img src="/2019/10/06/画饼/home/hyy/Desktop/9.png" width="60%"></p>
+<p>另外考虑到如果上面提到的网络的三个loss对两个网络一起调整参数，会导致大网络被小网络的质量影响，因此网络的bp中，对应的loss情况如下。也就是大网络只受自己的cross-entropy影响，另两个函数都用于调整小网络。</p>
+<p><img src="/2019/10/06/画饼/home/hyy/Desktop/8.png" width="50%"></p>
+<p>作者最后发现，这样可以加快训练速度，并且让light net有更好的表现。</p>
+</li>
+</ul>
 
       
     </div>
@@ -624,7 +650,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing"><span class="nav-number">5.</span> <span class="nav-text">Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks"><span class="nav-number">6.</span> <span class="nav-text">BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#distilling-the-Knowledge-in-a-Neural-Network"><span class="nav-number">7.</span> <span class="nav-text">distilling the Knowledge in a Neural Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012"><span class="nav-number">8.</span> <span class="nav-text">Neural Acceleration for General-Purpose Approximate Programs(2012)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015"><span class="nav-number">9.</span> <span class="nav-text">Prediction-Based Quality Control for Approximate Accelerators(2015)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing"><span class="nav-number">5.</span> <span class="nav-text">Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks"><span class="nav-number">6.</span> <span class="nav-text">BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#distilling-the-Knowledge-in-a-Neural-Network"><span class="nav-number">7.</span> <span class="nav-text">distilling the Knowledge in a Neural Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012"><span class="nav-number">8.</span> <span class="nav-text">Neural Acceleration for General-Purpose Approximate Programs(2012)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015"><span class="nav-number">9.</span> <span class="nav-text">Prediction-Based Quality Control for Approximate Accelerators(2015)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Born-Again-Neural-Networks"><span class="nav-number">10.</span> <span class="nav-text">Born-Again Neural Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rocket-Launching-A-Universal-and-Efficient-Framework-for-Training-Well-performing-Light-Net"><span class="nav-number">11.</span> <span class="nav-text">Rocket Launching: A Universal and Efficient Framework for Training Well-performing Light Net</span></a></li></ol></div>
             
 
           </div>
