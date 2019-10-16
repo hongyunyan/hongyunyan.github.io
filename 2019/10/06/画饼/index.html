@@ -92,10 +92,11 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/4.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/6.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/home/hyy/Desktop/7.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/home/hyy/Desktop/9.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/home/hyy/Desktop/8.png">
-<meta property="og:updated_time" content="2019-10-15T12:56:35.325Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/06/画饼/10.png">
+<meta property="og:updated_time" content="2019-10-16T07:30:54.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画饼和吃饼">
 <meta name="twitter:description" content="这是一个画饼和吃饼的research学习blog。  被画了一个类似边缘计算，又包含大小网络，还有点联邦学习的意思的饼。 我也很懵逼啊，那只能吃了它吧。  Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge ASPLOS 2017 University of Michigan  这篇文章主要讲的是说，">
@@ -484,14 +485,32 @@
 </li>
 <li><p>清华 + 阿里</p>
 <p>文章提出了一个新的方法来得到轻量的网络。下图是网络的结构，大小网络share了前n层网络的参数，并且他们是一起training的，因为作者认为小网络不仅仅要学习最后的结果，还要学习大网络学习的过程。对于整个网络的loss则为两个网络各自的cross-entropy以及l(x)和z(x)之间hint函数的。</p>
-<p><img src="/2019/10/06/画饼/home/hyy/Desktop/7.png" width="50%"></p>
+<p><img src="/2019/10/06/画饼/7.png" width="50%"></p>
 <p>网络中l(x)和z(x)之间hint函数，作者给出了几种函数。（有些是q(x)和p(x)，就是softmax前或者softmax后）</p>
-<p><img src="/2019/10/06/画饼/home/hyy/Desktop/9.png" width="60%"></p>
+<p><img src="/2019/10/06/画饼/9.png" width="60%"></p>
 <p>另外考虑到如果上面提到的网络的三个loss对两个网络一起调整参数，会导致大网络被小网络的质量影响，因此网络的bp中，对应的loss情况如下。也就是大网络只受自己的cross-entropy影响，另两个函数都用于调整小网络。</p>
-<p><img src="/2019/10/06/画饼/home/hyy/Desktop/8.png" width="50%"></p>
+<p><img src="/2019/10/06/画饼/8.png" width="50%"></p>
 <p>作者最后发现，这样可以加快训练速度，并且让light net有更好的表现。</p>
 </li>
 </ul>
+<p><br></p>
+<h3 id="Collaborative-Learning-between-Cloud-and-End-Devices-An-Empirical-Study-on-Location-Prediction"><a href="#Collaborative-Learning-between-Cloud-and-End-Devices-An-Empirical-Study-on-Location-Prediction" class="headerlink" title="Collaborative Learning between Cloud and End Devices: An Empirical Study on Location Prediction"></a>Collaborative Learning between Cloud and End Devices: An Empirical Study on Location Prediction</h3><ul>
+<li>SEC 2019</li>
+<li>MSRA + 清华</li>
+</ul>
+<p>这篇文章讲的是，在以前的方法里面都是云端给device端提供一个小网络，供其使用，就结束了，小网络没有根据自己的数据进行新的迭代，这样对于device中不同的数据分布，原有的固定的小网络没有办法达到一个非常好的结果水平。</p>
+<p>因此这边就提出说能不能让我们在device端不断inference的时候，并且用这些数据来调整自己device上的网络呢。所以这边就提出说我希望通过协同学习的方法来不断的提升network的效果。</p>
+<p><img src="/2019/10/06/画饼/10.png" width="100%"></p>
+<p>上图显示了这个协同学习的过程图。</p>
+<ol>
+<li>首先云端根据原有的数据训练了第一个model。</li>
+<li>当一个device新加入这个系统后，云端会把最新的的云端模型压缩成一个小网络发给device。然后在接下来的一个时间段里面device就用这个小网络进行inference。</li>
+<li>在过一段时间以后，device端会根据云端最新的网络，根据KD的思想，更新自己的网络。</li>
+<li>然后根据device们最新的network，来指导云端的网络进行KD的学习，获得新的网络数据。</li>
+<li>3和4不断的迭代发生，不停地对网络进行训练和提升。</li>
+</ol>
+<p>当device数量很多的时候，云端单独一个的network没有办法满足所有device的需求，所以就根据聚类，提供K个network提供给n个device，进行对应的KD调整。这边所有的KD的loss函数都是比较基础的函数，soft target + hard target一起进行指导。</p>
+<p>【鉴于现在的device设备上没有合理的训练框架，我猜是扔回云端去对设备进行了调整？数据也是送回云端了】</p>
 
       
     </div>
@@ -650,7 +669,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing"><span class="nav-number">5.</span> <span class="nav-text">Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks"><span class="nav-number">6.</span> <span class="nav-text">BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#distilling-the-Knowledge-in-a-Neural-Network"><span class="nav-number">7.</span> <span class="nav-text">distilling the Knowledge in a Neural Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012"><span class="nav-number">8.</span> <span class="nav-text">Neural Acceleration for General-Purpose Approximate Programs(2012)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015"><span class="nav-number">9.</span> <span class="nav-text">Prediction-Based Quality Control for Approximate Accelerators(2015)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Born-Again-Neural-Networks"><span class="nav-number">10.</span> <span class="nav-text">Born-Again Neural Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rocket-Launching-A-Universal-and-Efficient-Framework-for-Training-Well-performing-Light-Net"><span class="nav-number">11.</span> <span class="nav-text">Rocket Launching: A Universal and Efficient Framework for Training Well-performing Light Net</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Neurosurgeon-Collaborative-Intelligence-Between-the-Cloud-and-Mobile-Edge"><span class="nav-number">1.</span> <span class="nav-text">Neurosurgeon: Collaborative Intelligence Between the Cloud and Mobile Edge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Deep-Neural-Networks-over-the-Cloud-the-Edge-and-End-Devices"><span class="nav-number">2.</span> <span class="nav-text">Distributed Deep Neural Networks over the Cloud, the Edge and End Devices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Big-Little-Deep-Neural-Network-for-Ultra-Low-Power-Inference"><span class="nav-number">3.</span> <span class="nav-text">Big/Little Deep Neural Network for Ultra Low Power Inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Cascading-Neural-Network-Building-the-Internet-of-Smart-Things"><span class="nav-number">4.</span> <span class="nav-text">The Cascading Neural Network: Building the Internet of Smart Things</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Edge-Intelligence-Paving-the-Last-Mile-of-Artificial-Intelligence-with-Edge-Computing"><span class="nav-number">5.</span> <span class="nav-text">Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BranchyNet-Fast-Inference-via-Early-Exiting-from-Deep-Neural-Networks"><span class="nav-number">6.</span> <span class="nav-text">BranchyNet: Fast Inference via Early Exiting from Deep Neural Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#distilling-the-Knowledge-in-a-Neural-Network"><span class="nav-number">7.</span> <span class="nav-text">distilling the Knowledge in a Neural Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neural-Acceleration-for-General-Purpose-Approximate-Programs-2012"><span class="nav-number">8.</span> <span class="nav-text">Neural Acceleration for General-Purpose Approximate Programs(2012)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prediction-Based-Quality-Control-for-Approximate-Accelerators-2015"><span class="nav-number">9.</span> <span class="nav-text">Prediction-Based Quality Control for Approximate Accelerators(2015)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Born-Again-Neural-Networks"><span class="nav-number">10.</span> <span class="nav-text">Born-Again Neural Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rocket-Launching-A-Universal-and-Efficient-Framework-for-Training-Well-performing-Light-Net"><span class="nav-number">11.</span> <span class="nav-text">Rocket Launching: A Universal and Efficient Framework for Training Well-performing Light Net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Collaborative-Learning-between-Cloud-and-End-Devices-An-Empirical-Study-on-Location-Prediction"><span class="nav-number">12.</span> <span class="nav-text">Collaborative Learning between Cloud and End Devices: An Empirical Study on Location Prediction</span></a></li></ol></div>
             
 
           </div>
