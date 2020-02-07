@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="Amdahl定律的主要观点：想要显著加速整个系统，必须提升全系统中相当大的部分的速度。 32位的程序当时决定了寻址空间为4GB。这是啥？寻址空间是指虚拟空间么？？好像是的感觉？？感觉是主存大小的意思？ DRAM来做系统的内存，SRAM来做cache，SRAM比DRAM快且贵。 ​ ​ RAM (random access memory) 随机存储器。存储单元的内容可按需随意取出或存入，且存取的速">
+<meta name="description" content="寒假research第一关 — 结构性剪枝研究报告 相关论文介绍 对应代码实验并且归纳，最好有测试结果 找到合适的代码用于后续实验需要  Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的fil">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSAPP读书笔记">
-<meta property="og:url" content="http://yoursite.com/2019/07/31/csapp/index.html">
+<meta property="og:title" content="结构性剪枝研究报告">
+<meta property="og:url" content="http://yoursite.com/2020/01/29/filter-pruning/index.html">
 <meta property="og:site_name" content="Yunyan Hong">
-<meta property="og:description" content="Amdahl定律的主要观点：想要显著加速整个系统，必须提升全系统中相当大的部分的速度。 32位的程序当时决定了寻址空间为4GB。这是啥？寻址空间是指虚拟空间么？？好像是的感觉？？感觉是主存大小的意思？ DRAM来做系统的内存，SRAM来做cache，SRAM比DRAM快且贵。 ​ ​ RAM (random access memory) 随机存储器。存储单元的内容可按需随意取出或存入，且存取的速">
+<meta property="og:description" content="寒假research第一关 — 结构性剪枝研究报告 相关论文介绍 对应代码实验并且归纳，最好有测试结果 找到合适的代码用于后续实验需要  Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的fil">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-01T06:29:36.470Z">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/2.png">
+<meta property="og:updated_time" content="2020-02-04T12:07:33.452Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSAPP读书笔记">
-<meta name="twitter:description" content="Amdahl定律的主要观点：想要显著加速整个系统，必须提升全系统中相当大的部分的速度。 32位的程序当时决定了寻址空间为4GB。这是啥？寻址空间是指虚拟空间么？？好像是的感觉？？感觉是主存大小的意思？ DRAM来做系统的内存，SRAM来做cache，SRAM比DRAM快且贵。 ​ ​ RAM (random access memory) 随机存储器。存储单元的内容可按需随意取出或存入，且存取的速">
+<meta name="twitter:title" content="结构性剪枝研究报告">
+<meta name="twitter:description" content="寒假research第一关 — 结构性剪枝研究报告 相关论文介绍 对应代码实验并且归纳，最好有测试结果 找到合适的代码用于后续实验需要  Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的fil">
+<meta name="twitter:image" content="http://yoursite.com/2020/01/29/filter-pruning/1.png">
 
 
 
@@ -119,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/31/csapp/">
+  <link rel="canonical" href="http://yoursite.com/2020/01/29/filter-pruning/">
 
 
 
 
 
-  <title>CSAPP读书笔记 | Yunyan Hong</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>结构性剪枝研究报告 | Yunyan Hong</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -232,7 +235,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/31/csapp/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/29/filter-pruning/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yunyan.hong">
@@ -249,7 +252,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CSAPP读书笔记</h1>
+          <h1 class="post-title" itemprop="name headline">结构性剪枝研究报告</h1>
         
 
         <div class="post-meta">
@@ -261,8 +264,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-31T14:59:41+08:00">
-                2019-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-29T16:52:19+08:00">
+                2020-01-29
               </time>
             
 
@@ -284,8 +287,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/工程相关集锦/" itemprop="url" rel="index">
-                    <span itemprop="name">工程相关集锦</span>
+                  <a href="/categories/Research/" itemprop="url" rel="index">
+                    <span itemprop="name">Research</span>
                   </a>
                 </span>
 
@@ -321,22 +324,26 @@
       
 
       
-        <ul>
-<li>Amdahl定律的主要观点：想要显著加速整个系统，必须提升全系统中相当大的部分的速度。</li>
-<li>32位的程序当时决定了寻址空间为4GB。这是啥？寻址空间是指虚拟空间么？？好像是的感觉？？感觉是主存大小的意思？</li>
-<li>DRAM来做系统的内存，SRAM来做cache，SRAM比DRAM快且贵。</li>
-<li>​</li>
-<li>​</li>
-<li>RAM (random access memory) 随机存储器。存储单元的内容可按需随意取出或存入，且存取的速度与存储单元的位置无关的存储器。这种存储器在断电时将丢失其存储内容【易失性存储器】，故主要用于存储短时间使用的程序。 按照存储信息的不同，随机存储器又分为静态随机存储器（Static RAM,SRAM)和动态随机存储器（Dynamic RAM,DRAM)。RAM就是主存，与CPU直接交换数据的内部存储器。<ul>
-<li>DRAM（Dynamic Random Access Memory），动态随机存取存储器，最为常见的系统内存。DRAM 只能将数据保持很短的时间。为了保持数据，DRAM使用电容存储，所以必须隔一段时间刷新（refresh）一次，如果存储单元没有被刷新，存储的信息就会丢失。 （关机就会丢失数据）</li>
-<li>SRAM不需要刷新电路即能保存它内部存储的数据。所以SRAM具有较高的性能，但是他集成度比较低，能耗高。SRAM速度快于</li>
-<li>SRAM主要用于缓存。DRAM用于内存。</li>
-<li>SDRAM ：同步动态RAM，需要刷新，速度较快，容量大。 </li>
-<li>DDR SDRAM： 双通道同步动态RAM，需要刷新，速度快，容量大。</li>
-<li>其实看到现在，我也没有搞清楚，等第六章看完来写这段吧！！！！</li>
+        <h3 id="寒假research第一关-—-结构性剪枝研究报告"><a href="#寒假research第一关-—-结构性剪枝研究报告" class="headerlink" title="寒假research第一关 — 结构性剪枝研究报告"></a>寒假research第一关 — 结构性剪枝研究报告</h3><ul>
+<li>相关论文介绍</li>
+<li>对应代码实验并且归纳，最好有测试结果</li>
+<li>找到合适的代码用于后续实验需要</li>
 </ul>
-</li>
+<h4 id="Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><a href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration" class="headerlink" title="Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration"></a>Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</h4><ul>
+<li>CVPR 2019 Oral [2019.7.14]</li>
 </ul>
+<p>本文主要的想法是说传统的filter pruning的方式，都是去掉范数值较小的filter，但是实际上通过删除范数较小的filter来进行压缩的方式，需要满足两个条件：</p>
+<ul>
+<li>网络中filter的范数值分布要较大</li>
+<li>范数值较小的那些filter的范数值应该非常小</li>
+</ul>
+<p>但是实际上绝大多数的网络并不具有这个条件，因此我们通过删除范数小的剪枝方法也存在问题 。因此作者提出FPGM的方法，来删除每层中可替代的 filter（也就是那些包含了冗余信息的filter）。</p>
+<p>对于找到最可替代的filter，这边采用的方式为几何中位数的衡量方式，找出离其他filter距离都比较小的filter（也就是比较可以被其他filter一起表示的信息，差不多就是比较中心的位置）来进行压缩裁剪。</p>
+<p>对于实验部分，作者比较了Cifar10和ImageNet两个数据集下的表现，并且不仅实验了自己的FPGM方法，也实验了FPGM和norm-based混合的方法。然后选用了以前的MIL, PFEC, CP, ThiNet, SFP, NISP, Re-thinking这几种filter pruning方法进行对比，选用的模型是对于Cifar10，用不同层数的VGGNet和ResNet，对于ImageNet选用不同层数的ResNet。下图分别是ResNet在cifar10上的表现和在ImageNet上的表现结果。</p>
+<p><img src="/2020/01/29/filter-pruning/1.png" width="80%"></p>
+<p><img src="/2020/01/29/filter-pruning/2.png" width="80%"></p>
+<p>​    另外，作者 把 ResNet-50的第一个卷积层的特征图进行了可视化。可以发现被去掉的通道特征主要有两部分。1）竹子的骨架，2）熊猫的轮廓。其中竹子和熊猫的骨架都可以被剩下的通道代替，验证了我们基于几何中心进行滤波器剪枝的理论。</p>
+<p>​<br>​    </p>
 
       
     </div>
@@ -361,8 +368,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/21/abstractive-summarization/" rel="next" title="新一轮Summarization以及相关扫文工作">
-                <i class="fa fa-chevron-left"></i> 新一轮Summarization以及相关扫文工作
+              <a href="/2019/12/02/6-828/" rel="next" title="6.828课程学习">
+                <i class="fa fa-chevron-left"></i> 6.828课程学习
               </a>
             
           </div>
@@ -370,10 +377,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/06/arch/" rel="prev" title="系统方向相关学习">
-                系统方向相关学习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -428,8 +431,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -480,6 +492,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#寒假research第一关-—-结构性剪枝研究报告"><span class="nav-number">1.</span> <span class="nav-text">寒假research第一关 — 结构性剪枝研究报告</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><span class="nav-number">1.1.</span> <span class="nav-text">Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -672,7 +700,7 @@
           distractionFreeMode: 'true'
         })
         gitalk.render('gitalk-container')           
-       </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+       </script>
 
 
 
@@ -692,6 +720,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
