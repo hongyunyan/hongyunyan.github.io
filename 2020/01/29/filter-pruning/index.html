@@ -79,19 +79,20 @@
 
 
 
-<meta name="description" content="寒假research第一关 — 结构性剪枝研究报告 相关论文介绍 对应代码实验并且归纳，最好有测试结果 找到合适的代码用于后续实验需要  Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的fil">
+<meta name="description" content="Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的filter pruning的方式，都是去掉范数值较小的filter，但是实际上通过删除范数较小的filter来进行压缩的方式，需要满足两个条件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="结构性剪枝研究报告">
+<meta property="og:title" content="Paper Reading Go On">
 <meta property="og:url" content="http://yoursite.com/2020/01/29/filter-pruning/index.html">
 <meta property="og:site_name" content="Yunyan Hong">
-<meta property="og:description" content="寒假research第一关 — 结构性剪枝研究报告 相关论文介绍 对应代码实验并且归纳，最好有测试结果 找到合适的代码用于后续实验需要  Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的fil">
+<meta property="og:description" content="Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的filter pruning的方式，都是去掉范数值较小的filter，但是实际上通过删除范数较小的filter来进行压缩的方式，需要满足两个条件">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/1.png">
 <meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/2.png">
-<meta property="og:updated_time" content="2020-02-04T12:07:33.452Z">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/3.png">
+<meta property="og:updated_time" content="2020-02-25T02:10:07.075Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="结构性剪枝研究报告">
-<meta name="twitter:description" content="寒假research第一关 — 结构性剪枝研究报告 相关论文介绍 对应代码实验并且归纳，最好有测试结果 找到合适的代码用于后续实验需要  Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的fil">
+<meta name="twitter:title" content="Paper Reading Go On">
+<meta name="twitter:description" content="Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的filter pruning的方式，都是去掉范数值较小的filter，但是实际上通过删除范数较小的filter来进行压缩的方式，需要满足两个条件">
 <meta name="twitter:image" content="http://yoursite.com/2020/01/29/filter-pruning/1.png">
 
 
@@ -128,7 +129,7 @@
 
 
 
-  <title>结构性剪枝研究报告 | Yunyan Hong</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Paper Reading Go On | Yunyan Hong</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -252,7 +253,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">结构性剪枝研究报告</h1>
+          <h1 class="post-title" itemprop="name headline">Paper Reading Go On</h1>
         
 
         <div class="post-meta">
@@ -324,12 +325,7 @@
       
 
       
-        <h3 id="寒假research第一关-—-结构性剪枝研究报告"><a href="#寒假research第一关-—-结构性剪枝研究报告" class="headerlink" title="寒假research第一关 — 结构性剪枝研究报告"></a>寒假research第一关 — 结构性剪枝研究报告</h3><ul>
-<li>相关论文介绍</li>
-<li>对应代码实验并且归纳，最好有测试结果</li>
-<li>找到合适的代码用于后续实验需要</li>
-</ul>
-<h4 id="Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><a href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration" class="headerlink" title="Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration"></a>Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</h4><ul>
+        <h4 id="Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><a href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration" class="headerlink" title="Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration"></a>Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</h4><ul>
 <li>CVPR 2019 Oral [2019.7.14]</li>
 </ul>
 <p>本文主要的想法是说传统的filter pruning的方式，都是去掉范数值较小的filter，但是实际上通过删除范数较小的filter来进行压缩的方式，需要满足两个条件：</p>
@@ -343,7 +339,34 @@
 <p><img src="/2020/01/29/filter-pruning/1.png" width="80%"></p>
 <p><img src="/2020/01/29/filter-pruning/2.png" width="80%"></p>
 <p>​    另外，作者 把 ResNet-50的第一个卷积层的特征图进行了可视化。可以发现被去掉的通道特征主要有两部分。1）竹子的骨架，2）熊猫的轮廓。其中竹子和熊猫的骨架都可以被剩下的通道代替，验证了我们基于几何中心进行滤波器剪枝的理论。</p>
-<p>​<br>​    </p>
+<p><br></p>
+<p><strong>文章的代码情况</strong>：</p>
+<ul>
+<li>试了从头prune在cifar10上的测试，可以跑通</li>
+<li>有origin_model在imagenet上的代码，不能全部跑通，初步认为是数据载入有问题，用imagenet部分数据实验，后续进行没有问题，另外没有在cifar10上的代码，后续自己补全</li>
+<li>没有试过在pretrain的model上prune的代码，但应该可以跑通，整体代码内容比较全。</li>
+<li>代码地址：<a href="https://github.com/he-y/filter-pruning-geometric-median" target="_blank" rel="noopener">https://github.com/he-y/filter-pruning-geometric-median</a></li>
+</ul>
+<p><br></p>
+<h4 id="Soft-Filter-Pruning-for-Accelerating-Deep-Convolutional-Neural-Networks"><a href="#Soft-Filter-Pruning-for-Accelerating-Deep-Convolutional-Neural-Networks" class="headerlink" title="Soft Filter Pruning for Accelerating Deep Convolutional Neural Networks"></a>Soft Filter Pruning for Accelerating Deep Convolutional Neural Networks</h4><ul>
+<li>IJCAI 2018</li>
+<li>和上一篇文章同一个一作</li>
+<li>就是SFP方法，感觉应该也是目前filter pruning的开篇之一了</li>
+</ul>
+<p>网上解读</p>
+<blockquote>
+<p> <a href="https://blog.csdn.net/u014380165/article/details/81107032" target="_blank" rel="noopener">https://blog.csdn.net/u014380165/article/details/81107032</a></p>
+<p> <a href="https://blog.csdn.net/h__ang/article/details/89600279" target="_blank" rel="noopener">https://blog.csdn.net/h__ang/article/details/89600279</a></p>
+</blockquote>
+<p>基本的思路如下图所示：就是每一轮找出范式值最小的k个，然后置为0，带入下一轮训练，所以每轮置为0的会有变化。而不是HFP中一次性暴力删除最小的那些filter。【BTW，感觉这个作者论文写的很清楚，实验也给的很详细，代码也能work，表格也很全】</p>
+<p><img src="/2020/01/29/filter-pruning/3.png" width="100%"></p>
+<p>SFP有两大优势：</p>
+<ul>
+<li>更大的模型容量：对之前剪掉的卷积核更新使得我们的方法相比于固定卷积核为0，有更大的网络容量。因此，通过我们的方法训练得到的网络由于有更大的网络容量可以从训练数据学得更好。</li>
+<li>对预训练模型的依赖减弱：大的网络容量使得SFP可以从头开始训练，同时对模型进行剪枝。相反，之前的卷积核剪枝方法是在预训练模型的基础指导之下保证网络性能。而从头开始训练的SFP优于之前的卷积核剪枝方法。</li>
+</ul>
+<p>代码就先不测了，看了一下，和上面那个代码同一拨操作的，后续用到了再检测吧。</p>
+<p>地址：<a href="https://github.com/he-y/soft-filter-pruning" target="_blank" rel="noopener">https://github.com/he-y/soft-filter-pruning</a></p>
 
       
     </div>
@@ -456,7 +479,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -502,7 +525,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#寒假research第一关-—-结构性剪枝研究报告"><span class="nav-number">1.</span> <span class="nav-text">寒假research第一关 — 结构性剪枝研究报告</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><span class="nav-number">1.1.</span> <span class="nav-text">Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><span class="nav-number">1.</span> <span class="nav-text">Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Soft-Filter-Pruning-for-Accelerating-Deep-Convolutional-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Soft Filter Pruning for Accelerating Deep Convolutional Neural Networks</span></a></li></ol></div>
             
 
           </div>
