@@ -89,7 +89,10 @@
 <meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/1.png">
 <meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/2.png">
 <meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/3.png">
-<meta property="og:updated_time" content="2020-02-25T02:10:07.075Z">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/4.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/5.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/6.png">
+<meta property="og:updated_time" content="2020-02-27T07:19:38.391Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Paper Reading Go On">
 <meta name="twitter:description" content="Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的filter pruning的方式，都是去掉范数值较小的filter，但是实际上通过删除范数较小的filter来进行压缩的方式，需要满足两个条件">
@@ -367,6 +370,34 @@
 </ul>
 <p>代码就先不测了，看了一下，和上面那个代码同一拨操作的，后续用到了再检测吧。</p>
 <p>地址：<a href="https://github.com/he-y/soft-filter-pruning" target="_blank" rel="noopener">https://github.com/he-y/soft-filter-pruning</a></p>
+<p><br></p>
+<blockquote>
+<p> 感觉下一阶段的文章画风有发生了些许变化，因为要去找个合理的应用 ，并且了解这个case的现况，所以要读一堆视频类的文章</p>
+</blockquote>
+<p><br></p>
+<h4 id="AdaFrame-Adaptive-Frame-Selection-for-Fast-Video-Recognition"><a href="#AdaFrame-Adaptive-Frame-Selection-for-Fast-Video-Recognition" class="headerlink" title="AdaFrame: Adaptive Frame Selection for Fast Video Recognition"></a>AdaFrame: Adaptive Frame Selection for Fast Video Recognition</h4><ul>
+<li>CVPR 2019</li>
+</ul>
+<p>这篇文章是讲我来尽量少的选择视频中的帧，来做一个快速的video recognition。</p>
+<p><img src="/2020/01/29/filter-pruning/4.png" width="100%"></p>
+<p>主要的流程就是这张图。首先右边的部分是作者用了一个轻量级的CNN对video中下采样的frame做一个处理，活得一个global context。然后对于左边的每张图，在当前frame上 ，先用一个CNN，来提取这个frame的信息，然后结合global context和上一帧（上一个被选中的帧）的信息扔到LSTM里面去计算，获得hidden state，然后根据这个hidden state分别用于prediction network，selection network和utility network。</p>
+<p>prediction network部分就是先算出对各个class 的probility，然后进一步计算reward，reward可以理解为ground truth的probility 减去其他类中probility最大的那个，用这个reward来激励看到更多的frame后获得更大的confidence。</p>
+<p>selection network是用来选择下一个frame是哪一帧。用一个高斯分布的想法，加上计算得到的中心位置，来选择下一帧，训练网络的函数是最大化未来的reward。</p>
+<p>utility network，这是根据现有的情况来估计未来的reward，来看要不要继续看下面的frame。</p>
+<p>对于在inference中，选择什么时候停止的方式是根据utility的情况来决定的，设定一个超参数miu，当计算得到的utility 值和最大的utility值的差值大于miu达到一定次数，就结束。</p>
+<p>对于实验部分，文章和avgpooling的方法以及LSTM的方法，以及另外两个选frame的fast forward以及frameGlimpse方法进行比较，证明了自己可以看少量frame而达到一个很好的判断。并且对于简单的case，需要看的帧越少。</p>
+<p><img src="/2020/01/29/filter-pruning/5.png" width="100%"></p>
+<p>整体感觉，在这篇文章前，做这个选帧的应该不多，但不知道一年过去了有什么进展。因此这边的baseline也非常的普通吧。而且数据集选择的也是这两个数据集（不知道为什么不是那些常见的，是不是因为那些视频 太过于短了。）</p>
+<p><br></p>
+<h4 id="Multi-Agent-Reinforcement-Learning-Based-Frame-Sampling-for-Effective-Untrimmed-Video-Recognition"><a href="#Multi-Agent-Reinforcement-Learning-Based-Frame-Sampling-for-Effective-Untrimmed-Video-Recognition" class="headerlink" title="Multi-Agent Reinforcement Learning Based Frame Sampling for Effective Untrimmed Video Recognition"></a>Multi-Agent Reinforcement Learning Based Frame Sampling for Effective Untrimmed Video Recognition</h4><ul>
+<li>ICCV 2019</li>
+</ul>
+<p>文章的主要目标也是选frame来做video recognition。</p>
+<p><img src="/2020/01/29/filter-pruning/6.png" width="100%"></p>
+<p>文章这边整体模型的思路是，我有M个agent，然后每个agent初始状态下均匀分布在所有帧中，然后第一帧、最后一帧以及每个agent选的帧通过网络转化成feature vector，然后每个agent，将自己的信息+前后M个被选帧的信息结合起来，经过GRU得到hidden state，然后再进入policy network做下一个action的预测，当所有的agent的选择都是stop的时候，整个过程结束。</p>
+<p>然后再训练的时候，另外加入了loss function来帮助agent不要很快stop，encourages exploration。</p>
+<p>对于实验部分，他和楼上文章以及楼上文章的两个baseline进行了对比，并且组合了多种backbones，进行实验。同时也和uniform以及random选帧以及ALL frame的方式进行比较效果。证明自己的优越性。</p>
+<p>另外，实验发现agent的数目即使逼近frame的个数，效果也比ALL frame好，因为他可以将很多无效信息删除，来提高效果。</p>
 
       
     </div>
@@ -400,6 +431,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/25/杂货铺/" rel="prev" title="CS相关七七八八杂货铺">
+                CS相关七七八八杂货铺 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -479,7 +514,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -525,7 +560,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><span class="nav-number">1.</span> <span class="nav-text">Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Soft-Filter-Pruning-for-Accelerating-Deep-Convolutional-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Soft Filter Pruning for Accelerating Deep Convolutional Neural Networks</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><span class="nav-number">1.</span> <span class="nav-text">Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Soft-Filter-Pruning-for-Accelerating-Deep-Convolutional-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Soft Filter Pruning for Accelerating Deep Convolutional Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaFrame-Adaptive-Frame-Selection-for-Fast-Video-Recognition"><span class="nav-number">3.</span> <span class="nav-text">AdaFrame: Adaptive Frame Selection for Fast Video Recognition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Multi-Agent-Reinforcement-Learning-Based-Frame-Sampling-for-Effective-Untrimmed-Video-Recognition"><span class="nav-number">4.</span> <span class="nav-text">Multi-Agent Reinforcement Learning Based Frame Sampling for Effective Untrimmed Video Recognition</span></a></li></ol></div>
             
 
           </div>
