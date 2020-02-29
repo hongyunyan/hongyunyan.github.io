@@ -92,7 +92,13 @@
 <meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/4.png">
 <meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/5.png">
 <meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/6.png">
-<meta property="og:updated_time" content="2020-02-27T07:19:38.391Z">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/7.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/8.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/9.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/10.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/11.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/29/filter-pruning/12.png">
+<meta property="og:updated_time" content="2020-02-29T07:20:09.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Paper Reading Go On">
 <meta name="twitter:description" content="Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration CVPR 2019 Oral [2019.7.14]  本文主要的想法是说传统的filter pruning的方式，都是去掉范数值较小的filter，但是实际上通过删除范数较小的filter来进行压缩的方式，需要满足两个条件">
@@ -398,6 +404,76 @@
 <p>然后再训练的时候，另外加入了loss function来帮助agent不要很快stop，encourages exploration。</p>
 <p>对于实验部分，他和楼上文章以及楼上文章的两个baseline进行了对比，并且组合了多种backbones，进行实验。同时也和uniform以及random选帧以及ALL frame的方式进行比较效果。证明自己的优越性。</p>
 <p>另外，实验发现agent的数目即使逼近frame的个数，效果也比ALL frame好，因为他可以将很多无效信息删除，来提高效果。</p>
+<p><br></p>
+<h4 id="BubbleNets-Learning-to-Select-the-Guidance-Frame-in-Video-Object-Segmentation-by-Deep-Sorting-Frames"><a href="#BubbleNets-Learning-to-Select-the-Guidance-Frame-in-Video-Object-Segmentation-by-Deep-Sorting-Frames" class="headerlink" title="BubbleNets: Learning to Select the Guidance Frame in Video Object Segmentation by Deep Sorting Frames"></a>BubbleNets: Learning to Select the Guidance Frame in Video Object Segmentation by Deep Sorting Frames</h4><ul>
+<li>CVPR 2019</li>
+</ul>
+<p>这篇文章也是选frame，但不同的是他只需要选一个frame，同时他的应用case不是video recognition，而是video object segmentation。</p>
+<p>他整体的思路就是一个冒泡排序，从前到后开始比较相邻两帧，然后找出其中最好的那帧。从下图中可以看出，除了被选择比较的两帧，还有几帧reference frames用来帮助做判断。大致的思路就是这样，没有具体细看。</p>
+<p><img src="/2020/01/29/filter-pruning/7.png" width="60%"></p>
+<p><br></p>
+<h4 id="End-to-End-Learning-of-Action-Detection-from-Frame-Glimpses-in-Videos"><a href="#End-to-End-Learning-of-Action-Detection-from-Frame-Glimpses-in-Videos" class="headerlink" title="End-to-End Learning of Action Detection from Frame Glimpses in Videos"></a>End-to-End Learning of Action Detection from Frame Glimpses in Videos</h4><ul>
+<li>CVPR 2016 </li>
+<li>LI Fei Fei组工作</li>
+</ul>
+<p>主要是来detection video中哪些部分是有action的。看完这篇文章可以感觉AdaFrame是有点参考了他的想法的，都是一次次帧的选择，有reward，有prediction。</p>
+<p><a href="https://www.cnblogs.com/wangxiaocvpr/p/6837079.html" target="_blank" rel="noopener">https://www.cnblogs.com/wangxiaocvpr/p/6837079.html</a></p>
+<p><br></p>
+<h4 id="Watching-a-Small-Portion-could-be-as-Good-as-Watching-All-Towards-Efficient-Video-Classification"><a href="#Watching-a-Small-Portion-could-be-as-Good-as-Watching-All-Towards-Efficient-Video-Classification" class="headerlink" title="Watching a Small Portion could be as Good as Watching All: Towards Efficient Video Classification"></a>Watching a Small Portion could be as Good as Watching All: Towards Efficient Video Classification</h4><ul>
+<li>IJCAI 2018</li>
+</ul>
+<p>也是一篇选帧的文章，这应该就是前面的对比实验 fast forward。整体思路区别不大，这边每次可以选择fast forward来判断前进多少帧或后退多少帧，或者选用一个网络来判断是否停止（这个就不知道具体前进几帧怎么搞）。选择的方式还是大同小异的，具体的损失和reward函数也没细看。总之看到现在，所有的方法都换汤不换药。</p>
+<p><img src="/2020/01/29/filter-pruning/8.png" width="100%"></p>
+<p><br></p>
+<p>下面是几篇很经典的video recognition的文章。</p>
+<p><br></p>
+<h4 id="Two-stream-convolutional-networks-for-action-recognition-in-videos"><a href="#Two-stream-convolutional-networks-for-action-recognition-in-videos" class="headerlink" title="Two-stream convolutional networks for action recognition in videos"></a>Two-stream convolutional networks for action recognition in videos</h4><ul>
+<li>NIPS 2014</li>
+</ul>
+<p>主要就是用两个支路，一个获取空间信息，一个获取时间信息。</p>
+<p><img src="/2020/01/29/filter-pruning/9.png" width="80%"></p>
+<p>论文详解：<a href="https://zhuanlan.zhihu.com/p/31841417" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/31841417</a></p>
+<p><a href="https://blog.csdn.net/zhangjunhit/article/details/77991038" target="_blank" rel="noopener">https://blog.csdn.net/zhangjunhit/article/details/77991038</a></p>
+<p><br></p>
+<h4 id="Temporal-segment-networks-Towards-good-practices-for-deep-action-recognition"><a href="#Temporal-segment-networks-Towards-good-practices-for-deep-action-recognition" class="headerlink" title="Temporal segment networks: Towards good practices for deep action recognition"></a>Temporal segment networks: Towards good practices for deep action recognition</h4><ul>
+<li>ECCV 2016 </li>
+<li>就是TSN算法</li>
+</ul>
+<blockquote>
+<p>这篇ECCV2016的文章主要提出TSN（temporal segment network）结构用来做视频的动作识别。TSN可以看做是双流（two stream）系列的改进,  在此基础上，文章要解决两个问题：1、是长时间视频的行为判断问题（有些视频的动作时间较长）。2、是解决数据少的问题，数据量少会使得一些深层的网络难以应用到视频数据中，因为过拟合会比较严重。</p>
+<p>针对第一个问题，首先，为什么目前的双流结构网络难以学习到视频的长时间信息？因为其针对的主要是单帧图像或者短时间内的一堆帧图像数据，但这对于时间跨度较长的视频动作检测而言是不够的。因此采用更加密集的图像帧采样方式来获取视频的长时间信息是比较常用的方法，但是这样做会增加不少时间成本，同时作者发现视频的连续帧之间存在冗余，因此想到用稀疏采样代替密集采样，也就是说在对视频做抽帧的时候采取较为稀疏的抽帧方式，这样可以去除一些冗余信息，同时降低了计算量。</p>
+<p>针对第二个问题，可通过常规的数据增强方式，比如随机裁剪，水平翻转等；另外还有作者提到的交叉预训练，dropout等方式来减少过拟合。这些后面会详细解释。</p>
+</blockquote>
+<p>我感觉粗暴的理解就是多截了几段，稀疏抽针，去冗余信息。</p>
+<p><img src="/2020/01/29/filter-pruning/10.png" width="100%"></p>
+<p>论文详解：<a href="https://blog.csdn.net/u014380165/article/details/79029309" target="_blank" rel="noopener">https://blog.csdn.net/u014380165/article/details/79029309</a></p>
+<p><br></p>
+<h4 id="Non-local-neural-networks"><a href="#Non-local-neural-networks" class="headerlink" title="Non-local neural networks"></a>Non-local neural networks</h4><ul>
+<li>Kaiming He 2017</li>
+</ul>
+<p>论文解读：<a href="https://blog.csdn.net/elaine_bao/article/details/80821306" target="_blank" rel="noopener">https://blog.csdn.net/elaine_bao/article/details/80821306</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/33345791" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/33345791</a></p>
+<p><br></p>
+<h4 id="Compressed-Video-Action-Recognition"><a href="#Compressed-Video-Action-Recognition" class="headerlink" title="Compressed Video Action Recognition"></a>Compressed Video Action Recognition</h4><ul>
+<li>CVPR 2018</li>
+</ul>
+<p>这篇文章将视频压缩以后再进行action recognition，根据压缩视频得到的I帧和P帧，进行识别。</p>
+<p>论文解读：<a href="https://blog.csdn.net/b224618/article/details/82711707" target="_blank" rel="noopener">https://blog.csdn.net/b224618/article/details/82711707</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/38626319" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38626319</a></p>
+<p><br></p>
+<h4 id="Real-time-Action-Recognition-with-Enhanced-Motion-Vector-CNNs"><a href="#Real-time-Action-Recognition-with-Enhanced-Motion-Vector-CNNs" class="headerlink" title="Real-time Action Recognition with Enhanced Motion Vector CNNs"></a>Real-time Action Recognition with Enhanced Motion Vector CNNs</h4><ul>
+<li>CVPR 2016</li>
+</ul>
+<p>用motion vector来代替optimal flow，改善two-stream，但由于 motion vector信息缺失，需要optimal flow作为teacher net来进行指导。</p>
+<p>论文解读：<a href="https://blog.csdn.net/AUTO1993/article/details/78315175" target="_blank" rel="noopener">https://blog.csdn.net/AUTO1993/article/details/78315175</a></p>
+<p><br></p>
+<h4 id="ECO-Efficient-Convolutional-Network-for-Online-Video-Understanding"><a href="#ECO-Efficient-Convolutional-Network-for-Online-Video-Understanding" class="headerlink" title="ECO: Efficient Convolutional Network for Online Video Understanding"></a>ECO: Efficient Convolutional Network for Online Video Understanding</h4><ul>
+<li>ECCV 2018</li>
+</ul>
+<p>解读写的是真的清楚明了啊orz <a href="https://zhuanlan.zhihu.com/p/36795554" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36795554</a></p>
+<p>简单而言就是，先将视频分成几个clip，然后随机抽一帧，过2D的卷积，然后将每段clip的卷积结果拼接，过3D卷积（以及2D卷积，组合）获得结果。和TSN有所类似，就是融合方式不同。</p>
+<p><img src="/2020/01/29/filter-pruning/11.png" width="100%"></p>
+<p><img src="/2020/01/29/filter-pruning/12.png" width="100%"></p>
 
       
     </div>
@@ -560,7 +636,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><span class="nav-number">1.</span> <span class="nav-text">Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Soft-Filter-Pruning-for-Accelerating-Deep-Convolutional-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Soft Filter Pruning for Accelerating Deep Convolutional Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaFrame-Adaptive-Frame-Selection-for-Fast-Video-Recognition"><span class="nav-number">3.</span> <span class="nav-text">AdaFrame: Adaptive Frame Selection for Fast Video Recognition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Multi-Agent-Reinforcement-Learning-Based-Frame-Sampling-for-Effective-Untrimmed-Video-Recognition"><span class="nav-number">4.</span> <span class="nav-text">Multi-Agent Reinforcement Learning Based Frame Sampling for Effective Untrimmed Video Recognition</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-Pruning-via-Geometric-Median-for-Deep-Convolutional-Neural-Networks-Acceleration"><span class="nav-number">1.</span> <span class="nav-text">Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Soft-Filter-Pruning-for-Accelerating-Deep-Convolutional-Neural-Networks"><span class="nav-number">2.</span> <span class="nav-text">Soft Filter Pruning for Accelerating Deep Convolutional Neural Networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AdaFrame-Adaptive-Frame-Selection-for-Fast-Video-Recognition"><span class="nav-number">3.</span> <span class="nav-text">AdaFrame: Adaptive Frame Selection for Fast Video Recognition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Multi-Agent-Reinforcement-Learning-Based-Frame-Sampling-for-Effective-Untrimmed-Video-Recognition"><span class="nav-number">4.</span> <span class="nav-text">Multi-Agent Reinforcement Learning Based Frame Sampling for Effective Untrimmed Video Recognition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BubbleNets-Learning-to-Select-the-Guidance-Frame-in-Video-Object-Segmentation-by-Deep-Sorting-Frames"><span class="nav-number">5.</span> <span class="nav-text">BubbleNets: Learning to Select the Guidance Frame in Video Object Segmentation by Deep Sorting Frames</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#End-to-End-Learning-of-Action-Detection-from-Frame-Glimpses-in-Videos"><span class="nav-number">6.</span> <span class="nav-text">End-to-End Learning of Action Detection from Frame Glimpses in Videos</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Watching-a-Small-Portion-could-be-as-Good-as-Watching-All-Towards-Efficient-Video-Classification"><span class="nav-number">7.</span> <span class="nav-text">Watching a Small Portion could be as Good as Watching All: Towards Efficient Video Classification</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Two-stream-convolutional-networks-for-action-recognition-in-videos"><span class="nav-number">8.</span> <span class="nav-text">Two-stream convolutional networks for action recognition in videos</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Temporal-segment-networks-Towards-good-practices-for-deep-action-recognition"><span class="nav-number">9.</span> <span class="nav-text">Temporal segment networks: Towards good practices for deep action recognition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Non-local-neural-networks"><span class="nav-number">10.</span> <span class="nav-text">Non-local neural networks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Compressed-Video-Action-Recognition"><span class="nav-number">11.</span> <span class="nav-text">Compressed Video Action Recognition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Real-time-Action-Recognition-with-Enhanced-Motion-Vector-CNNs"><span class="nav-number">12.</span> <span class="nav-text">Real-time Action Recognition with Enhanced Motion Vector CNNs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ECO-Efficient-Convolutional-Network-for-Online-Video-Understanding"><span class="nav-number">13.</span> <span class="nav-text">ECO: Efficient Convolutional Network for Online Video Understanding</span></a></li></ol></div>
             
 
           </div>
